@@ -6,6 +6,7 @@ from app.models import user, paper, reference, task, agent_log
 from app.api import auth, user as user_router
 from app.api import references
 from app.api import papers
+from app.api import agent, admin
 
 app = FastAPI(title="PaperCraft API")
 
@@ -21,6 +22,8 @@ app.include_router(auth.router)
 app.include_router(user_router.router)
 app.include_router(references.router)
 app.include_router(papers.router)
+app.include_router(agent.router)
+app.include_router(admin.router)
 
 
 @app.on_event("startup")

@@ -1,0 +1,132 @@
+from fastapi import APIRouter, Depends, HTTPException
+from sqlalchemy.orm import Session
+from app.core.database import get_db
+from app.models.paper import Paper
+from app.models.task import Task as TaskModel
+from app.models.user import User
+from app.models.reference import UserReference, PaperReference
+from app.schemas.task import FeedbackRequest, TaskResponse
+from app.api.auth import get_current_user
+from app.agents.orchestrator import Orchestrator, SharedContext
+from sse_starlette.sse import EventSourceResponse
+import json
+import asyncio
+
+router = APIRouter(prefix="/api/papers/{paper_id}/agent", tags=["agent"])
+orchestrator = Orchestrator()
+
+
+def _get_paper(paper_id: int, user: User, db: Session) -> Paper:
+    paper = db.query(Paper).filter(Paper.id == paper_id, Paper.user_id == user.id).first()
+    if not paper:
+        raise HTTPException(status_code=404, detail="论文不存在")
+    return paper
+
+
+def _build_context(paper: Paper, db: Session) -> SharedContext:
+    ref_links = db.query(PaperReference).filter(PaperReference.paper_id == paper.id).all()
+    refs = []
+    for link in ref_links:
+        ref = db.query(UserReference).get(link.reference_id)
+        if ref:
+            refs.append({"title": ref.title, "abstract": ref.abstract, "authors": ref.authors})
+    return SharedContext(
+        paper_id=paper.id,
+        topic=paper.topic,
+        template=paper.template,
+        references=refs,
+        outline=json.loads(paper.outline) if paper.outline else None,
+        content=paper.content,
+    )
+
+
+@router.post("/{agent_type}")
+def run_agent(paper_id: int, agent_type: str, current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
+    valid_types = ["parse", "outline", "write", "polish", "cite-check"]
+    agent_key = agent_type.replace("-", "_")  # cite-check → cite_check
+    if agent_key not in orchestrator.agents:
+        raise HTTPException(status_code=400, detail=f"无效的 Agent 类型: {agent_type}")
+
+    paper = _get_paper(paper_id, current_user, db)
+    context = _build_context(paper, db)
+    task = orchestrator.create_task(db, paper.id, agent_key)
+
+    try:
+        result = orchestrator.run_agent(db, task, context)
+        paper.status = _next_status(agent_key)
+        db.commit()
+        return {"task_id": task.id, "output": result, "status": "success"}
+    except Exception as e:
+        return {"task_id": task.id, "error": str(e), "status": "failed"}
+
+
+def _next_status(agent_key: str) -> str:
+    mapping = {
+        "parse": "parsing", "outline": "outlining", "write": "writing",
+        "polish": "polishing", "cite_check": "checking"
+    }
+    return mapping.get(agent_key, "draft")
+
+
+@router.post("/start")
+def run_all(paper_id: int, current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
+    """一键全流程：依次执行所有 Agent"""
+    results = {}
+    for agent_key in ["parse", "outline", "write", "polish", "cite_check"]:
+        paper = _get_paper(paper_id, current_user, db)
+        context = _build_context(paper, db)
+        task = orchestrator.create_task(db, paper.id, agent_key)
+
+        if agent_key == "parse" and not context.references:
+            return {"error": "请先添加文献", "status": "failed"}
+
+        result = orchestrator.run_agent(db, task, context)
+        results[agent_key] = result
+
+        if agent_key == "outline":
+            paper.outline = result
+        elif agent_key in ("write", "polish"):
+            paper.content = result
+
+    paper.status = "complete"
+    db.commit()
+    return {"results": results, "status": "complete"}
+
+
+@router.get("/tasks", response_model=list[TaskResponse])
+def list_tasks(paper_id: int, current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
+    _get_paper(paper_id, current_user, db)
+    return db.query(TaskModel).filter(TaskModel.paper_id == paper_id).order_by(TaskModel.id).all()
+
+
+@router.post("/feedback")
+def submit_feedback(paper_id: int, req: FeedbackRequest, current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
+    _get_paper(paper_id, current_user, db)
+    task = db.query(TaskModel).filter(TaskModel.id == req.task_id, TaskModel.paper_id == paper_id).first()
+    if not task:
+        raise HTTPException(status_code=404, detail="任务不存在")
+
+    result = orchestrator.handle_feedback(db, task, req.action, req.comment, req.edited_content)
+
+    if req.action == "edit" and req.edited_content:
+        paper = _get_paper(paper_id, current_user, db)
+        if task.agent_type in ("write", "polish"):
+            paper.content = req.edited_content
+        elif task.agent_type == "outline":
+            paper.outline = req.edited_content
+        db.commit()
+
+    return result
+
+
+@router.get("/events")
+async def agent_events(paper_id: int, current_user: User = Depends(get_current_user)):
+    """SSE 实时推送 Agent 执行状态"""
+    async def event_generator():
+        while True:
+            # 简化的 SSE 推送：轮询 tasks 表最新状态
+            # 实际可实现更复杂的推送机制
+            await asyncio.sleep(2)
+            yield {"event": "heartbeat", "data": "connected"}
+
+    return EventSourceResponse(event_generator())
