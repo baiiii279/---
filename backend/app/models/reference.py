@@ -20,5 +20,5 @@ class PaperReference(Base):
     __tablename__ = "paper_references"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    paper_id = Column(Integer, ForeignKey("papers.id"), nullable=False)
-    reference_id = Column(Integer, ForeignKey("user_references.id"), nullable=False)
+    paper_id = Column(Integer, ForeignKey("papers.id", ondelete="CASCADE"), nullable=False)
+    reference_id = Column(Integer, ForeignKey("user_references.id", ondelete="CASCADE"), nullable=False)
