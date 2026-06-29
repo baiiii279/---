@@ -1,6 +1,8 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.core.config import settings
+from app.core.database import engine, Base
+from app.models import user, paper, reference, task, agent_log
 
 app = FastAPI(title="PaperCraft API")
 
@@ -11,6 +13,12 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+
+@app.on_event("startup")
+def init_db():
+    Base.metadata.create_all(bind=engine)
+
 
 @app.get("/api/health")
 def health_check():
