@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from sqlalchemy.orm import Session
 from app.core.database import get_db
@@ -19,7 +19,10 @@ def get_current_user(
     payload = decode_access_token(credentials.credentials)
     if payload is None:
         raise HTTPException(status_code=401, detail="Invalid token")
-    user = db.query(User).get(payload["sub"])
+    user_id = payload.get("sub")
+    if user_id is None:
+        raise HTTPException(status_code=401, detail="Invalid token")
+    user = db.query(User).get(user_id)
     if user is None:
         raise HTTPException(status_code=401, detail="User not found")
     return user

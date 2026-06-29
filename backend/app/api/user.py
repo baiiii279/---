@@ -12,6 +12,8 @@ router = APIRouter(prefix="/api/user", tags=["user"])
 @router.put("/profile")
 def update_profile(req: UpdateProfileRequest, current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
     if req.email is not None:
+        if db.query(User).filter(User.email == req.email, User.id != current_user.id).first():
+            raise HTTPException(status_code=400, detail="邮箱已存在")
         current_user.email = req.email
     if req.avatar is not None:
         current_user.avatar = req.avatar
