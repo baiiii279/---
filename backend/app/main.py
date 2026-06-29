@@ -4,6 +4,7 @@ from app.core.config import settings
 from app.core.database import engine, Base
 from app.models import user, paper, reference, task, agent_log
 from app.api import auth, user as user_router
+from app.api import references
 
 app = FastAPI(title="PaperCraft API")
 
@@ -17,6 +18,7 @@ app.add_middleware(
 
 app.include_router(auth.router)
 app.include_router(user_router.router)
+app.include_router(references.router)
 
 
 @app.on_event("startup")
