@@ -35,4 +35,4 @@ class WriteAgent(BaseAgent):
             agent=self.agent,
             expected_output="完整的 Markdown 格式论文，包含引用标记",
         )
-        return task.execute()
+        return self._execute_task(task)

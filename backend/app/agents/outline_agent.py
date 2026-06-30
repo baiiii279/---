@@ -48,4 +48,4 @@ class OutlineAgent(BaseAgent):
             agent=self.agent,
             expected_output="JSON 格式的论文大纲，包含章节、要点和引用文献编号",
         )
-        return task.execute()
+        return self._execute_task(task)

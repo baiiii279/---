@@ -1,19 +1,27 @@
+import hashlib
+import secrets
 from datetime import datetime, timedelta, timezone
 from jose import jwt
 from jose.exceptions import JWTError
-from passlib.context import CryptContext
 from app.core.config import settings
 
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-
 def hash_password(password: str) -> str:
-    return pwd_context.hash(password)
+    salt = secrets.token_hex(16)
+    h = hashlib.sha256((salt + password).encode()).hexdigest()
+    return f"{salt}${h}"
 
 def verify_password(plain: str, hashed: str) -> bool:
-    return pwd_context.verify(plain, hashed)
+    parts = hashed.split("$")
+    if len(parts) != 2:
+        return False
+    salt, expected = parts
+    h = hashlib.sha256((salt + plain).encode()).hexdigest()
+    return h == expected
 
 def create_access_token(data: dict) -> str:
     to_encode = data.copy()
+    if "sub" in to_encode:
+        to_encode["sub"] = str(to_encode["sub"])
     expire = datetime.now(timezone.utc) + timedelta(days=settings.JWT_EXPIRATION_DAYS)
     to_encode.update({"exp": expire})
     return jwt.encode(to_encode, settings.SECRET_KEY, algorithm="HS256")

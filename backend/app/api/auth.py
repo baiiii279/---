@@ -19,10 +19,10 @@ def get_current_user(
     payload = decode_access_token(credentials.credentials)
     if payload is None:
         raise HTTPException(status_code=401, detail="Invalid token")
-    user_id = payload.get("sub")
-    if user_id is None:
+    user_id_str = payload.get("sub")
+    if user_id_str is None:
         raise HTTPException(status_code=401, detail="Invalid token")
-    user = db.query(User).get(user_id)
+    user = db.query(User).get(int(user_id_str))
     if user is None:
         raise HTTPException(status_code=401, detail="User not found")
     return user

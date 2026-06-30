@@ -1,7 +1,7 @@
 from dataclasses import dataclass, field
 from typing import Optional
 
-from crewai import Agent
+from crewai import Agent, Crew, Task
 
 from app.core.config import settings
 
@@ -11,12 +11,12 @@ class SharedContext:
     paper_id: int
     topic: str
     template: str = "course"
-    references: list[dict] = field(default_factory=list)       # 已确认文献
-    outline: Optional[dict] = None                               # 已确认大纲
-    content: Optional[str] = None                                # 已撰写内容
-    polished_content: Optional[str] = None                       # 润色后内容
-    cite_check_report: Optional[str] = None                      # 引用检查报告
-    feedback_history: list[dict] = field(default_factory=list)   # 用户反馈记录
+    references: list[dict] = field(default_factory=list)
+    outline: Optional[dict] = None
+    content: Optional[str] = None
+    polished_content: Optional[str] = None
+    cite_check_report: Optional[str] = None
+    feedback_history: list[dict] = field(default_factory=list)
 
 
 class BaseAgent:
@@ -39,6 +39,11 @@ class BaseAgent:
             api_key=settings.DEEPSEEK_API_KEY,
             base_url=settings.DEEPSEEK_BASE_URL,
         )
+
+    def _execute_task(self, task: Task) -> str:
+        crew = Crew(agents=[self.agent], tasks=[task], verbose=False)
+        result = crew.kickoff()
+        return str(result.raw if hasattr(result, 'raw') else result)
 
     def run(self, context: SharedContext, **kwargs) -> str:
         raise NotImplementedError

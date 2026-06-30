@@ -32,4 +32,4 @@ class ParseAgent(BaseAgent):
             agent=self.agent,
             expected_output="结构化文献摘要，每篇包含研究问题、方法、发现、适用章节",
         )
-        return task.execute()
+        return self._execute_task(task)

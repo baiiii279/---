@@ -33,6 +33,7 @@ export default function References() {
   const [form, setForm] = useState(emptyForm);
   const [msg, setMsg] = useState('');
   const [error, setError] = useState('');
+  const [uploading, setUploading] = useState(false);
 
   const fetchReferences = () => {
     api.get('/user/references').then((res) => {
@@ -79,6 +80,26 @@ export default function References() {
     }
   };
 
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setMsg('');
+    setError('');
+    setUploading(true);
+    try {
+      const fd = new FormData();
+      fd.append('file', file);
+      await api.post('/user/references/upload', fd);
+      setMsg(`"${file.name}" 上传成功`);
+      fetchReferences();
+    } catch (err: unknown) {
+      setError(getErrorMessage(err));
+    } finally {
+      setUploading(false);
+      e.target.value = '';
+    }
+  };
+
   const inputStyle = {
     width: '100%', padding: 10, marginBottom: 12, border: '1px solid #E2E8F0',
     borderRadius: 6, boxSizing: 'border-box' as const, fontSize: 14,
@@ -101,6 +122,21 @@ export default function References() {
 
       {msg && <p style={{ color: '#22C55E', marginBottom: 16, fontSize: 14 }}>{msg}</p>}
       {error && <p style={{ color: '#EF4444', marginBottom: 16, fontSize: 14 }}>{error}</p>}
+
+      {/* Upload area */}
+      <div style={{
+        background: '#fff', borderRadius: 8, padding: 24, marginBottom: 24,
+        boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
+        border: '2px dashed #CBD5E1', textAlign: 'center',
+      }}>
+        <label style={{ cursor: 'pointer', display: 'block' }}>
+          <input type="file" accept=".pdf,.docx,.doc,.txt" onChange={handleFileUpload} style={{ display: 'none' }} />
+          <div style={{ color: uploading ? '#3B82F6' : '#64748B', fontSize: 14 }}>
+            {uploading ? '正在上传并解析...' : '点击上传 PDF / Word /  TXT 文件'}
+          </div>
+          <div style={{ color: '#94A3B8', fontSize: 12, marginTop: 4 }}>支持 .pdf .docx .doc .txt</div>
+        </label>
+      </div>
 
       {/* Inline create form */}
       {showForm && (
