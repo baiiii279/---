@@ -98,18 +98,20 @@ def _md_to_docx(md_text: str, title: str) -> io.BytesIO:
             i += 1
             continue
 
-        # H1 标题
+        # H1 标题（论文题目，居中）
         if line.startswith('# ') and not line.startswith('## '):
             text = line[2:].strip()
             p = doc.add_heading(text, level=1)
+            p.alignment = WD_ALIGN_PARAGRAPH.CENTER
             _set_run_font(p.runs, '黑体', Pt(16))
             i += 1
             continue
 
-        # H2 标题
+        # H2 标题（章节标题，居中）
         if line.startswith('## ') and not line.startswith('### '):
             text = line[3:].strip()
             p = doc.add_heading(text, level=2)
+            p.alignment = WD_ALIGN_PARAGRAPH.CENTER
             _set_run_font(p.runs, '黑体', Pt(14))
             i += 1
             continue
