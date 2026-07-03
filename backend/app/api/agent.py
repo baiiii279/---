@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, BackgroundTasks
 from sqlalchemy.orm import Session
 from app.core.database import get_db
 from app.models.paper import Paper
@@ -8,6 +8,8 @@ from app.models.reference import UserReference, PaperReference
 from app.schemas.task import FeedbackRequest, TaskResponse
 from app.api.auth import get_current_user
 from app.agents.orchestrator import Orchestrator, SharedContext
+from app.services.pipeline_runner import run_single_agent
+from app.services.sse_manager import sse_manager
 from sse_starlette.sse import EventSourceResponse
 import json
 import asyncio
@@ -93,6 +95,23 @@ def run_all(paper_id: int, current_user: User = Depends(get_current_user), db: S
     return {"results": results, "status": "complete"}
 
 
+@router.post("/{agent_type}/run")
+async def run_agent_async(
+    paper_id: int,
+    agent_type: str,
+    background_tasks: BackgroundTasks,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    valid_types = ["parse", "outline", "write", "polish", "cite-check"]
+    agent_key = agent_type.replace("-", "_")
+    if agent_key not in orchestrator.agents:
+        raise HTTPException(status_code=400, detail=f"无效的 Agent 类型: {agent_type}")
+    _get_paper(paper_id, current_user, db)
+    background_tasks.add_task(run_single_agent, paper_id, agent_key)
+    return {"run_id": paper_id, "status": "accepted"}
+
+
 @router.get("/tasks", response_model=list[TaskResponse])
 def list_tasks(paper_id: int, current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
     _get_paper(paper_id, current_user, db)
@@ -120,13 +139,22 @@ def submit_feedback(paper_id: int, req: FeedbackRequest, current_user: User = De
 
 
 @router.get("/events")
-async def agent_events(paper_id: int, current_user: User = Depends(get_current_user)):
-    """SSE 实时推送 Agent 执行状态"""
+async def agent_events(
+    paper_id: int,
+    current_user: User = Depends(get_current_user),
+):
+    queue = sse_manager.subscribe(paper_id)
+
     async def event_generator():
-        while True:
-            # 简化的 SSE 推送：轮询 tasks 表最新状态
-            # 实际可实现更复杂的推送机制
-            await asyncio.sleep(2)
-            yield {"event": "heartbeat", "data": "connected"}
+        try:
+            while True:
+                msg = await queue.get()
+                yield {"event": msg["event"], "data": json.dumps(msg["data"])}
+                if msg["event"] == "pipeline_complete":
+                    break
+        except asyncio.CancelledError:
+            pass
+        finally:
+            sse_manager.unsubscribe(paper_id, queue)
 
     return EventSourceResponse(event_generator())
