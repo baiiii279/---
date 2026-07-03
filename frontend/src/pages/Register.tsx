@@ -28,6 +28,7 @@ export default function Register() {
       if (email) body.email = email;
       const res = await api.post('/auth/register', body);
       localStorage.setItem('token', res.data.token);
+      localStorage.setItem('username', res.data.username || username);
       navigate('/');
     } catch (err: unknown) {
       const detail =

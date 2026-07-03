@@ -34,6 +34,7 @@ export default function References() {
   const [msg, setMsg] = useState('');
   const [error, setError] = useState('');
   const [uploading, setUploading] = useState(false);
+  const [viewingRef, setViewingRef] = useState<Reference | null>(null);
 
   const fetchReferences = () => {
     api.get('/user/references').then((res) => {
@@ -67,6 +68,15 @@ export default function References() {
       fetchReferences();
     } catch (err: unknown) {
       setError(getErrorMessage(err));
+    }
+  };
+
+  const handleView = async (ref: Reference) => {
+    try {
+      const res = await api.get(`/user/references/${ref.id}`);
+      setViewingRef(res.data);
+    } catch {
+      setViewingRef(ref); // fallback to list data
     }
   };
 
@@ -171,19 +181,28 @@ export default function References() {
           <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 14 }}>
             <thead>
               <tr style={{ background: '#F8FAFC', borderBottom: '1px solid #E2E8F0' }}>
-                <th style={{ textAlign: 'left', padding: '12px 16px', color: '#475569', fontWeight: 600 }}>标题</th>
-                <th style={{ textAlign: 'left', padding: '12px 16px', color: '#475569', fontWeight: 600 }}>作者</th>
-                <th style={{ textAlign: 'left', padding: '12px 16px', color: '#475569', fontWeight: 600 }}>来源</th>
-                <th style={{ textAlign: 'left', padding: '12px 16px', color: '#475569', fontWeight: 600 }}>操作</th>
+                <th style={{ textAlign: 'left', padding: '12px 16px', color: '#475569', fontWeight: 600, width: '30%' }}>标题</th>
+                <th style={{ textAlign: 'left', padding: '12px 16px', color: '#475569', fontWeight: 600, width: '45%' }}>摘要</th>
+                <th style={{ textAlign: 'left', padding: '12px 16px', color: '#475569', fontWeight: 600, width: '25%' }}>操作</th>
               </tr>
             </thead>
             <tbody>
               {references.map((ref) => (
                 <tr key={ref.id} style={{ borderBottom: '1px solid #F1F5F9' }}>
-                  <td style={{ padding: '12px 16px', color: '#0F172A', fontWeight: 500 }}>{ref.title}</td>
-                  <td style={{ padding: '12px 16px', color: '#64748B' }}>{ref.authors || '-'}</td>
-                  <td style={{ padding: '12px 16px', color: '#64748B' }}>{ref.source || '-'}</td>
+                  <td style={{ padding: '12px 16px', color: '#0F172A', fontWeight: 500, verticalAlign: 'top' }}>{ref.title}</td>
+                  <td style={{ padding: '12px 16px', color: '#64748B', fontSize: 13, lineHeight: 1.6, verticalAlign: 'top' }}>
+                    {(ref.abstract || ref.full_text || '').slice(0, 120)}{(ref.abstract || ref.full_text) && ((ref.abstract || ref.full_text || '').length > 120 ? '…' : '') || '暂无摘要'}
+                  </td>
                   <td style={{ padding: '12px 16px' }}>
+                    <button
+                      onClick={() => handleView(ref)}
+                      style={{
+                        padding: '4px 14px', background: '#3B82F6', color: '#fff',
+                        border: 'none', borderRadius: 4, cursor: 'pointer', fontSize: 12, marginRight: 8,
+                      }}
+                    >
+                      查看
+                    </button>
                     <button
                       onClick={() => handleDelete(ref.id)}
                       style={{
@@ -198,6 +217,80 @@ export default function References() {
               ))}
             </tbody>
           </table>
+        </div>
+      )}
+
+      {/* 文献详情弹窗 */}
+      {viewingRef && (
+        <div
+          style={{
+            position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
+            background: 'rgba(0,0,0,0.5)', display: 'flex', alignItems: 'center',
+            justifyContent: 'center', zIndex: 1000,
+          }}
+          onClick={() => setViewingRef(null)}
+        >
+          <div
+            style={{
+              background: '#fff', borderRadius: 12, maxWidth: 800, width: '90%',
+              maxHeight: '80vh', overflow: 'auto', padding: 32, boxShadow: '0 20px 60px rgba(0,0,0,0.3)',
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 20 }}>
+              <h2 style={{ margin: 0, fontSize: 20, fontWeight: 700, color: '#0F172A', flex: 1 }}>
+                {viewingRef.title}
+              </h2>
+              <button
+                onClick={() => setViewingRef(null)}
+                style={{
+                  background: 'none', border: 'none', fontSize: 24, cursor: 'pointer',
+                  color: '#94A3B8', padding: '0 0 0 16px', lineHeight: 1,
+                }}
+              >
+                ✕
+              </button>
+            </div>
+
+            {/* 元信息 */}
+            <div style={{ display: 'flex', gap: 24, marginBottom: 20, fontSize: 13, color: '#64748B' }}>
+              {viewingRef.authors && <span>作者：{viewingRef.authors}</span>}
+              {viewingRef.source && <span>来源：{viewingRef.source}</span>}
+              {viewingRef.keywords && <span>关键词：{viewingRef.keywords}</span>}
+              <span>上传时间：{new Date(viewingRef.created_at).toLocaleDateString('zh-CN')}</span>
+            </div>
+
+            {/* 摘要 */}
+            {viewingRef.abstract && (
+              <div style={{ marginBottom: 20, padding: 16, background: '#F8FAFC', borderRadius: 8, borderLeft: '3px solid #3B82F6' }}>
+                <h4 style={{ margin: '0 0 8px', fontSize: 14, fontWeight: 600, color: '#0F172A' }}>摘要</h4>
+                <p style={{ margin: 0, fontSize: 14, color: '#475569', lineHeight: 1.8 }}>{viewingRef.abstract}</p>
+              </div>
+            )}
+
+            {/* 全文 */}
+            {viewingRef.full_text && (
+              <div>
+                <h4 style={{ margin: '0 0 12px', fontSize: 14, fontWeight: 600, color: '#0F172A' }}>
+                  全文内容（{viewingRef.full_text.length} 字符）
+                </h4>
+                <div style={{
+                  padding: 20, background: '#F8FAFC', borderRadius: 8,
+                  border: '1px solid #E2E8F0', fontSize: 14, color: '#334155',
+                  lineHeight: 2, whiteSpace: 'pre-wrap', maxHeight: 400,
+                  overflow: 'auto', fontFamily: 'serif',
+                }}>
+                  {viewingRef.full_text}
+                </div>
+              </div>
+            )}
+
+            {!viewingRef.abstract && !viewingRef.full_text && (
+              <p style={{ color: '#94A3B8', textAlign: 'center', padding: 40 }}>
+                该文献暂无详细内容
+              </p>
+            )}
+          </div>
         </div>
       )}
     </div>

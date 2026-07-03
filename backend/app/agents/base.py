@@ -1,3 +1,24 @@
+import os
+import sys
+
+_print_err = lambda *a: print(*a, file=sys.stderr)
+
+# ⚠️ 彻底禁用 httpx 的代理读取：
+# Windows 上 Clash/TUN 通过注册表设置系统代理 (socks5://127.0.0.1:7897)，
+# httpx 在 trust_env=True（默认）时会读取这些代理，而 socksio 未安装会报错。
+# 解决方案：打开 httpx 源码直接注射 trust_env=False 到 Client 构造器中。
+import httpx._client as _hc
+_hc_orig_init = _hc.Client.__init__
+def _hc_no_proxy_init(self, *args, **kwargs):
+    kwargs["trust_env"] = False
+    _hc_orig_init(self, *args, **kwargs)
+_hc.Client.__init__ = _hc_no_proxy_init
+_print_err(f"[base.py] Patched httpx.Client.__init__ → trust_env=False")
+
+# 同时处理 urllib.getproxies 以防万一
+import urllib.request
+urllib.request.getproxies = lambda: {}
+
 from dataclasses import dataclass, field
 from typing import Optional
 

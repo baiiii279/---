@@ -16,6 +16,7 @@ class ReferenceResponse(BaseModel):
     authors: str | None
     source: str | None
     abstract: str | None
+    full_text: str | None = None
     url: str | None
     keywords: str | None
     created_at: datetime

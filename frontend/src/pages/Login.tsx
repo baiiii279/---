@@ -13,6 +13,7 @@ export default function Login() {
     try {
       const res = await api.post('/auth/login', { username, password });
       localStorage.setItem('token', res.data.token);
+      localStorage.setItem('username', res.data.username || username);
       navigate('/');
     } catch (err: unknown) {
       const detail =
@@ -37,30 +38,21 @@ export default function Login() {
       {error && <p style={{ color: 'red', marginBottom: 16 }}>{error}</p>}
       <form onSubmit={handleSubmit}>
         <input
-          placeholder="用户名"
+          placeholder="用户名" autoComplete="username"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
           style={{
-            width: '100%',
-            padding: 12,
-            marginBottom: 16,
-            border: '1px solid #E2E8F0',
-            borderRadius: 6,
-            boxSizing: 'border-box',
+            width: '100%', padding: 12, marginBottom: 16,
+            border: '1px solid #E2E8F0', borderRadius: 6, boxSizing: 'border-box',
           }}
         />
         <input
-          type="password"
-          placeholder="密码"
+          type="password" placeholder="密码" autoComplete="current-password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           style={{
-            width: '100%',
-            padding: 12,
-            marginBottom: 16,
-            border: '1px solid #E2E8F0',
-            borderRadius: 6,
-            boxSizing: 'border-box',
+            width: '100%', padding: 12, marginBottom: 16,
+            border: '1px solid #E2E8F0', borderRadius: 6, boxSizing: 'border-box',
           }}
         />
         <button

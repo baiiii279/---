@@ -35,4 +35,4 @@ class CiteCheckAgent(BaseAgent):
             agent=self.agent,
             expected_output="引用检查报告，包含问题列表和修正建议",
         )
-        return task.execute()
+        return self._execute_task(task)

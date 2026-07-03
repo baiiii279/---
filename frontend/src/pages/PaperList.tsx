@@ -16,14 +16,14 @@ interface Reference {
   title: string;
 }
 
-const STATUS_STYLES: Record<string, { bg: string; label: string }> = {
-  draft: { bg: '#94A3B8', label: '草稿' },
-  parsing: { bg: '#3B82F6', label: '解析中' },
-  outlining: { bg: '#6366F1', label: '大纲中' },
-  writing: { bg: '#F59E0B', label: '撰写中' },
-  polishing: { bg: '#A855F7', label: '润色中' },
-  checking: { bg: '#F97316', label: '检查中' },
-  complete: { bg: '#22C55E', label: '已完成' },
+const STATUS_STYLES: Record<string, { color: string; bg: string; label: string }> = {
+  draft:     { color: '#475569', bg: '#F1F5F9', label: '草稿' },
+  parsing:   { color: '#2563EB', bg: '#EFF6FF', label: '解析中' },
+  outlining: { color: '#7C3AED', bg: '#F5F3FF', label: '大纲中' },
+  writing:   { color: '#D97706', bg: '#FFFBEB', label: '撰写中' },
+  polishing: { color: '#8B5CF6', bg: '#F5F3FF', label: '润色中' },
+  checking:  { color: '#EA580C', bg: '#FFF7ED', label: '检查中' },
+  complete:  { color: '#16A34A', bg: '#F0FDF4', label: '已完成' },
 };
 
 function getErrorMessage(err: unknown): string {
@@ -183,7 +183,7 @@ export default function PaperList() {
       ) : (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
           {papers.map((p) => {
-            const st = STATUS_STYLES[p.status] || { bg: '#94A3B8', label: p.status };
+            const st = STATUS_STYLES[p.status] || STATUS_STYLES.draft;
             return (
               <Link
                 key={p.id}
@@ -207,7 +207,7 @@ export default function PaperList() {
                 </div>
                 <span style={{
                   fontSize: 12, padding: '3px 12px', borderRadius: 12,
-                  background: st.bg, color: '#fff', fontWeight: 500, whiteSpace: 'nowrap',
+                  background: st.bg, color: st.color, fontWeight: 600, whiteSpace: 'nowrap',
                 }}>
                   {st.label}
                 </span>

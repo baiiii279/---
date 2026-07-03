@@ -7,6 +7,7 @@ from app.core.database import get_db
 from app.models.reference import UserReference
 from app.models.user import User
 from app.schemas.reference import ReferenceRequest, ReferenceResponse
+from sqlalchemy import text
 from app.api.auth import get_current_user
 
 router = APIRouter(prefix="/api/user/references", tags=["references"])
@@ -58,6 +59,14 @@ def list_references(current_user: User = Depends(get_current_user), db: Session 
     return db.query(UserReference).filter(UserReference.user_id == current_user.id).all()
 
 
+@router.get("/{ref_id}", response_model=ReferenceResponse)
+def get_reference(ref_id: int, current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
+    ref = db.query(UserReference).filter(UserReference.id == ref_id, UserReference.user_id == current_user.id).first()
+    if not ref:
+        raise HTTPException(status_code=404, detail="文献不存在")
+    return ref
+
+
 @router.post("", response_model=ReferenceResponse)
 def create_reference(req: ReferenceRequest, current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
     ref = UserReference(user_id=current_user.id, **req.model_dump())
@@ -98,10 +107,18 @@ def upload_reference(file: UploadFile = File(...), current_user: User = Depends(
     title = _parse_title(text) if text else file.filename
     abstract = _parse_abstract(text, title) if text else ""
 
+    # 确保 full_text 列存在
+    try:
+        db.execute(text("ALTER TABLE user_references ADD COLUMN full_text LONGTEXT NULL"))
+        db.commit()
+    except Exception:
+        db.rollback()
+
     ref = UserReference(
         user_id=current_user.id,
         title=title,
         abstract=abstract or None,
+        full_text=text or None,
         url=str(file_path),
     )
     db.add(ref)

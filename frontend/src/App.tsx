@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Layout from './components/Layout';
 import Login from './pages/Login';
 import Register from './pages/Register';
@@ -20,6 +20,7 @@ export default function App() {
           <Route path="/profile" element={<Profile />} />
           <Route path="/references" element={<References />} />
           <Route path="/papers" element={<PaperList />} />
+          <Route path="/papers/new" element={<Navigate to="/papers" replace />} />
           <Route path="/papers/:id" element={<PaperWorkbench />} />
           <Route path="/admin" element={<Admin />} />
         </Route>

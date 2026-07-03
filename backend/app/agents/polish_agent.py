@@ -31,4 +31,4 @@ class PolishAgent(BaseAgent):
             agent=self.agent,
             expected_output="润色后的论文全文及修改说明",
         )
-        return task.execute()
+        return self._execute_task(task)

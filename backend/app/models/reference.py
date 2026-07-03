@@ -11,6 +11,7 @@ class UserReference(Base):
     authors = Column(String(500), nullable=True)
     source = Column(String(500), nullable=True)
     abstract = Column(Text, nullable=True)
+    full_text = Column(Text, nullable=True)
     url = Column(String(500), nullable=True)
     keywords = Column(String(300), nullable=True)
     created_at = Column(DateTime, server_default=func.now())

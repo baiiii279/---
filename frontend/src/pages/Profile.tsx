@@ -163,13 +163,13 @@ export default function Profile() {
         </div>
 
         {/* Change password */}
-        <div style={{ flex: 1, minWidth: 300, background: '#fff', borderRadius: 8, padding: 24, boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
+        <form onSubmit={(e) => { e.preventDefault(); handleChangePassword(); }} style={{ flex: 1, minWidth: 300, background: '#fff', borderRadius: 8, padding: 24, boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
           <h2 style={{ fontSize: 18, color: '#0F172A', marginBottom: 20, fontWeight: 600 }}>修改密码</h2>
           {pwdMsg && <p style={{ color: '#22C55E', marginBottom: 12, fontSize: 14 }}>{pwdMsg}</p>}
           {pwdError && <p style={{ color: '#EF4444', marginBottom: 12, fontSize: 14 }}>{pwdError}</p>}
           <label style={{ display: 'block', fontSize: 14, color: '#475569', marginBottom: 6 }}>原密码</label>
           <input
-            type="password"
+            type="password" autoComplete="current-password"
             value={oldPassword}
             onChange={(e) => setOldPassword(e.target.value)}
             style={{
@@ -179,7 +179,7 @@ export default function Profile() {
           />
           <label style={{ display: 'block', fontSize: 14, color: '#475569', marginBottom: 6 }}>新密码</label>
           <input
-            type="password"
+            type="password" autoComplete="new-password"
             value={newPassword}
             onChange={(e) => setNewPassword(e.target.value)}
             style={{
@@ -188,7 +188,7 @@ export default function Profile() {
             }}
           />
           <button
-            onClick={handleChangePassword}
+            type="submit"
             style={{
               padding: '10px 24px', background: '#2563EB', color: '#fff',
               border: 'none', borderRadius: 6, cursor: 'pointer', fontSize: 14, fontWeight: 600,
@@ -196,7 +196,7 @@ export default function Profile() {
           >
             修改密码
           </button>
-        </div>
+        </form>
       </div>
 
       {/* Recent papers */}

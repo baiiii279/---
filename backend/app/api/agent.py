@@ -43,34 +43,6 @@ def _build_context(paper: Paper, db: Session) -> SharedContext:
     )
 
 
-@router.post("/{agent_type}")
-def run_agent(paper_id: int, agent_type: str, current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
-    valid_types = ["parse", "outline", "write", "polish", "cite-check"]
-    agent_key = agent_type.replace("-", "_")  # cite-check → cite_check
-    if agent_key not in orchestrator.agents:
-        raise HTTPException(status_code=400, detail=f"无效的 Agent 类型: {agent_type}")
-
-    paper = _get_paper(paper_id, current_user, db)
-    context = _build_context(paper, db)
-    task = orchestrator.create_task(db, paper.id, agent_key)
-
-    try:
-        result = orchestrator.run_agent(db, task, context)
-        paper.status = _next_status(agent_key)
-        db.commit()
-        return {"task_id": task.id, "output": result, "status": "success"}
-    except Exception as e:
-        return {"task_id": task.id, "error": str(e), "status": "failed"}
-
-
-def _next_status(agent_key: str) -> str:
-    mapping = {
-        "parse": "parsing", "outline": "outlining", "write": "writing",
-        "polish": "polishing", "cite_check": "checking"
-    }
-    return mapping.get(agent_key, "draft")
-
-
 @router.post("/start")
 def run_all(paper_id: int, current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
     """一键全流程：依次执行所有 Agent"""
@@ -94,6 +66,34 @@ def run_all(paper_id: int, current_user: User = Depends(get_current_user), db: S
     paper.status = "complete"
     db.commit()
     return {"results": results, "status": "complete"}
+
+
+def _next_status(agent_key: str) -> str:
+    mapping = {
+        "parse": "parsing", "outline": "outlining", "write": "writing",
+        "polish": "polishing", "cite_check": "checking"
+    }
+    return mapping.get(agent_key, "draft")
+
+
+@router.post("/{agent_type}")
+def run_agent(paper_id: int, agent_type: str, current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
+    valid_types = ["parse", "outline", "write", "polish", "cite-check"]
+    agent_key = agent_type.replace("-", "_")  # cite-check → cite_check
+    if agent_key not in orchestrator.agents:
+        raise HTTPException(status_code=400, detail=f"无效的 Agent 类型: {agent_type}")
+
+    paper = _get_paper(paper_id, current_user, db)
+    context = _build_context(paper, db)
+    task = orchestrator.create_task(db, paper.id, agent_key)
+
+    try:
+        result = orchestrator.run_agent(db, task, context)
+        paper.status = _next_status(agent_key)
+        db.commit()
+        return {"task_id": task.id, "output": result, "status": "success"}
+    except Exception as e:
+        return {"task_id": task.id, "error": str(e), "status": "failed"}
 
 
 @router.post("/{agent_type}/run", status_code=202)
