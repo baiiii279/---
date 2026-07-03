@@ -48,7 +48,7 @@ async def run_single_agent(paper_id: int, agent_key: str):
 
         task = orchestrator.create_task(db, paper.id, agent_key)
 
-        loop = asyncio.get_event_loop()
+        loop = asyncio.get_running_loop()
         result = await loop.run_in_executor(None, orchestrator.run_agent, db, task, context)
 
         if agent_key == "outline":
