@@ -45,7 +45,7 @@ class OutlineAgent(BaseAgent):
                 chapters=" → ".join(chapters),
                 references=refs_text,
             ),
-            agent=self.agent,
+            agent=self._get_or_create_agent(),
             expected_output="JSON 格式的论文大纲，包含章节、要点和引用文献编号",
         )
         return self._execute_task(task)

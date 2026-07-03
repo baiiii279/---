@@ -29,7 +29,7 @@ class ParseAgent(BaseAgent):
         )
         task = Task(
             description=PARSE_PROMPT.format(references=refs_text),
-            agent=self.agent,
+            agent=self._get_or_create_agent(),
             expected_output="结构化文献摘要，每篇包含研究问题、方法、发现、适用章节",
         )
         return self._execute_task(task)

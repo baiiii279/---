@@ -32,7 +32,7 @@ class WriteAgent(BaseAgent):
                 outline=context.outline,
                 references=refs_text,
             ),
-            agent=self.agent,
+            agent=self._get_or_create_agent(),
             expected_output="完整的 Markdown 格式论文，包含引用标记",
         )
         return self._execute_task(task)

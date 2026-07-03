@@ -70,7 +70,7 @@ class PolishAgent(BaseAgent):
     def run(self, context: SharedContext) -> str:
         task = Task(
             description=POLISH_PROMPT.format(content=context.content),
-            agent=self.agent,
+            agent=self._get_or_create_agent(),
             expected_output="润色后的论文全文（不包含任何修改说明或润色报告，直接从论文标题开始）",
         )
         result = self._execute_task(task)

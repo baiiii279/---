@@ -32,7 +32,7 @@ class CiteCheckAgent(BaseAgent):
         content = context.polished_content or context.content
         task = Task(
             description=CITE_CHECK_PROMPT.format(content=content, references=refs_text),
-            agent=self.agent,
+            agent=self._get_or_create_agent(),
             expected_output="引用检查报告，包含问题列表和修正建议",
         )
         return self._execute_task(task)
