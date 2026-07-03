@@ -1,21 +1,13 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import MDEditor from '@uiw/react-md-editor';
 import api from '../services/api';
-import AgentPipeline from '../components/AgentPipeline';
-import type { AgentNode } from '../components/AgentPipeline';
 import StreamPanel, { appendToken, clearStream } from '../components/StreamPanel';
 import useSSE from '../hooks/useSSE';
 
 interface PaperData {
-  id: number;
-  user_id: number;
-  title: string | null;
-  topic: string;
-  template: string;
-  status: string;
-  outline: string | null;
-  content: string | null;
+  id: number; user_id: number; title: string | null; topic: string;
+  template: string; status: string; outline: string | null; content: string | null;
 }
 
 const AGENTS: { key: string; label: string }[] = [
@@ -28,85 +20,94 @@ const AGENTS: { key: string; label: string }[] = [
 
 const STATUS_MAP: Record<string, { label: string; color: string; bg: string }> = {
   draft: { label: '草稿', color: '#64748B', bg: '#F1F5F9' },
-  parsing: { label: '解析中', color: '#2563EB', bg: '#EFF6FF' },
-  outlining: { label: '大纲生成中', color: '#7C3AED', bg: '#F5F3FF' },
-  writing: { label: '撰写中', color: '#D97706', bg: '#FFFBEB' },
-  polishing: { label: '润色中', color: '#059669', bg: '#ECFDF5' },
-  checking: { label: '检查中', color: '#DC2626', bg: '#FEF2F2' },
+  parsing: { label: '已解析', color: '#2563EB', bg: '#EFF6FF' },
+  outlining: { label: '大纲已生成', color: '#7C3AED', bg: '#F5F3FF' },
+  writing: { label: '已撰写', color: '#D97706', bg: '#FFFBEB' },
+  polishing: { label: '已润色', color: '#059669', bg: '#ECFDF5' },
+  checking: { label: '已检查', color: '#DC2626', bg: '#FEF2F2' },
   complete: { label: '已完成', color: '#16A34A', bg: '#F0FDF4' },
 };
 
+const STATUS_ORDER = ['draft', 'parsing', 'outlining', 'writing', 'polishing', 'checking', 'complete'];
 const NEXT_STATUS: Record<string, string> = {
-  draft: 'parsing',
-  parsing: 'outlining',
-  outlining: 'writing',
-  writing: 'polishing',
-  polishing: 'checking',
-  checking: 'complete',
+  draft: 'parsing', parsing: 'outlining', outlining: 'writing',
+  writing: 'polishing', polishing: 'checking', checking: 'complete',
 };
 
-function getAgentIndex(status: string): number {
-  const map: Record<string, number> = {
-    draft: 0, parsing: 1, outlining: 2, writing: 3, polishing: 4, checking: 5, complete: 6,
-  };
-  return map[status] ?? 0;
-}
-
-function initAgentStates(status: string): AgentNode[] {
-  const completedIndex = getAgentIndex(status);
-  return AGENTS.map((a, i) => ({
-    ...a,
-    status: i < completedIndex ? ('success' as const) : ('pending' as const),
-    output: null,
-    error: null,
-    finishedAt: null,
-  }));
+type AgentStatus = 'pending' | 'running' | 'success' | 'failed';
+interface AgentState {
+  key: string; label: string;
+  status: AgentStatus; output: string | null; error: string | null;
 }
 
 export default function PaperWorkbench() {
   const { id } = useParams<{ id: string }>();
   const [paper, setPaper] = useState<PaperData | null>(null);
   const [loading, setLoading] = useState(true);
-  const [agentStates, setAgentStates] = useState<AgentNode[]>(AGENTS.map(a => ({
-    ...a, status: 'pending' as const, output: null, error: null, finishedAt: null,
-  })));
   const [running, setRunning] = useState(false);
   const [mdValue, setMdValue] = useState('');
   const [streamAgent, setStreamAgent] = useState<string | null>(null);
+  const [expandedAgent, setExpandedAgent] = useState<string | null>(null);
+  const [errorMsg, setErrorMsg] = useState('');
 
   const isComplete = paper?.status === 'complete';
-  const statusInfo = paper ? (STATUS_MAP[paper.status] || STATUS_MAP.draft) : STATUS_MAP.draft;
-
   const sseUrl = id ? `/api/papers/${id}/agent/events` : '';
 
+  // 从 paper.status 计算 agent 状态
+  const getAgentStates = useCallback((status: string): AgentState[] => {
+    const idx = STATUS_ORDER.indexOf(status);
+    return AGENTS.map((a, i) => ({
+      ...a,
+      status: (i < idx ? 'success' : 'pending') as AgentStatus,
+      output: null,
+      error: null,
+    }));
+  }, []);
+
+  const [agentStates, setAgentStates] = useState<AgentState[]>(getAgentStates('draft'));
+
+  // 同步：paper.status 变化时刷新 agentStates
+  useEffect(() => {
+    if (paper) {
+      setAgentStates(getAgentStates(paper.status));
+    }
+  }, [paper?.status]);
+
+  // SSE 事件订阅
   useSSE(sseUrl, {
     onAgentStart: (agent) => {
       setRunning(true);
       setStreamAgent(agent);
+      setErrorMsg('');
       clearStream(agent);
       setAgentStates(prev => prev.map(a =>
-        a.key === agent ? { ...a, status: 'running' } : a
+        a.key === agent ? { ...a, status: 'running', error: null } : a
       ));
     },
     onAgentStream: (agent, token) => {
       appendToken(agent, token);
     },
-    onAgentStreamEnd: (agent) => {
-      // Flush remaining buffer after a short delay to show last tokens
+    onAgentStreamEnd: () => {
       setTimeout(() => setStreamAgent(null), 1500);
     },
     onAgentComplete: (agent, output) => {
-      setAgentStates(prev => prev.map(a =>
-        a.key === agent
-          ? { ...a, status: 'success', output, finishedAt: new Date().toISOString() }
-          : a
-      ));
+      setAgentStates(prev => {
+        const updated = prev.map(a =>
+          a.key === agent ? { ...a, status: 'success' as AgentStatus, output, error: null } : a
+        );
+        // 自动展开最新完成的 Agent 输出
+        setExpandedAgent(agent);
+        return updated;
+      });
       setRunning(false);
       if (agent === 'outline' || agent === 'write' || agent === 'polish') {
         setMdValue(output);
       }
+      // 刷新 paper
       if (id) {
-        api.get(`/papers/${id}`).then(res => setPaper(res.data)).catch(() => {});
+        api.get(`/papers/${id}`).then(res => {
+          setPaper(res.data);
+        }).catch(() => {});
       }
     },
     onAgentError: (agent, error) => {
@@ -115,66 +116,38 @@ export default function PaperWorkbench() {
       ));
       setRunning(false);
       setStreamAgent(null);
-    },
-    onPipelineComplete: () => {
-      setRunning(false);
+      setErrorMsg(`${agent} 执行失败: ${error}`);
     },
   });
 
+  // 初始加载
   useEffect(() => {
     if (!id) return;
     api.get(`/papers/${id}`).then(res => {
-      setPaper(res.data);
-      setMdValue(res.data.content || '');
-      setAgentStates(initAgentStates(res.data.status));
-    }).finally(() => setLoading(false));
+      const p = res.data;
+      setPaper(p);
+      setMdValue(p.content || '');
+      setAgentStates(getAgentStates(p.status));
+    }).catch(() => setErrorMsg('加载论文失败'))
+      .finally(() => setLoading(false));
   }, [id]);
 
-  const currentAgent = agentStates.find(a => a.status === 'pending');
-  const canRunNext = !!currentAgent;
-
-  const handleRunAgent = async () => {
-    if (!id || !currentAgent || running) return;
+  // 运行当前待执行的 Agent（同步接口，后端会发 SSE）
+  const handleRun = async (agentKey: string) => {
+    if (!id || running) return;
     setRunning(true);
+    setErrorMsg('');
     setAgentStates(prev => prev.map(a =>
-      a.key === currentAgent.key ? { ...a, status: 'running' } : a
+      a.key === agentKey ? { ...a, status: 'running', error: null } : a
     ));
     try {
-      await api.post(`/papers/${id}/agent/${currentAgent.key.replace('_', '-')}/run`);
-    } catch {
+      await api.post(`/papers/${id}/agent/${agentKey.replace('_', '-')}`);
+    } catch (err: unknown) {
       setAgentStates(prev => prev.map(a =>
-        a.key === currentAgent.key ? { ...a, status: 'failed', error: '启动失败' } : a
+        a.key === agentKey ? { ...a, status: 'failed', error: '请求失败' } : a
       ));
       setRunning(false);
-    }
-  };
-
-  const handleApprove = (_agentKey: string) => {
-    if (!paper || !id) return;
-    const nextStatus = NEXT_STATUS[paper.status];
-    if (nextStatus) {
-      setPaper({ ...paper, status: nextStatus });
-    }
-  };
-
-  const handleReject = async (_agentKey: string, comment: string) => {
-    if (!id) return;
-    try {
-      await api.post(`/papers/${id}/agent/feedback`, {
-        task_id: 0, action: 'reject', comment,
-      });
-    } catch { /* ignore */ }
-  };
-
-  const handleEdit = async (_agentKey: string, content: string) => {
-    if (!paper || !id) return;
-    setMdValue(content);
-    try {
-      await api.put(`/papers/${id}`, { content });
-    } catch { /* ignore */ }
-    const nextStatus = NEXT_STATUS[paper.status];
-    if (nextStatus) {
-      setPaper({ ...paper, status: nextStatus });
+      setErrorMsg('启动失败，请检查后端是否运行');
     }
   };
 
@@ -191,22 +164,48 @@ export default function PaperWorkbench() {
       document.body.removeChild(a);
       window.URL.revokeObjectURL(url);
     } catch {
-      alert('导出失败，请确保论文已生成内容');
+      alert('导出失败');
     }
   };
 
   if (loading) {
     return <div style={{ textAlign: 'center', padding: 48, color: '#64748B' }}>加载中...</div>;
   }
-
   if (!paper) {
     return <div style={{ textAlign: 'center', padding: 48, color: '#EF4444' }}>论文不存在</div>;
   }
 
+  const statusInfo = STATUS_MAP[paper.status] || STATUS_MAP.draft;
+  const currentIdx = STATUS_ORDER.indexOf(paper.status);
+  const currentAgent = currentIdx >= 0 && currentIdx < AGENTS.length ? AGENTS[currentIdx] : null;
+
+  const stageStyle = (idx: number): React.CSSProperties => {
+    const isDone = idx < currentIdx;
+    const isCurrent = idx === currentIdx;
+    const isFuture = idx > currentIdx;
+    const ag = agentStates[idx];
+    const isRunning = ag?.status === 'running';
+    const isFailed = ag?.status === 'failed';
+
+    let bg = '#F1F5F9', color = '#94A3B8', border = '2px solid transparent';
+    if (isFailed) { bg = '#FEE2E2'; color = '#991B1B'; border = '2px solid #FCA5A5'; }
+    else if (isRunning) { bg = '#DBEAFE'; color = '#1D4ED8'; border = '2px solid #93C5FD'; }
+    else if (isDone) { bg = '#DCFCE7'; color = '#166534'; }
+    else if (isCurrent) { bg = '#fff'; color = '#2563EB'; border = '2px solid #93C5FD'; }
+
+    return {
+      flex: 1, padding: '12px 10px', borderRadius: 8, textAlign: 'center' as const,
+      fontSize: 13, fontWeight: isCurrent || isRunning ? 700 : 500,
+      background: bg, color, border, cursor: isDone ? 'pointer' : 'default',
+      transition: 'all 0.3s', opacity: isFuture ? 0.5 : 1,
+      position: 'relative' as const,
+    };
+  };
+
   return (
     <div>
       {/* Header */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 16 }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 20 }}>
         <div>
           <h1 style={{ margin: 0, fontSize: 24, fontWeight: 700, color: '#0F172A' }}>
             {paper.title || paper.topic}
@@ -218,38 +217,127 @@ export default function PaperWorkbench() {
             }}>
               {statusInfo.label}
             </span>
-            <span style={{ fontSize: 13, color: '#94A3B8' }}>
-              {paper.template === 'journal' ? '期刊论文' : '课程论文'}
-            </span>
           </div>
         </div>
         {paper.content && (
-          <button onClick={handleExportDocx} style={btnExport}>
-            📄 导出 Word
-          </button>
+          <button onClick={handleExportDocx} style={btnExport}>📄 导出 Word</button>
         )}
       </div>
 
-      {/* Pipeline - only interactive when not complete */}
-      <AgentPipeline
-        agents={agentStates}
-        onApprove={isComplete ? () => {} : handleApprove}
-        onReject={isComplete ? () => {} : handleReject}
-        onEdit={isComplete ? () => {} : handleEdit}
-        onRunNext={handleRunAgent}
-        running={running}
-        canRunNext={canRunNext && !running && !isComplete}
-      />
+      {/* Error banner */}
+      {errorMsg && (
+        <div style={{
+          padding: '10px 16px', marginBottom: 16, borderRadius: 6,
+          background: '#FEF2F2', border: '1px solid #FECACA', color: '#991B1B', fontSize: 13,
+        }}>
+          {errorMsg}
+          <button onClick={() => setErrorMsg('')} style={{
+            marginLeft: 12, background: 'none', border: 'none', color: '#991B1B',
+            cursor: 'pointer', fontWeight: 600,
+          }}>✕</button>
+        </div>
+      )}
 
-      {/* Streaming panel — shows live token-by-token output */}
+      {/* Pipeline stages */}
+      <div style={{ display: 'flex', gap: 8, marginBottom: 16 }}>
+        {AGENTS.map((ag, i) => {
+          const agState = agentStates[i];
+          const isDone = i < currentIdx;
+          const isFailed = agState?.status === 'failed';
+          const isRunning = agState?.status === 'running';
+          const icons: Record<string, string> = { pending: '', running: '⏳', success: '✅', failed: '❌' };
+          const icon = icons[agState?.status || 'pending'] || '';
+
+          return (
+            <div
+              key={ag.key}
+              onClick={() => {
+                if (isDone || isFailed) {
+                  setExpandedAgent(expandedAgent === ag.key ? null : ag.key);
+                }
+              }}
+              style={stageStyle(i)}
+            >
+              <div style={{ fontSize: 18, marginBottom: 2 }}>{icon || (i === currentIdx ? '▶' : '○')}</div>
+              <div>{ag.label}</div>
+              {isFailed && agState?.error && (
+                <div style={{ fontSize: 10, marginTop: 4, opacity: 0.7, wordBreak: 'break-all' }}>
+                  {agState.error.slice(0, 40)}
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Run button */}
+      {!isComplete && currentAgent && (
+        <button
+          onClick={() => handleRun(currentAgent.key)}
+          disabled={running}
+          style={{
+            display: 'block', width: '100%', marginBottom: 16,
+            padding: '14px 24px', borderRadius: 8, border: 'none',
+            background: running ? '#94A3B8' : 'linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%)',
+            color: '#fff', fontSize: 15, fontWeight: 700, cursor: running ? 'not-allowed' : 'pointer',
+            boxShadow: running ? 'none' : '0 2px 12px rgba(37,99,235,0.35)',
+          }}
+        >
+          {running ? `⏳ ${currentAgent.label} 执行中...` : `▶ 开始${currentAgent.label}`}
+        </button>
+      )}
+
+      {/* Streaming panel */}
       <StreamPanel
         agentKey={streamAgent || ''}
         visible={!!streamAgent && !isComplete}
       />
 
+      {/* Expanded agent output */}
+      {expandedAgent && (() => {
+        const agState = agentStates.find(a => a.key === expandedAgent);
+        if (!agState || agState.status === 'pending' || agState.status === 'running') return null;
+        const agLabel = AGENTS.find(a => a.key === expandedAgent)?.label || expandedAgent;
+
+        return (
+          <div style={{
+            border: '1px solid #E2E8F0', borderRadius: 8, padding: 20,
+            background: '#fff', marginBottom: 16,
+          }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
+              <h4 style={{ margin: 0, color: '#0F172A', fontSize: 15, fontWeight: 700 }}>
+                {agState.status === 'failed' ? '❌' : '✅'} {agLabel} 输出
+              </h4>
+              <button
+                onClick={() => setExpandedAgent(null)}
+                style={{
+                  background: 'none', border: 'none', fontSize: 18, cursor: 'pointer',
+                  color: '#94A3B8', padding: 0,
+                }}
+              >✕</button>
+            </div>
+
+            {agState.status === 'failed' ? (
+              <div style={{
+                padding: 16, background: '#FEF2F2', borderRadius: 6,
+                color: '#991B1B', fontSize: 14, lineHeight: 1.6,
+              }}>
+                {agState.error || '未知错误'}
+              </div>
+            ) : (
+              <div style={{
+                padding: 16, background: '#F8FAFC', borderRadius: 6, fontSize: 14,
+                lineHeight: 1.6, whiteSpace: 'pre-wrap', maxHeight: 360, overflow: 'auto',
+              }}>
+                {agState.output}
+              </div>
+            )}
+          </div>
+        );
+      })()}
+
       {/* Content area */}
       {isComplete ? (
-        /* Read-only preview for completed papers */
         <div data-color-mode="light" style={{
           border: '1px solid #E2E8F0', borderRadius: 8, background: '#fff',
           padding: '32px 40px', minHeight: 400,
@@ -257,7 +345,6 @@ export default function PaperWorkbench() {
           <MDEditor.Markdown source={mdValue || '暂无内容'} />
         </div>
       ) : (
-        /* Editable editor for in-progress papers */
         <div data-color-mode="light" style={{
           border: '1px solid #E2E8F0', borderRadius: 8, overflow: 'hidden', background: '#fff',
         }}>
