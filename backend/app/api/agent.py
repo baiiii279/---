@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException, BackgroundTasks
+from fastapi import APIRouter, Depends, HTTPException, BackgroundTasks, Query
 from sqlalchemy.orm import Session
 from app.core.database import get_db
 from app.models.paper import Paper
@@ -7,6 +7,7 @@ from app.models.user import User
 from app.models.reference import UserReference, PaperReference
 from app.schemas.task import FeedbackRequest, TaskResponse
 from app.api.auth import get_current_user
+from app.core.security import decode_access_token
 from app.agents.orchestrator import Orchestrator, SharedContext
 from app.services.pipeline_runner import run_single_agent
 from app.services.sse_manager import sse_manager
@@ -137,10 +138,23 @@ def submit_feedback(paper_id: int, req: FeedbackRequest, current_user: User = De
     return result
 
 
+async def _get_user_from_token(token: str = Query(None), db: Session = Depends(get_db)) -> User:
+    """Extract user from query token (for SSE which can't set Auth header)."""
+    if token:
+        payload = decode_access_token(token)
+        if payload:
+            user_id_str = payload.get("sub")
+            if user_id_str:
+                user = db.query(User).get(int(user_id_str))
+                if user:
+                    return user
+    raise HTTPException(status_code=401, detail="未认证")
+
+
 @router.get("/events")
 async def agent_events(
     paper_id: int,
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(_get_user_from_token),
 ):
     queue = sse_manager.subscribe(paper_id)
 

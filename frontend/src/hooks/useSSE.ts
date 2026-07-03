@@ -24,7 +24,10 @@ export default function useSSE(url: string, options?: SSEOptions): SSEState {
 
       setState({ status: 'connecting' });
 
-      const es = new EventSource(url);
+      const token = localStorage.getItem('token');
+      const separator = url.includes('?') ? '&' : '?';
+      const authUrl = token ? `${url}${separator}token=${encodeURIComponent(token)}` : url;
+      const es = new EventSource(authUrl);
       eventSourceRef.current = es;
 
       es.onopen = () => {

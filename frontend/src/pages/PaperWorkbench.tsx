@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import MDEditor from '@uiw/react-md-editor';
 import api from '../services/api';
-import AgentPipeline, { AgentNode } from '../components/AgentPipeline';
+import AgentPipeline from '../components/AgentPipeline';
+import type { AgentNode } from '../components/AgentPipeline';
 import useSSE from '../hooks/useSSE';
 
 interface PaperData {
@@ -122,7 +123,7 @@ export default function PaperWorkbench() {
     }
   };
 
-  const handleApprove = (agentKey: string) => {
+  const handleApprove = (_agentKey: string) => {
     if (!paper || !id) return;
     const nextStatus = NEXT_STATUS[paper.status];
     if (nextStatus) {
@@ -130,7 +131,7 @@ export default function PaperWorkbench() {
     }
   };
 
-  const handleReject = async (agentKey: string, comment: string) => {
+  const handleReject = async (_agentKey: string, comment: string) => {
     if (!id) return;
     try {
       await api.post(`/papers/${id}/agent/feedback`, {
@@ -139,7 +140,7 @@ export default function PaperWorkbench() {
     } catch { /* ignore */ }
   };
 
-  const handleEdit = async (agentKey: string, content: string) => {
+  const handleEdit = async (_agentKey: string, content: string) => {
     if (!paper || !id) return;
     setMdValue(content);
     try {
