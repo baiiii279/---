@@ -6,7 +6,11 @@ export default defineConfig({
   plugins: [react(), tailwindcss()],
   server: {
     proxy: {
-      '/api': 'http://localhost:8004'
-    }
-  }
+      '/api': {
+        target: 'http://localhost:8004',
+        changeOrigin: true,
+        ws: true,
+      },
+    },
+  },
 })

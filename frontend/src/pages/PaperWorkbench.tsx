@@ -66,10 +66,17 @@ export default function PaperWorkbench() {
 
   const [agentStates, setAgentStates] = useState<AgentState[]>(getAgentStates('draft'));
 
-  // 同步：paper.status 变化时刷新 agentStates
+  // 同步：paper.status 变化时只更新 status，保留已有的 output/error
   useEffect(() => {
     if (paper) {
-      setAgentStates(getAgentStates(paper.status));
+      setAgentStates(prev => {
+        const base = getAgentStates(paper!.status);
+        return base.map((a, i) => ({
+          ...a,
+          output: prev[i]?.output || a.output,   // 保留 SSE 收到的输出
+          error: prev[i]?.error || a.error,
+        }));
+      });
     }
   }, [paper?.status]);
 
@@ -132,7 +139,7 @@ export default function PaperWorkbench() {
       .finally(() => setLoading(false));
   }, [id]);
 
-  // 运行当前待执行的 Agent（同步接口，后端会发 SSE）
+  // 运行当前待执行的 Agent（同步接口，直接获取结果）
   const handleRun = async (agentKey: string) => {
     if (!id || running) return;
     setRunning(true);
@@ -141,13 +148,31 @@ export default function PaperWorkbench() {
       a.key === agentKey ? { ...a, status: 'running', error: null } : a
     ));
     try {
-      await api.post(`/papers/${id}/agent/${agentKey.replace('_', '-')}`);
-    } catch (err: unknown) {
+      const res = await api.post(`/papers/${id}/agent/${agentKey.replace('_', '-')}`);
+      // 同步接口直接返回结果，立即更新 UI
+      const output = res.data.output || '';
       setAgentStates(prev => prev.map(a =>
-        a.key === agentKey ? { ...a, status: 'failed', error: '请求失败' } : a
+        a.key === agentKey
+          ? { ...a, status: 'success' as AgentStatus, output, error: null }
+          : a
+      ));
+      setExpandedAgent(agentKey);
+      if (agentKey === 'outline' || agentKey === 'write' || agentKey === 'polish') {
+        setMdValue(output);
+      }
+      setRunning(false);
+      // 刷新 paper 状态
+      const paperRes = await api.get(`/papers/${id}`);
+      setPaper(paperRes.data);
+    } catch (err: unknown) {
+      const msg = err != null && typeof err === 'object' && 'response' in err
+        ? String((err as { response?: { data?: { detail?: string } } }).response?.data?.detail || '请求失败')
+        : '请求失败';
+      setAgentStates(prev => prev.map(a =>
+        a.key === agentKey ? { ...a, status: 'failed', error: msg } : a
       ));
       setRunning(false);
-      setErrorMsg('启动失败，请检查后端是否运行');
+      setErrorMsg(msg);
     }
   };
 
