@@ -5,6 +5,17 @@ import api from '../services/api';
 import AgentPipeline, { AgentNode } from '../components/AgentPipeline';
 import useSSE from '../hooks/useSSE';
 
+interface PaperData {
+  id: number;
+  user_id: number;
+  title: string | null;
+  topic: string;
+  template: string;
+  status: string;
+  outline: string | null;
+  content: string | null;
+}
+
 const AGENTS: { key: string; label: string }[] = [
   { key: 'parse', label: '文献解析' },
   { key: 'outline', label: '大纲生成' },
@@ -42,7 +53,7 @@ function initAgentStates(status: string): AgentNode[] {
 
 export default function PaperWorkbench() {
   const { id } = useParams<{ id: string }>();
-  const [paper, setPaper] = useState<any>(null);
+  const [paper, setPaper] = useState<PaperData | null>(null);
   const [loading, setLoading] = useState(true);
   const [agentStates, setAgentStates] = useState<AgentNode[]>(AGENTS.map(a => ({
     ...a, status: 'pending' as const, output: null, error: null, finishedAt: null,
@@ -91,12 +102,16 @@ export default function PaperWorkbench() {
     }).finally(() => setLoading(false));
   }, [id]);
 
-  const completedIndex = agentStates.filter(a => a.status === 'success').length;
   const currentAgent = agentStates.find(a => a.status === 'pending');
   const canRunNext = !!currentAgent;
 
   const handleRunAgent = async () => {
     if (!id || !currentAgent || running) return;
+    // Optimistic UI: immediately show running state
+    setRunning(true);
+    setAgentStates(prev => prev.map(a =>
+      a.key === currentAgent.key ? { ...a, status: 'running' } : a
+    ));
     try {
       await api.post(`/papers/${id}/agent/${currentAgent.key.replace('_', '-')}/run`);
     } catch {
@@ -127,7 +142,9 @@ export default function PaperWorkbench() {
   const handleEdit = async (agentKey: string, content: string) => {
     if (!paper || !id) return;
     setMdValue(content);
-    api.put(`/papers/${id}`, { content }).catch(() => {});
+    try {
+      await api.put(`/papers/${id}`, { content });
+    } catch { /* ignore */ }
     const nextStatus = NEXT_STATUS[paper.status];
     if (nextStatus) {
       setPaper({ ...paper, status: nextStatus });
