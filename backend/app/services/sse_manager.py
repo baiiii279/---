@@ -17,6 +17,8 @@ class SSEEventManager:
         subs = self._subscribers.get(paper_id, [])
         if queue in subs:
             subs.remove(queue)
+            if not subs:
+                del self._subscribers[paper_id]
 
     def emit(self, paper_id: int, event: str, data: dict):
         subs = self._subscribers.get(paper_id, [])
