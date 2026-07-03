@@ -95,7 +95,7 @@ def run_all(paper_id: int, current_user: User = Depends(get_current_user), db: S
     return {"results": results, "status": "complete"}
 
 
-@router.post("/{agent_type}/run")
+@router.post("/{agent_type}/run", status_code=202)
 async def run_agent_async(
     paper_id: int,
     agent_type: str,
@@ -103,7 +103,6 @@ async def run_agent_async(
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db),
 ):
-    valid_types = ["parse", "outline", "write", "polish", "cite-check"]
     agent_key = agent_type.replace("-", "_")
     if agent_key not in orchestrator.agents:
         raise HTTPException(status_code=400, detail=f"无效的 Agent 类型: {agent_type}")
