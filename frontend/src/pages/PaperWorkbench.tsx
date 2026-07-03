@@ -5,23 +5,13 @@ import api from '../services/api';
 import AgentPipeline, { AgentNode } from '../components/AgentPipeline';
 import useSSE from '../hooks/useSSE';
 
-const AGENT_ORDER = ['parse', 'outline', 'write', 'polish', 'cite_check'];
-
-const AGENT_LABELS: Record<string, string> = {
-  parse: '文献解析',
-  outline: '大纲生成',
-  write: '内容撰写',
-  polish: '润色优化',
-  cite_check: '引用检查',
-};
-
-const STATUS_ACTIONS: Record<string, { agent: string; label: string }> = {
-  draft: { agent: 'parse', label: '运行文献解析' },
-  parsing: { agent: 'outline', label: '运行大纲生成' },
-  outlining: { agent: 'write', label: '运行内容撰写' },
-  writing: { agent: 'polish', label: '运行润色优化' },
-  polishing: { agent: 'cite-check', label: '运行引用检查' },
-};
+const AGENTS: { key: string; label: string }[] = [
+  { key: 'parse', label: '文献解析' },
+  { key: 'outline', label: '大纲生成' },
+  { key: 'write', label: '内容撰写' },
+  { key: 'polish', label: '润色优化' },
+  { key: 'cite_check', label: '引用检查' },
+];
 
 const NEXT_STATUS: Record<string, string> = {
   draft: 'parsing',
@@ -32,124 +22,115 @@ const NEXT_STATUS: Record<string, string> = {
   checking: 'complete',
 };
 
-interface PaperData {
-  id: number;
-  user_id: number;
-  title: string | null;
-  topic: string;
-  template: string;
-  status: string;
-  outline: string | null;
-  content: string | null;
+function getAgentIndex(status: string): number {
+  const map: Record<string, number> = {
+    draft: 0, parsing: 1, outlining: 2, writing: 3, polishing: 4, checking: 5, complete: 6,
+  };
+  return map[status] ?? 0;
 }
 
-const STATUS_ORDER = ['draft', 'parsing', 'outlining', 'writing', 'polishing', 'checking', 'complete'];
-
-function buildAgents(status: string): AgentNode[] {
-  const currentIdx = STATUS_ORDER.indexOf(status);
-  return AGENT_ORDER.map((key, i) => {
-    if (currentIdx > i + 1) {
-      return { key, label: AGENT_LABELS[key], status: 'success' as const, output: null, error: null, finishedAt: null };
-    }
-    if (currentIdx === i + 1) {
-      return { key, label: AGENT_LABELS[key], status: 'running' as const, output: null, error: null, finishedAt: null };
-    }
-    return { key, label: AGENT_LABELS[key], status: 'pending' as const, output: null, error: null, finishedAt: null };
-  });
+function initAgentStates(status: string): AgentNode[] {
+  const completedIndex = getAgentIndex(status);
+  return AGENTS.map((a, i) => ({
+    ...a,
+    status: i < completedIndex ? ('success' as const) : ('pending' as const),
+    output: null,
+    error: null,
+    finishedAt: null,
+  }));
 }
 
 export default function PaperWorkbench() {
   const { id } = useParams<{ id: string }>();
-  const [paper, setPaper] = useState<PaperData | null>(null);
+  const [paper, setPaper] = useState<any>(null);
   const [loading, setLoading] = useState(true);
-  const [agents, setAgents] = useState<AgentNode[]>([]);
+  const [agentStates, setAgentStates] = useState<AgentNode[]>(AGENTS.map(a => ({
+    ...a, status: 'pending' as const, output: null, error: null, finishedAt: null,
+  })));
   const [running, setRunning] = useState(false);
   const [mdValue, setMdValue] = useState('');
 
   const sseUrl = id ? `/api/papers/${id}/agent/events` : '';
-  const sse = useSSE(sseUrl);
+
+  useSSE(sseUrl, {
+    onAgentStart: (agent) => {
+      setRunning(true);
+      setAgentStates(prev => prev.map(a =>
+        a.key === agent ? { ...a, status: 'running' } : a
+      ));
+    },
+    onAgentComplete: (agent, output) => {
+      setAgentStates(prev => prev.map(a =>
+        a.key === agent
+          ? { ...a, status: 'success', output, finishedAt: new Date().toISOString() }
+          : a
+      ));
+      setRunning(false);
+      // Auto-fill content/outline into editor
+      if (agent === 'outline' || agent === 'write' || agent === 'polish') {
+        setMdValue(output);
+      }
+    },
+    onAgentError: (agent, error) => {
+      setAgentStates(prev => prev.map(a =>
+        a.key === agent ? { ...a, status: 'failed', error } : a
+      ));
+      setRunning(false);
+    },
+    onPipelineComplete: () => {
+      setRunning(false);
+    },
+  });
 
   useEffect(() => {
     if (!id) return;
     api.get(`/papers/${id}`).then(res => {
       setPaper(res.data);
       setMdValue(res.data.content || '');
-      setAgents(buildAgents(res.data.status));
+      setAgentStates(initAgentStates(res.data.status));
     }).finally(() => setLoading(false));
   }, [id]);
 
-  const action = paper ? STATUS_ACTIONS[paper.status] : null;
-  const canRunNext = !!action && !running && !['complete', 'checking'].includes(paper?.status || '');
-  const isComplete = paper?.status === 'complete';
+  const completedIndex = agentStates.filter(a => a.status === 'success').length;
+  const currentAgent = agentStates.find(a => a.status === 'pending');
+  const canRunNext = !!currentAgent;
 
-  const handleRunNext = async () => {
-    if (!id || !action || running) return;
-    setRunning(true);
+  const handleRunAgent = async () => {
+    if (!id || !currentAgent || running) return;
     try {
-      // Set the current agent to running
-      setAgents(prev => prev.map(a =>
-        a.key === action.agent ? { ...a, status: 'running' as const } : a
-      ));
-
-      const res = await api.post(`/papers/${id}/agent/${action.agent}`);
-      const output = res.data.output || '';
-
-      if (paper) {
-        const nextStatus = NEXT_STATUS[paper.status];
-        if (nextStatus) {
-          // Mark agent as success with output
-          setAgents(prev => prev.map(a =>
-            a.key === action.agent
-              ? { ...a, status: 'success' as const, output, finishedAt: new Date().toISOString() }
-              : a
-          ));
-          setPaper({ ...paper, status: nextStatus });
-        }
-      }
+      await api.post(`/papers/${id}/agent/${currentAgent.key.replace('_', '-')}/run`);
     } catch {
-      // Mark agent as failed
-      setAgents(prev => prev.map(a =>
-        a.key === action.agent
-          ? { ...a, status: 'failed' as const, error: '执行失败' }
-          : a
+      setAgentStates(prev => prev.map(a =>
+        a.key === currentAgent.key ? { ...a, status: 'failed', error: '启动失败' } : a
       ));
-    } finally {
       setRunning(false);
     }
   };
 
-  const handleApprove = (_agentKey: string) => {
-    if (!paper || isComplete) return;
+  const handleApprove = (agentKey: string) => {
+    if (!paper || !id) return;
     const nextStatus = NEXT_STATUS[paper.status];
     if (nextStatus) {
       setPaper({ ...paper, status: nextStatus });
     }
   };
 
-  const handleReject = async (_agentKey: string, comment: string) => {
+  const handleReject = async (agentKey: string, comment: string) => {
     if (!id) return;
     try {
       await api.post(`/papers/${id}/agent/feedback`, {
-        task_id: 0,
-        action: 'reject',
-        comment,
+        task_id: 0, action: 'reject', comment,
       });
-    } catch {
-      // ignore feedback errors
-    }
+    } catch { /* ignore */ }
   };
 
-  const handleEdit = (_agentKey: string, content: string) => {
-    if (!paper) return;
+  const handleEdit = async (agentKey: string, content: string) => {
+    if (!paper || !id) return;
     setMdValue(content);
-    if (id) {
-      api.put(`/papers/${id}`, { content }).catch(() => {});
-    }
-    if (!isComplete) {
-      const nextStatus = NEXT_STATUS[paper.status];
-      if (nextStatus) {
-        setPaper({ ...paper, status: nextStatus });
-      }
+    api.put(`/papers/${id}`, { content }).catch(() => {});
+    const nextStatus = NEXT_STATUS[paper.status];
+    if (nextStatus) {
+      setPaper({ ...paper, status: nextStatus });
     }
   };
 
@@ -172,38 +153,16 @@ export default function PaperWorkbench() {
             状态: {paper.status}
           </p>
         </div>
-        <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
-          {sse.status === 'connected' && (
-            <span
-              style={{ width: 8, height: 8, borderRadius: '50%', background: '#22C55E', display: 'inline-block' }}
-              title="实时连接中"
-            />
-          )}
-          {action && (
-            <button
-              onClick={handleRunNext}
-              disabled={running}
-              style={{
-                padding: '10px 24px', borderRadius: 6, border: 'none',
-                background: running ? '#94A3B8' : '#2563EB', color: '#fff',
-                fontSize: 14, fontWeight: 600,
-                cursor: running ? 'not-allowed' : 'pointer',
-              }}
-            >
-              {running ? '执行中...' : action.label}
-            </button>
-          )}
-        </div>
       </div>
 
       <AgentPipeline
-        agents={agents}
+        agents={agentStates}
         onApprove={handleApprove}
         onReject={handleReject}
         onEdit={handleEdit}
-        onRunNext={handleRunNext}
+        onRunNext={handleRunAgent}
         running={running}
-        canRunNext={canRunNext}
+        canRunNext={canRunNext && !running}
       />
 
       <div data-color-mode="light" style={{ border: '1px solid #E2E8F0', borderRadius: 8, overflow: 'hidden', background: '#fff' }}>
