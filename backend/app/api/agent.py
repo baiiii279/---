@@ -88,12 +88,46 @@ def run_agent(paper_id: int, agent_type: str, current_user: User = Depends(get_c
     task = orchestrator.create_task(db, paper.id, agent_key)
 
     try:
+        # 发送 agent_start SSE 事件
+        from datetime import datetime, timezone
+        sse_manager.emit(paper_id, "agent_start", {
+            "agent": agent_key,
+            "timestamp": datetime.now(timezone.utc).isoformat(),
+            "critical": True,
+        })
+
+        # 注册流式 token 回调
+        from app.agents.base import register_stream_callback, unregister_stream_callback
+        def _sse_stream(token: str, _ag: str):
+            sse_manager.emit(paper_id, "agent_stream", {"agent": agent_key, "token": token})
+
+        register_stream_callback(paper_id, _sse_stream)
+
         result = orchestrator.run_agent(db, task, context)
+
+        # 流式结束
+        sse_manager.emit(paper_id, "agent_stream_end", {"agent": agent_key})
+
         paper.status = _next_status(agent_key)
         db.commit()
+
+        sse_manager.emit(paper_id, "agent_complete", {
+            "agent": agent_key,
+            "output": result,
+            "status": "success",
+            "critical": True,
+        })
         return {"task_id": task.id, "output": result, "status": "success"}
     except Exception as e:
+        sse_manager.emit(paper_id, "agent_error", {
+            "agent": agent_key,
+            "error": str(e),
+            "critical": True,
+        })
         return {"task_id": task.id, "error": str(e), "status": "failed"}
+    finally:
+        from app.agents.base import unregister_stream_callback
+        unregister_stream_callback(paper_id)
 
 
 @router.post("/{agent_type}/run", status_code=202)

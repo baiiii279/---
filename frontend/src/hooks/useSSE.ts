@@ -4,6 +4,8 @@ interface SSEOptions {
   onAgentStart?: (agent: string) => void;
   onAgentComplete?: (agent: string, output: string) => void;
   onAgentError?: (agent: string, error: string) => void;
+  onAgentStream?: (agent: string, token: string) => void;
+  onAgentStreamEnd?: (agent: string) => void;
   onPipelineComplete?: () => void;
 }
 
@@ -47,6 +49,16 @@ export default function useSSE(url: string, options?: SSEOptions): SSEState {
       es.addEventListener('agent_error', (event) => {
         const data = JSON.parse(event.data);
         options?.onAgentError?.(data.agent, data.error);
+      });
+
+      es.addEventListener('agent_stream', (event) => {
+        const data = JSON.parse(event.data);
+        options?.onAgentStream?.(data.agent, data.token);
+      });
+
+      es.addEventListener('agent_stream_end', (event) => {
+        const data = JSON.parse(event.data);
+        options?.onAgentStreamEnd?.(data.agent);
       });
 
       es.addEventListener('pipeline_complete', () => {

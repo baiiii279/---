@@ -4,6 +4,7 @@ import MDEditor from '@uiw/react-md-editor';
 import api from '../services/api';
 import AgentPipeline from '../components/AgentPipeline';
 import type { AgentNode } from '../components/AgentPipeline';
+import StreamPanel, { appendToken, clearStream } from '../components/StreamPanel';
 import useSSE from '../hooks/useSSE';
 
 interface PaperData {
@@ -71,6 +72,7 @@ export default function PaperWorkbench() {
   })));
   const [running, setRunning] = useState(false);
   const [mdValue, setMdValue] = useState('');
+  const [streamAgent, setStreamAgent] = useState<string | null>(null);
 
   const isComplete = paper?.status === 'complete';
   const statusInfo = paper ? (STATUS_MAP[paper.status] || STATUS_MAP.draft) : STATUS_MAP.draft;
@@ -80,9 +82,18 @@ export default function PaperWorkbench() {
   useSSE(sseUrl, {
     onAgentStart: (agent) => {
       setRunning(true);
+      setStreamAgent(agent);
+      clearStream(agent);
       setAgentStates(prev => prev.map(a =>
         a.key === agent ? { ...a, status: 'running' } : a
       ));
+    },
+    onAgentStream: (agent, token) => {
+      appendToken(agent, token);
+    },
+    onAgentStreamEnd: (agent) => {
+      // Flush remaining buffer after a short delay to show last tokens
+      setTimeout(() => setStreamAgent(null), 1500);
     },
     onAgentComplete: (agent, output) => {
       setAgentStates(prev => prev.map(a =>
@@ -94,7 +105,6 @@ export default function PaperWorkbench() {
       if (agent === 'outline' || agent === 'write' || agent === 'polish') {
         setMdValue(output);
       }
-      // Refresh paper to get updated status
       if (id) {
         api.get(`/papers/${id}`).then(res => setPaper(res.data)).catch(() => {});
       }
@@ -104,6 +114,7 @@ export default function PaperWorkbench() {
         a.key === agent ? { ...a, status: 'failed', error } : a
       ));
       setRunning(false);
+      setStreamAgent(null);
     },
     onPipelineComplete: () => {
       setRunning(false);
@@ -228,6 +239,12 @@ export default function PaperWorkbench() {
         onRunNext={handleRunAgent}
         running={running}
         canRunNext={canRunNext && !running && !isComplete}
+      />
+
+      {/* Streaming panel — shows live token-by-token output */}
+      <StreamPanel
+        agentKey={streamAgent || ''}
+        visible={!!streamAgent && !isComplete}
       />
 
       {/* Content area */}
