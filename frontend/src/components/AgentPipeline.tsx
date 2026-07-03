@@ -89,6 +89,33 @@ export default function AgentPipeline({
         ))}
       </div>
 
+      {/* Run button — always visible when there's a pending agent */}
+      {canRunNext && !running && (
+        <button
+          onClick={onRunNext}
+          style={{
+            display: 'block', width: '100%', marginBottom: 16,
+            padding: '12px 24px', borderRadius: 8, border: 'none',
+            background: 'linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%)',
+            color: '#fff', fontSize: 15, fontWeight: 700,
+            cursor: 'pointer', boxShadow: '0 2px 8px rgba(37,99,235,0.3)',
+          }}
+        >
+          ▶ 开始{agents.find(a => a.status === 'pending') ? AGENT_LABELS[agents.find(a => a.status === 'pending')!.key] : ''}
+        </button>
+      )}
+
+      {/* Running indicator */}
+      {running && (
+        <div style={{
+          textAlign: 'center', padding: '12px 24px', marginBottom: 16,
+          borderRadius: 8, background: '#EFF6FF', border: '1px solid #BFDBFE',
+          color: '#1D4ED8', fontSize: 14, fontWeight: 600,
+        }}>
+          ⏳ {AGENT_LABELS[agents.find(a => a.status === 'running')?.key || ''] || 'Agent'} 执行中，请稍候...
+        </div>
+      )}
+
       {/* Expanded output area */}
       {displayAgent && (displayAgent.status === 'success' || displayAgent.status === 'failed') && (
         <div style={{
@@ -192,7 +219,7 @@ export default function AgentPipeline({
             </button>
           </div>
 
-          {/* Run next button */}
+          {/* Continue button inside expanded area */}
           {canRunNext && !running && (
             <button
               onClick={onRunNext}
@@ -202,7 +229,7 @@ export default function AgentPipeline({
                 cursor: 'pointer', display: 'block', width: '100%',
               }}
             >
-              运行下一步 ({AGENT_LABELS[agents.find(a => a.status === 'pending')?.key || '']})
+              继续下一步 ({AGENT_LABELS[agents.find(a => a.status === 'pending')?.key || '']})
             </button>
           )}
         </div>
