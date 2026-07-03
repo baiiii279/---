@@ -2,9 +2,18 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import MDEditor from '@uiw/react-md-editor';
 import api from '../services/api';
-import AgentPipeline from '../components/AgentPipeline';
-import FeedbackPanel from '../components/FeedbackPanel';
+import AgentPipeline, { AgentNode } from '../components/AgentPipeline';
 import useSSE from '../hooks/useSSE';
+
+const AGENT_ORDER = ['parse', 'outline', 'write', 'polish', 'cite_check'];
+
+const AGENT_LABELS: Record<string, string> = {
+  parse: '文献解析',
+  outline: '大纲生成',
+  write: '内容撰写',
+  polish: '润色优化',
+  cite_check: '引用检查',
+};
 
 const STATUS_ACTIONS: Record<string, { agent: string; label: string }> = {
   draft: { agent: 'parse', label: '运行文献解析' },
@@ -34,11 +43,26 @@ interface PaperData {
   content: string | null;
 }
 
+const STATUS_ORDER = ['draft', 'parsing', 'outlining', 'writing', 'polishing', 'checking', 'complete'];
+
+function buildAgents(status: string): AgentNode[] {
+  const currentIdx = STATUS_ORDER.indexOf(status);
+  return AGENT_ORDER.map((key, i) => {
+    if (currentIdx > i + 1) {
+      return { key, label: AGENT_LABELS[key], status: 'success' as const, output: null, error: null, finishedAt: null };
+    }
+    if (currentIdx === i + 1) {
+      return { key, label: AGENT_LABELS[key], status: 'running' as const, output: null, error: null, finishedAt: null };
+    }
+    return { key, label: AGENT_LABELS[key], status: 'pending' as const, output: null, error: null, finishedAt: null };
+  });
+}
+
 export default function PaperWorkbench() {
   const { id } = useParams<{ id: string }>();
   const [paper, setPaper] = useState<PaperData | null>(null);
   const [loading, setLoading] = useState(true);
-  const [agentOutput, setAgentOutput] = useState<string | null>(null);
+  const [agents, setAgents] = useState<AgentNode[]>([]);
   const [running, setRunning] = useState(false);
   const [mdValue, setMdValue] = useState('');
 
@@ -50,40 +74,59 @@ export default function PaperWorkbench() {
     api.get(`/papers/${id}`).then(res => {
       setPaper(res.data);
       setMdValue(res.data.content || '');
+      setAgents(buildAgents(res.data.status));
     }).finally(() => setLoading(false));
   }, [id]);
 
   const action = paper ? STATUS_ACTIONS[paper.status] : null;
+  const canRunNext = !!action && !running && !['complete', 'checking'].includes(paper?.status || '');
+  const isComplete = paper?.status === 'complete';
 
-  const handleRunAgent = async () => {
+  const handleRunNext = async () => {
     if (!id || !action || running) return;
     setRunning(true);
     try {
+      // Set the current agent to running
+      setAgents(prev => prev.map(a =>
+        a.key === action.agent ? { ...a, status: 'running' as const } : a
+      ));
+
       const res = await api.post(`/papers/${id}/agent/${action.agent}`);
-      setAgentOutput(res.data.output || null);
+      const output = res.data.output || '';
+
       if (paper) {
         const nextStatus = NEXT_STATUS[paper.status];
         if (nextStatus) {
+          // Mark agent as success with output
+          setAgents(prev => prev.map(a =>
+            a.key === action.agent
+              ? { ...a, status: 'success' as const, output, finishedAt: new Date().toISOString() }
+              : a
+          ));
           setPaper({ ...paper, status: nextStatus });
         }
       }
     } catch {
-      setAgentOutput('执行失败');
+      // Mark agent as failed
+      setAgents(prev => prev.map(a =>
+        a.key === action.agent
+          ? { ...a, status: 'failed' as const, error: '执行失败' }
+          : a
+      ));
     } finally {
       setRunning(false);
     }
   };
 
-  const handleApprove = () => {
-    if (!paper) return;
-    setAgentOutput(null);
+  const handleApprove = (_agentKey: string) => {
+    if (!paper || isComplete) return;
     const nextStatus = NEXT_STATUS[paper.status];
     if (nextStatus) {
       setPaper({ ...paper, status: nextStatus });
     }
   };
 
-  const handleReject = async (comment: string) => {
+  const handleReject = async (_agentKey: string, comment: string) => {
     if (!id) return;
     try {
       await api.post(`/papers/${id}/agent/feedback`, {
@@ -94,19 +137,19 @@ export default function PaperWorkbench() {
     } catch {
       // ignore feedback errors
     }
-    setAgentOutput(null);
   };
 
-  const handleEdit = (content: string) => {
+  const handleEdit = (_agentKey: string, content: string) => {
     if (!paper) return;
     setMdValue(content);
-    setAgentOutput(null);
     if (id) {
       api.put(`/papers/${id}`, { content }).catch(() => {});
     }
-    const nextStatus = NEXT_STATUS[paper.status];
-    if (nextStatus) {
-      setPaper({ ...paper, status: nextStatus });
+    if (!isComplete) {
+      const nextStatus = NEXT_STATUS[paper.status];
+      if (nextStatus) {
+        setPaper({ ...paper, status: nextStatus });
+      }
     }
   };
 
@@ -138,7 +181,7 @@ export default function PaperWorkbench() {
           )}
           {action && (
             <button
-              onClick={handleRunAgent}
+              onClick={handleRunNext}
               disabled={running}
               style={{
                 padding: '10px 24px', borderRadius: 6, border: 'none',
@@ -153,7 +196,15 @@ export default function PaperWorkbench() {
         </div>
       </div>
 
-      <AgentPipeline currentStatus={paper.status} />
+      <AgentPipeline
+        agents={agents}
+        onApprove={handleApprove}
+        onReject={handleReject}
+        onEdit={handleEdit}
+        onRunNext={handleRunNext}
+        running={running}
+        canRunNext={canRunNext}
+      />
 
       <div data-color-mode="light" style={{ border: '1px solid #E2E8F0', borderRadius: 8, overflow: 'hidden', background: '#fff' }}>
         <MDEditor
@@ -162,15 +213,6 @@ export default function PaperWorkbench() {
           height={600}
         />
       </div>
-
-      {agentOutput && (
-        <FeedbackPanel
-          output={agentOutput}
-          onApprove={handleApprove}
-          onReject={handleReject}
-          onEdit={handleEdit}
-        />
-      )}
     </div>
   );
 }
