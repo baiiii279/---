@@ -113,36 +113,58 @@ class BaseAgent:
     """所有 Agent 的基类，统一配置 DeepSeek LLM（流式输出）"""
 
     def __init__(self, role: str, goal: str, backstory: str):
-        self.agent = Agent(
-            role=role,
-            goal=goal,
-            backstory=backstory,
-            llm=self._create_llm(),
-            verbose=False,          # 关闭 verbose，避免干扰流式输出
-            allow_delegation=False,
-        )
         # 运行时注入（由 pipeline_runner 设置）
         self._paper_id: int = 0
         self._agent_key: str = ""
+        # 用户自定义 API Key（优先于系统默认）
+        self._user_api_key: str | None = None
+        self._user_api_base: str | None = None
+        # 保存 Agent 构造参数，延迟创建 LLM
+        self._role = role
+        self._goal = goal
+        self._backstory = backstory
+        self._llm = None
+
+    def set_user_llm_config(self, api_key: str | None, api_base: str | None = None):
+        """设置用户自定义的 LLM 配置（在 run 之前调用）"""
+        self._user_api_key = api_key
+        self._user_api_base = api_base
+        self._llm = None  # 重置，下次 _create_llm 会用新 key
 
     def _create_llm(self):
         from crewai import LLM
+        ak = self._user_api_key or settings.DEEPSEEK_API_KEY
+        url = self._user_api_base or settings.DEEPSEEK_BASE_URL
         return LLM(
             model="openai/deepseek-chat",
-            api_key=settings.DEEPSEEK_API_KEY,
-            base_url=settings.DEEPSEEK_BASE_URL,
-            stream=True,            # ← 启用流式输出
-            is_litellm=True,        # ← 强制走 litellm 路径（新版 CrewAI 默认路由到 native provider）
+            api_key=ak,
+            base_url=url,
+            stream=True,
+            is_litellm=True,
         )
 
+    def _get_or_create_agent(self):
+        """延迟创建 CrewAI Agent（在首次 run 时，此时 API Key 已确定）"""
+        if self._llm is None:
+            self._llm = self._create_llm()
+            self.agent = Agent(
+                role=self._role,
+                goal=self._goal,
+                backstory=self._backstory,
+                llm=self._llm,
+                verbose=False,
+                allow_delegation=False,
+            )
+        return self.agent
+
     def _execute_task(self, task: Task) -> str:
-        # 设置线程上下文（供 litellm completion 拦截器使用）
+        agent = self._get_or_create_agent()
         _stream_ctx.current = {
             'paper_id': self._paper_id,
             'agent_key': self._agent_key,
         }
         try:
-            crew = Crew(agents=[self.agent], tasks=[task], verbose=False)
+            crew = Crew(agents=[agent], tasks=[task], verbose=False)
             result = crew.kickoff()
             return str(result.raw if hasattr(result, 'raw') else result)
         finally:

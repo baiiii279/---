@@ -54,6 +54,6 @@ def login(req: LoginRequest, db: Session = Depends(get_db)):
     return AuthResponse(token=token, user_id=user.id, username=user.username, role=user.role)
 
 
-@router.get("/me", response_model=UserProfileResponse)
+@router.get("/me")
 def get_me(current_user: User = Depends(get_current_user)):
-    return current_user
+    return UserProfileResponse.from_user(current_user)

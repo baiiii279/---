@@ -55,6 +55,7 @@ def run_all(paper_id: int, current_user: User = Depends(get_current_user), db: S
         if agent_key == "parse" and not context.references:
             return {"error": "请先添加文献", "status": "failed"}
 
+        _inject_user_api_key(agent_key, current_user)
         result = orchestrator.run_agent(db, task, context)
         results[agent_key] = result
 
@@ -76,6 +77,13 @@ def _next_status(agent_key: str) -> str:
     return mapping.get(agent_key, "draft")
 
 
+def _inject_user_api_key(agent_key: str, user: User):
+    """将用户的 API Key 注入到 Agent 实例"""
+    agent = orchestrator.agents.get(agent_key)
+    if agent and user.api_key:
+        agent.set_user_llm_config(user.api_key, user.api_base)
+
+
 @router.post("/{agent_type}")
 def run_agent(paper_id: int, agent_type: str, current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
     valid_types = ["parse", "outline", "write", "polish", "cite-check"]
@@ -95,6 +103,8 @@ def run_agent(paper_id: int, agent_type: str, current_user: User = Depends(get_c
             "timestamp": datetime.now(timezone.utc).isoformat(),
             "critical": True,
         })
+
+        _inject_user_api_key(agent_key, current_user)
 
         # 注册流式 token 回调
         from app.agents.base import register_stream_callback, unregister_stream_callback

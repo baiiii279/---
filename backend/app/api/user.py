@@ -1,9 +1,10 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
+from sqlalchemy import text
 from app.core.database import get_db
 from app.core.security import hash_password, verify_password
 from app.models.user import User
-from app.schemas.user import UpdateProfileRequest, ChangePasswordRequest, UserProfileResponse
+from app.schemas.user import UpdateProfileRequest, ChangePasswordRequest, UserProfileResponse, UpdateApiKeyRequest, _mask_key
 from app.api.auth import get_current_user
 
 router = APIRouter(prefix="/api/user", tags=["user"])
@@ -28,3 +29,30 @@ def change_password(req: ChangePasswordRequest, current_user: User = Depends(get
     current_user.password_hash = hash_password(req.new_password)
     db.commit()
     return {"message": "ok"}
+
+
+@router.put("/api-key")
+def update_api_key(req: UpdateApiKeyRequest, current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
+    """设置用户的 DeepSeek API Key"""
+    # 确保列存在
+    try:
+        db.execute(text("ALTER TABLE users ADD COLUMN api_key VARCHAR(255) NULL"))
+        db.commit()
+    except Exception:
+        db.rollback()
+    try:
+        db.execute(text("ALTER TABLE users ADD COLUMN api_base VARCHAR(300) NULL"))
+        db.commit()
+    except Exception:
+        db.rollback()
+
+    current_user.api_key = req.api_key.strip()
+    current_user.api_base = req.api_base.strip() or "https://api.deepseek.com"
+    db.commit()
+    return {"message": "ok", "api_key": _mask_key(req.api_key)}
+
+
+@router.get("/api-key")
+def get_api_key(current_user: User = Depends(get_current_user)):
+    """获取用户的 API Key（遮蔽）"""
+    return {"api_key": _mask_key(current_user.api_key), "api_base": current_user.api_base or "https://api.deepseek.com"}

@@ -5,6 +5,7 @@ from sqlalchemy.orm import Session
 from app.core.database import get_db
 from app.models.paper import Paper
 from app.models.reference import UserReference, PaperReference
+from app.models.user import User
 from app.agents.orchestrator import Orchestrator, SharedContext
 from app.agents.base import register_stream_callback, unregister_stream_callback
 from app.services.sse_manager import sse_manager
@@ -49,11 +50,15 @@ async def run_single_agent(paper_id: int, agent_key: str):
 
         task = orchestrator.create_task(db, paper.id, agent_key)
 
-        # 注入 paper_id + agent_key 到 Agent 实例，供流式回调使用
+        # 注入 paper_id + agent_key + 用户 API Key 到 Agent 实例
         agent = orchestrator.agents.get(agent_key)
         if agent:
             agent._paper_id = paper_id
             agent._agent_key = agent_key
+            # 用户自定义 API Key 优先
+            user = db.query(User).get(paper.user_id)
+            if user and user.api_key:
+                agent.set_user_llm_config(user.api_key, user.api_base)
 
         # 注册流式回调：每收到 token 就通过 SSE 推送给前端
         def stream_callback(token: str, ag_key: str):

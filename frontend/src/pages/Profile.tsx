@@ -44,6 +44,12 @@ export default function Profile() {
   const [pwdMsg, setPwdMsg] = useState('');
   const [pwdError, setPwdError] = useState('');
 
+  const [apiKey, setApiKey] = useState('');
+  const [apiBase, setApiBase] = useState('https://api.deepseek.com');
+  const [apiKeyMasked, setApiKeyMasked] = useState('');
+  const [apiMsg, setApiMsg] = useState('');
+  const [apiError, setApiError] = useState('');
+
   useEffect(() => {
     api.get('/auth/me').then((res) => {
       const u: UserInfo = res.data;
@@ -55,6 +61,11 @@ export default function Profile() {
       const papers: PaperItem[] = res.data;
       setRecentPapers(papers.slice(0, 5));
     }).catch(() => {});
+
+    api.get('/user/api-key').then((res) => {
+      setApiKeyMasked(res.data.api_key || '');
+      setApiBase(res.data.api_base || 'https://api.deepseek.com');
+    }).catch(() => {});
   }, []);
 
   const handleUpdateProfile = async () => {
@@ -65,6 +76,23 @@ export default function Profile() {
       setProfileMsg('个人信息更新成功');
     } catch (err: unknown) {
       setProfileError(getErrorMessage(err));
+    }
+  };
+
+  const handleSaveApiKey = async () => {
+    setApiMsg('');
+    setApiError('');
+    if (!apiKey.trim()) {
+      setApiError('API Key 不能为空');
+      return;
+    }
+    try {
+      const res = await api.put('/user/api-key', { api_key: apiKey.trim(), api_base: apiBase.trim() });
+      setApiKeyMasked(res.data.api_key || '已设置');
+      setApiKey('');
+      setApiMsg('API Key 保存成功');
+    } catch (err: unknown) {
+      setApiError(getErrorMessage(err));
     }
   };
 
@@ -197,6 +225,57 @@ export default function Profile() {
             修改密码
           </button>
         </form>
+
+        {/* API Key */}
+        <div style={{ flex: 1, minWidth: 300, background: '#fff', borderRadius: 8, padding: 24, boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
+          <h2 style={{ fontSize: 18, color: '#0F172A', marginBottom: 20, fontWeight: 600 }}>DeepSeek API Key</h2>
+          {apiMsg && <p style={{ color: '#22C55E', marginBottom: 12, fontSize: 14 }}>{apiMsg}</p>}
+          {apiError && <p style={{ color: '#EF4444', marginBottom: 12, fontSize: 14 }}>{apiError}</p>}
+
+          {apiKeyMasked && (
+            <div style={{
+              padding: '8px 12px', marginBottom: 16, background: '#F0FDF4',
+              borderRadius: 6, fontSize: 13, color: '#166534', fontFamily: 'monospace',
+            }}>
+              当前 Key：{apiKeyMasked}
+            </div>
+          )}
+
+          <label style={{ display: 'block', fontSize: 14, color: '#475569', marginBottom: 6 }}>
+            API Key {!apiKeyMasked && <span style={{ color: '#EF4444' }}>*未设置，将使用系统默认 Key</span>}
+          </label>
+          <input
+            type="password" autoComplete="off"
+            value={apiKey}
+            onChange={(e) => setApiKey(e.target.value)}
+            placeholder="sk-..."
+            style={{
+              width: '100%', padding: 10, marginBottom: 12, border: '1px solid #E2E8F0',
+              borderRadius: 6, boxSizing: 'border-box', fontSize: 14, fontFamily: 'monospace',
+            }}
+          />
+
+          <label style={{ display: 'block', fontSize: 14, color: '#475569', marginBottom: 6 }}>API Base URL</label>
+          <input
+            value={apiBase}
+            onChange={(e) => setApiBase(e.target.value)}
+            placeholder="https://api.deepseek.com"
+            style={{
+              width: '100%', padding: 10, marginBottom: 16, border: '1px solid #E2E8F0',
+              borderRadius: 6, boxSizing: 'border-box', fontSize: 14,
+            }}
+          />
+
+          <button
+            onClick={handleSaveApiKey}
+            style={{
+              padding: '10px 24px', background: '#2563EB', color: '#fff',
+              border: 'none', borderRadius: 6, cursor: 'pointer', fontSize: 14, fontWeight: 600,
+            }}
+          >
+            保存 API Key
+          </button>
+        </div>
       </div>
 
       {/* Recent papers */}
