@@ -73,6 +73,18 @@ export default function PaperList() {
     );
   };
 
+  const handleDelete = async (paperId: number, e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (!confirm('确定要删除这篇论文吗？此操作不可撤销。')) return;
+    try {
+      await api.delete(`/papers/${paperId}`);
+      fetchPapers();
+    } catch {
+      alert('删除失败');
+    }
+  };
+
   const handleCreate = async () => {
     setMsg('');
     setError('');
@@ -205,12 +217,26 @@ export default function PaperList() {
                     {new Date(p.created_at).toLocaleDateString('zh-CN')}
                   </div>
                 </div>
-                <span style={{
-                  fontSize: 12, padding: '3px 12px', borderRadius: 12,
-                  background: st.bg, color: st.color, fontWeight: 600, whiteSpace: 'nowrap',
-                }}>
-                  {st.label}
-                </span>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                  <span style={{
+                    fontSize: 12, padding: '3px 12px', borderRadius: 12,
+                    background: st.bg, color: st.color, fontWeight: 600, whiteSpace: 'nowrap',
+                  }}>
+                    {st.label}
+                  </span>
+                  <button
+                    onClick={(e) => handleDelete(p.id, e)}
+                    style={{
+                      padding: '4px 12px', background: 'transparent', color: '#94A3B8',
+                      border: '1px solid #E2E8F0', borderRadius: 4, cursor: 'pointer',
+                      fontSize: 12, whiteSpace: 'nowrap',
+                    }}
+                    onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = '#EF4444'; (e.currentTarget as HTMLElement).style.borderColor = '#FECACA'; }}
+                    onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = '#94A3B8'; (e.currentTarget as HTMLElement).style.borderColor = '#E2E8F0'; }}
+                  >
+                    删除
+                  </button>
+                </div>
               </Link>
             );
           })}
