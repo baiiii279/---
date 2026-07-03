@@ -1,12 +1,18 @@
 import { useState, useEffect, useRef } from 'react';
 
-interface SSEState {
-  status: 'connecting' | 'connected' | 'error';
-  events: unknown[];
+interface SSEOptions {
+  onAgentStart?: (agent: string) => void;
+  onAgentComplete?: (agent: string, output: string) => void;
+  onAgentError?: (agent: string, error: string) => void;
+  onPipelineComplete?: () => void;
 }
 
-export default function useSSE(url: string): SSEState {
-  const [state, setState] = useState<SSEState>({ status: 'connecting', events: [] });
+interface SSEState {
+  status: 'connecting' | 'connected' | 'error';
+}
+
+export default function useSSE(url: string, options?: SSEOptions): SSEState {
+  const [state, setState] = useState<SSEState>({ status: 'connecting' });
   const eventSourceRef = useRef<EventSource | null>(null);
   const reconnectTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -16,27 +22,36 @@ export default function useSSE(url: string): SSEState {
         eventSourceRef.current.close();
       }
 
-      setState(prev => ({ ...prev, status: 'connecting' }));
+      setState({ status: 'connecting' });
 
       const es = new EventSource(url);
       eventSourceRef.current = es;
 
       es.onopen = () => {
-        setState(prev => ({ ...prev, status: 'connected' }));
+        setState({ status: 'connected' });
       };
 
-      es.onmessage = (event) => {
-        let parsed: unknown;
-        try {
-          parsed = JSON.parse(event.data);
-        } catch {
-          parsed = { data: event.data };
-        }
-        setState(prev => ({ ...prev, events: [...prev.events, parsed] }));
-      };
+      es.addEventListener('agent_start', (event) => {
+        const data = JSON.parse(event.data);
+        options?.onAgentStart?.(data.agent);
+      });
+
+      es.addEventListener('agent_complete', (event) => {
+        const data = JSON.parse(event.data);
+        options?.onAgentComplete?.(data.agent, data.output);
+      });
+
+      es.addEventListener('agent_error', (event) => {
+        const data = JSON.parse(event.data);
+        options?.onAgentError?.(data.agent, data.error);
+      });
+
+      es.addEventListener('pipeline_complete', () => {
+        options?.onPipelineComplete?.();
+      });
 
       es.onerror = () => {
-        setState(prev => ({ ...prev, status: 'error' }));
+        setState({ status: 'error' });
         es.close();
         reconnectTimerRef.current = setTimeout(connect, 3000);
       };
