@@ -118,6 +118,12 @@ def run_agent(paper_id: int, agent_type: str, current_user: User = Depends(get_c
         # 流式结束
         sse_manager.emit(paper_id, "agent_stream_end", {"agent": agent_key})
 
+        # 保存 Agent 输出到 paper
+        if agent_key == "outline":
+            paper.outline = result
+        elif agent_key in ("write", "polish"):
+            paper.content = result
+
         paper.status = _next_status(agent_key)
         db.commit()
 
