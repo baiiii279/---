@@ -73,11 +73,12 @@ def _md_to_docx(md_text: str, title: str) -> io.BytesIO:
     """将 Markdown 文本转换为 Word 文档"""
     doc = Document()
 
-    # 设置默认字体
+    # 设置默认字体（全黑）
     style = doc.styles['Normal']
     font = style.font
     font.name = '宋体'
     font.size = Pt(12)  # 小四
+    font.color.rgb = BLACK
     style.element.rPr.rFonts.set(qn('w:eastAsia'), '宋体')
 
     # 设置页面边距
@@ -197,11 +198,15 @@ def _md_to_docx(md_text: str, title: str) -> io.BytesIO:
     return buf
 
 
+BLACK = RGBColor(0, 0, 0)
+
+
 def _set_run_font(runs, font_name: str, font_size: Pt):
-    """设置 run 的字体"""
+    """设置 run 的字体（全黑）"""
     for run in runs:
         run.font.name = font_name
         run.font.size = font_size
+        run.font.color.rgb = BLACK
         run.element.rPr.rFonts.set(qn('w:eastAsia'), font_name)
 
 
@@ -215,8 +220,7 @@ def _format_paragraph(p):
 
 
 def _add_formatted_text(paragraph, text: str):
-    """解析并添加带格式的文本 (粗体、斜体、上标引用)"""
-    # 处理 **粗体**
+    """解析并添加带格式的文本 (粗体、斜体、上标引用)，全部黑色"""
     parts = re.split(r'(\*\*.*?\*\*)', text)
     for part in parts:
         if part.startswith('**') and part.endswith('**'):
@@ -224,9 +228,9 @@ def _add_formatted_text(paragraph, text: str):
             run.bold = True
             run.font.name = '宋体'
             run.font.size = Pt(12)
+            run.font.color.rgb = BLACK
             run.element.rPr.rFonts.set(qn('w:eastAsia'), '宋体')
         else:
-            # 处理 *斜体*
             sub_parts = re.split(r'(\*.*?\*)', part)
             for sp in sub_parts:
                 if sp.startswith('*') and sp.endswith('*') and not sp.startswith('**'):
@@ -234,19 +238,21 @@ def _add_formatted_text(paragraph, text: str):
                     run.italic = True
                     run.font.name = '宋体'
                     run.font.size = Pt(12)
+                    run.font.color.rgb = BLACK
                     run.element.rPr.rFonts.set(qn('w:eastAsia'), '宋体')
                 else:
-                    # 处理上标引用 [N]
                     ref_parts = re.split(r'(\[\d+(?:,\d+)*\])', sp)
                     for rp in ref_parts:
                         if re.match(r'^\[\d+(?:,\d+)*\]$', rp):
                             run = paragraph.add_run(rp)
                             run.font.superscript = True
                             run.font.size = Pt(9)
+                            run.font.color.rgb = BLACK
                         else:
                             run = paragraph.add_run(rp)
                             run.font.name = '宋体'
                             run.font.size = Pt(12)
+                            run.font.color.rgb = BLACK
                             run.element.rPr.rFonts.set(qn('w:eastAsia'), '宋体')
 
 
@@ -260,8 +266,14 @@ def export_docx(paper_id: int, current_user: User = Depends(get_current_user), d
         raise HTTPException(status_code=400, detail="论文内容为空，请先运行 Agent 生成内容")
 
     content = paper.content
-    # 去掉润色说明头部（polish agent 会加）
-    content = re.sub(r'^好的，.*?(?=# |\*\*)', '', content, count=1, flags=re.DOTALL).strip()
+    # 清理润色 Agent 的输出产物
+    content = re.sub(r'^好的，.*?(?=#{1,3}\s)', '', content.strip(), count=1, flags=re.DOTALL)
+    content = re.sub(r'#+\s*\*{0,2}润色后的论文全文\*{0,2}\s*\n*', '', content)
+    content = re.sub(r'\n---\n\s*#+\s*\*{0,2}修改说明\*{0,2}.*$', '', content, flags=re.DOTALL)
+    content = re.sub(r'\n#+\s+修改说明\s*\n.*$', '', content, flags=re.DOTALL)
+    content = re.sub(r'\n通过这些修改，.*$', '', content, flags=re.DOTALL)
+    content = re.sub(r'\n{3,}', '\n\n', content)
+    content = content.strip()
     if not content:
         content = paper.content
 
