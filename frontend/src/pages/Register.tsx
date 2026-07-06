@@ -29,6 +29,7 @@ export default function Register() {
       const res = await api.post('/auth/register', body);
       localStorage.setItem('token', res.data.token);
       localStorage.setItem('username', res.data.username || username);
+      localStorage.setItem('role', res.data.role || 'user');
       navigate('/');
     } catch (err: unknown) {
       const detail =

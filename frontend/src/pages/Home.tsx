@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const features = [
   { icon: '📚', title: '文献解析', desc: '上传 PDF/Word/TXT，AI 自动提取并分析文献内容' },
@@ -10,6 +10,16 @@ const features = [
 ];
 
 export default function Home() {
+  const navigate = useNavigate();
+  const username = localStorage.getItem('username');
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('username');
+    localStorage.removeItem('role');
+    navigate('/login');
+  };
+
   return (
     <div>
       {/* Hero */}
@@ -17,7 +27,31 @@ export default function Home() {
         textAlign: 'center', paddingTop: 48, paddingBottom: 64,
         background: 'linear-gradient(180deg, #EEF2FF 0%, #F8FAFC 100%)',
         borderRadius: 16, marginBottom: 48,
+        position: 'relative',
       }}>
+        {username && (
+          <div style={{
+            position: 'absolute', top: 16, right: 20,
+            display: 'flex', alignItems: 'center', gap: 12,
+          }}>
+            <span style={{ fontSize: 13, color: '#64748B' }}>
+              {localStorage.getItem('role') === 'admin' && (
+                <span style={{
+                  background: '#FCD34D', color: '#0F172A', fontSize: 11,
+                  padding: '2px 8px', borderRadius: 10, fontWeight: 700, marginRight: 6,
+                }}>管理员</span>
+              )}
+              {username}
+            </span>
+            <button onClick={handleLogout} style={{
+              background: '#fff', color: '#64748B',
+              border: '1px solid #E2E8F0', borderRadius: 6,
+              padding: '6px 14px', cursor: 'pointer', fontSize: 13,
+            }}>
+              退出登录
+            </button>
+          </div>
+        )}
         <h1 style={{
           fontSize: 44, fontFamily: 'serif', color: '#0F172A', margin: '0 0 12px',
           letterSpacing: -1,

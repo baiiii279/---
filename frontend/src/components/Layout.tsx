@@ -4,10 +4,13 @@ import { useState, useEffect } from 'react';
 export default function Layout() {
   const navigate = useNavigate();
   const [username, setUsername] = useState(localStorage.getItem('username'));
+  const [role, setRole] = useState(localStorage.getItem('role'));
 
-  // Listen for storage changes (login/logout in other tabs)
   useEffect(() => {
-    const check = () => setUsername(localStorage.getItem('username'));
+    const check = () => {
+      setUsername(localStorage.getItem('username'));
+      setRole(localStorage.getItem('role'));
+    };
     window.addEventListener('storage', check);
     return () => window.removeEventListener('storage', check);
   }, []);
@@ -15,9 +18,12 @@ export default function Layout() {
   const handleLogout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('username');
+    localStorage.removeItem('role');
     setUsername(null);
     navigate('/login');
   };
+
+  const isAdmin = role === 'admin';
 
   return (
     <div style={{ minHeight: '100vh', background: '#F8FAFC' }}>
@@ -39,10 +45,29 @@ export default function Layout() {
         <Link to="/references" style={navLinkStyle}>文献库</Link>
         <Link to="/profile" style={navLinkStyle}>个人中心</Link>
 
+        {isAdmin && (
+          <Link to="/admin" style={{
+            color: '#FCD34D', textDecoration: 'none',
+            padding: '6px 12px', borderRadius: 6, fontSize: 14, fontWeight: 600,
+            whiteSpace: 'nowrap',
+          }}>
+            管理后台
+          </Link>
+        )}
+
         <div style={{ flex: 1 }} />
 
         {username && (
           <>
+            {isAdmin && (
+              <span style={{
+                background: '#FCD34D', color: '#0F172A', fontSize: 11,
+                padding: '2px 8px', borderRadius: 10, fontWeight: 700,
+                marginRight: 8,
+              }}>
+                管理员
+              </span>
+            )}
             <span style={{ color: '#94A3B8', fontSize: 13, whiteSpace: 'nowrap' }}>{username}</span>
             <button onClick={handleLogout} style={{
               background: 'rgba(255,255,255,0.1)', color: '#CBD5E1',

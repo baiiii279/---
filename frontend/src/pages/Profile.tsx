@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import api from '../services/api';
 
 interface UserInfo {
@@ -33,6 +33,7 @@ function getErrorMessage(err: unknown): string {
 }
 
 export default function Profile() {
+  const navigate = useNavigate();
   const [user, setUser] = useState<UserInfo | null>(null);
   const [recentPapers, setRecentPapers] = useState<PaperItem[]>([]);
   const [email, setEmail] = useState('');
@@ -113,6 +114,13 @@ export default function Profile() {
     }
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('username');
+    localStorage.removeItem('role');
+    navigate('/login');
+  };
+
   if (!user) {
     return <div style={{ textAlign: 'center', padding: 48, color: '#64748B' }}>加载中...</div>;
   }
@@ -153,16 +161,26 @@ export default function Profile() {
             <span style={{ color: '#0F172A' }}>{new Date(user.created_at).toLocaleDateString('zh-CN')}</span>
           </div>
 
-          <Link
-            to="/references"
-            style={{
-              display: 'inline-block', marginTop: 16, padding: '10px 24px',
-              background: '#2563EB', color: '#fff', textDecoration: 'none',
-              borderRadius: 6, fontSize: 14, fontWeight: 600,
-            }}
-          >
-            我的文献库
-          </Link>
+          <div style={{ display: 'flex', gap: 10, marginTop: 16 }}>
+            <Link
+              to="/references"
+              style={{
+                padding: '10px 24px', background: '#2563EB', color: '#fff', textDecoration: 'none',
+                borderRadius: 6, fontSize: 14, fontWeight: 600,
+              }}
+            >
+              我的文献库
+            </Link>
+            <button
+              onClick={handleLogout}
+              style={{
+                padding: '10px 24px', background: '#F1F5F9', color: '#64748B',
+                border: '1px solid #E2E8F0', borderRadius: 6, cursor: 'pointer', fontSize: 14,
+              }}
+            >
+              退出登录
+            </button>
+          </div>
         </div>
 
         {/* Edit profile */}
