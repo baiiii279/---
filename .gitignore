@@ -3,3 +3,12 @@ __pycache__/
 *.pyc
 .env
 .superpowers/
+
+# 文档和压缩文件
+*.doc
+*.docx
+*.zip
+*.rar
+
+# 实践周材料
+24计算机4班实践周材料/
