@@ -10,6 +10,8 @@ from docx.oxml.ns import qn
 from app.core.database import get_db
 from app.models.paper import Paper
 from app.models.reference import PaperReference
+from app.models.task import Task
+from app.models.agent_log import AgentLog
 from app.models.user import User
 from app.schemas.paper import CreatePaperRequest, PaperResponse, UpdatePaperRequest
 from app.api.auth import get_current_user
@@ -64,6 +66,13 @@ def delete_paper(paper_id: int, current_user: User = Depends(get_current_user), 
     paper = db.query(Paper).filter(Paper.id == paper_id, Paper.user_id == current_user.id).first()
     if not paper:
         raise HTTPException(status_code=404, detail="论文不存在")
+    # 先删除关联的任务和日志
+    task_ids = [t.id for t in db.query(Task).filter(Task.paper_id == paper_id).all()]
+    if task_ids:
+        db.query(AgentLog).filter(AgentLog.task_id.in_(task_ids)).delete(synchronize_session=False)
+        db.query(Task).filter(Task.paper_id == paper_id).delete(synchronize_session=False)
+    # 再删除论文关联的文献引用和论文本身
+    db.query(PaperReference).filter(PaperReference.paper_id == paper_id).delete()
     db.delete(paper)
     db.commit()
     return {"message": "ok"}

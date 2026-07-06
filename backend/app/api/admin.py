@@ -91,6 +91,12 @@ def admin_delete_paper(
     paper = db.query(Paper).get(paper_id)
     if not paper:
         raise HTTPException(status_code=404, detail="论文不存在")
+    # 先删除关联的任务和日志
+    task_ids = [t.id for t in db.query(Task).filter(Task.paper_id == paper_id).all()]
+    if task_ids:
+        db.query(AgentLog).filter(AgentLog.task_id.in_(task_ids)).delete(synchronize_session=False)
+        db.query(Task).filter(Task.paper_id == paper_id).delete(synchronize_session=False)
+    # 再删除论文
     db.delete(paper)
     db.commit()
     return {"message": "ok"}
