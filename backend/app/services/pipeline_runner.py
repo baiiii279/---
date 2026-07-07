@@ -15,6 +15,7 @@ orchestrator = Orchestrator()
 _NEXT_STATUS = {
     "parse": "parsing", "outline": "outlining", "write": "writing",
     "polish": "polishing", "cite_check": "checking",
+    "format": "complete",
 }
 
 
@@ -77,7 +78,7 @@ async def run_single_agent(paper_id: int, agent_key: str):
 
         if agent_key == "outline":
             paper.outline = result
-        elif agent_key in ("write", "polish"):
+        elif agent_key in ("write", "polish", "format"):
             paper.content = result
         paper.status = _NEXT_STATUS.get(agent_key, "draft")
         db.commit()

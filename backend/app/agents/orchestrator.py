@@ -4,6 +4,7 @@ from app.agents.outline_agent import OutlineAgent
 from app.agents.write_agent import WriteAgent
 from app.agents.polish_agent import PolishAgent
 from app.agents.cite_check_agent import CiteCheckAgent
+from app.agents.format_agent import FormatAgent
 from sqlalchemy.orm import Session
 from app.models.task import Task
 from app.models.agent_log import AgentLog
@@ -18,6 +19,7 @@ class Orchestrator:
             "write": WriteAgent(),
             "polish": PolishAgent(),
             "cite_check": CiteCheckAgent(),
+            "format": FormatAgent(),
         }
 
     def create_task(self, db: Session, paper_id: int, agent_type: str) -> Task:
