@@ -98,12 +98,30 @@ def _md_to_docx(md_text: str, title: str) -> io.BytesIO:
         section.right_margin = Cm(3.18)
 
     lines = md_text.split('\n')
+    _current_format = None
     i = 0
     while i < len(lines):
         line = lines[i]
 
         # 跳过空行
         if not line.strip():
+            i += 1
+            continue
+
+        # 识别排版指令标记 (来自 FormatAgent)
+        format_cmd_match = re.match(r'<!-- format:\s*(\S+)', line)
+        if format_cmd_match:
+            cmd = format_cmd_match.group(1)
+            if cmd == 'page-break':
+                # 分页符
+                run = doc.add_paragraph().add_run()
+                run._element.makeelement(qn('w:br'), {qn('w:type'): 'page'})
+            elif cmd == 'body-text':
+                # 正文模式（默认小四宋体）
+                _current_format = 'body'
+            elif cmd == 'ref-list':
+                # 参考文献列表（缩小字号为五号）
+                _current_format = 'ref'
             i += 1
             continue
 
@@ -186,6 +204,9 @@ def _md_to_docx(md_text: str, title: str) -> io.BytesIO:
             text = re.sub(r'^[\*\-\+]\s+', '', line.strip())
             p = doc.add_paragraph(text, style='List Bullet')
             _format_paragraph(p)
+            if _current_format == 'ref':
+                for run in p.runs:
+                    run.font.size = Pt(10)
             i += 1
             continue
 
@@ -194,6 +215,9 @@ def _md_to_docx(md_text: str, title: str) -> io.BytesIO:
             text = re.sub(r'^\d+[\.\)]\s+', '', line.strip())
             p = doc.add_paragraph(text, style='List Number')
             _format_paragraph(p)
+            if _current_format == 'ref':
+                for run in p.runs:
+                    run.font.size = Pt(10)
             i += 1
             continue
 
@@ -201,6 +225,9 @@ def _md_to_docx(md_text: str, title: str) -> io.BytesIO:
         p = doc.add_paragraph()
         _add_formatted_text(p, line)
         _format_paragraph(p)
+        if _current_format == 'ref':
+            for run in p.runs:
+                run.font.size = Pt(10)
         i += 1
 
     buf = io.BytesIO()
