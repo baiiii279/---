@@ -2,11 +2,12 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.core.config import settings
 from app.core.database import engine, Base
-from app.models import user, paper, reference, task, agent_log
+from app.models import user, paper, reference, task, agent_log, format_template
 from app.api import auth, user as user_router
 from app.api import references
 from app.api import papers
 from app.api import agent, admin
+from app.api import format_templates
 
 from app.core.security import hash_password
 
@@ -67,6 +68,7 @@ app.include_router(references.router)
 app.include_router(papers.router)
 app.include_router(agent.router)
 app.include_router(admin.router)
+app.include_router(format_templates.router)
 
 
 @app.on_event("startup")
