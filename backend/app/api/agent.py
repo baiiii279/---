@@ -73,12 +73,17 @@ def _build_context(paper: Paper, db: Session, template_id: int = None) -> Shared
 
 
 @router.post("/start")
-def run_all(paper_id: int, current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
+def run_all(
+    paper_id: int,
+    template_id: int = Query(None),
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
     """一键全流程：依次执行所有 Agent"""
     results = {}
     for agent_key in ["parse", "outline", "write", "polish", "cite_check", "format"]:
         paper = _get_paper(paper_id, current_user, db)
-        context = _build_context(paper, db)
+        context = _build_context(paper, db, template_id)
         task = orchestrator.create_task(db, paper.id, agent_key)
 
         if agent_key == "parse" and not context.references:
@@ -157,7 +162,7 @@ async def run_format_async(
     paper = _get_paper(paper_id, current_user, db)
     paper.status = "formatting"
     db.commit()
-    background_tasks.add_task(run_single_agent, paper_id, "format")
+    background_tasks.add_task(run_single_agent, paper_id, "format", template_id)
     return {"run_id": paper_id, "template_id": template_id, "status": "accepted"}
 
 

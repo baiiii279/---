@@ -6,6 +6,7 @@ from app.core.database import get_db
 from app.models.paper import Paper
 from app.models.reference import UserReference, PaperReference
 from app.models.user import User
+from app.models.format_template import FormatTemplate
 from app.agents.orchestrator import Orchestrator, SharedContext
 from app.agents.base import register_stream_callback, unregister_stream_callback
 from app.services.sse_manager import sse_manager
@@ -19,7 +20,7 @@ _NEXT_STATUS = {
 }
 
 
-async def run_single_agent(paper_id: int, agent_key: str):
+async def run_single_agent(paper_id: int, agent_key: str, template_id: int = None):
     db: Session = next(get_db())
     try:
         paper = db.query(Paper).filter(Paper.id == paper_id).first()
@@ -40,6 +41,15 @@ async def run_single_agent(paper_id: int, agent_key: str):
             ref = db.query(UserReference).get(link.reference_id)
             if ref:
                 refs.append({"title": ref.title, "abstract": ref.abstract, "authors": ref.authors})
+        format_rules = ""
+        if template_id:
+            tmpl = db.query(FormatTemplate).get(template_id)
+            if tmpl:
+                format_rules = tmpl.rules
+        if not format_rules:
+            tmpl = db.query(FormatTemplate).filter(FormatTemplate.is_default == True).first()
+            if tmpl:
+                format_rules = tmpl.rules
         context = SharedContext(
             paper_id=paper.id,
             topic=paper.topic,
@@ -47,6 +57,7 @@ async def run_single_agent(paper_id: int, agent_key: str):
             references=refs,
             outline=json.loads(paper.outline) if paper.outline else None,
             content=paper.content,
+            format_rules=format_rules,
         )
 
         task = orchestrator.create_task(db, paper.id, agent_key)
