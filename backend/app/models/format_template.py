@@ -6,7 +6,7 @@ class FormatTemplate(Base):
     __tablename__ = "format_templates"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=True)
     name = Column(String(100), nullable=False)
     rules = Column(Text, nullable=False)
     is_default = Column(Boolean, default=False)

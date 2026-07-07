@@ -45,7 +45,7 @@ def _seed_default_template():
         if existing:
             return
         db.add(FormatTemplate(
-            user_id=0, name="嘉庚学院标准",
+            user_id=None, name="嘉庚学院标准",
             rules=get_default_rules(),
             is_default=True,
         ))

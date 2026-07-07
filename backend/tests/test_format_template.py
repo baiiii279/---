@@ -32,7 +32,8 @@ class TestFormatTemplateModel:
 
         assert "user_id" in columns
         assert columns["user_id"]["type"].__class__.__name__ == "INTEGER"
-        assert not columns["user_id"].get("nullable", True)
+        # user_id is nullable to support system default templates with user_id=None
+        assert columns["user_id"].get("nullable", True) is True
 
         assert "name" in columns
         assert columns["name"]["type"].__class__.__name__ in ("VARCHAR", "VARCHAR2")

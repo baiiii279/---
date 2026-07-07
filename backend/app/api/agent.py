@@ -153,8 +153,8 @@ def run_format(
 @router.post("/format/run", status_code=202)
 async def run_format_async(
     paper_id: int,
-    template_id: int = Query(None),
     background_tasks: BackgroundTasks,
+    template_id: int = Query(None),
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db),
 ):
