@@ -107,6 +107,7 @@ class SharedContext:
     polished_content: Optional[str] = None
     cite_check_report: Optional[str] = None
     feedback_history: list[dict] = field(default_factory=list)
+    format_rules: str = ""
 
 
 class BaseAgent:

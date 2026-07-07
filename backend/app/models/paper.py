@@ -10,7 +10,7 @@ class Paper(Base):
     title = Column(String(200), nullable=True)
     topic = Column(String(500), nullable=False)
     template = Column(Enum("course", "journal"), nullable=False, default="course")
-    status = Column(Enum("draft", "parsing", "outlining", "writing", "polishing", "checking", "complete"),
+    status = Column(Enum("draft", "parsing", "outlining", "writing", "polishing", "checking", "formatting", "complete"),
                     nullable=False, default="draft")
     outline = Column(Text, nullable=True)
     content = Column(Text, nullable=True)
