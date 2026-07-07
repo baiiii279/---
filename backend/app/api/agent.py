@@ -9,7 +9,7 @@ from app.schemas.task import FeedbackRequest, TaskResponse
 from app.api.auth import get_current_user
 from app.core.security import decode_access_token
 from app.agents.orchestrator import Orchestrator, SharedContext
-from app.agents.format_agent import FormatAgent
+
 from app.models.format_template import FormatTemplate
 from app.services.pipeline_runner import run_single_agent
 from app.services.sse_manager import sse_manager
@@ -118,7 +118,6 @@ def run_format(
     db.commit()
 
     context = _build_context(paper, db, template_id)
-    agent = FormatAgent()
 
     _inject_user_api_key("format", current_user)
 
@@ -129,7 +128,7 @@ def run_format(
     register_stream_callback(paper_id, _sse_stream)
 
     try:
-        result = agent.run(context, format_rules=context.format_rules)
+        result = orchestrator.agents["format"].run(context, format_rules=context.format_rules)
 
         sse_manager.emit(paper_id, "agent_stream_end", {"agent": "format"})
 

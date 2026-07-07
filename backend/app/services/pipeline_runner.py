@@ -1,4 +1,5 @@
 import json
+import re
 import asyncio
 from datetime import datetime, timezone
 from sqlalchemy.orm import Session
@@ -18,6 +19,20 @@ _NEXT_STATUS = {
     "polish": "polishing", "cite_check": "checking",
     "format": "complete",
 }
+
+
+def _parse_outline(text: str):
+    """Parse outline JSON, stripping possible markdown code block fences."""
+    text = text.strip()
+    text = re.sub(r'^```(?:json)?\s*\n?', '', text)
+    text = re.sub(r'\n?```\s*$', '', text)
+    text = text.strip()
+    if not text:
+        return None
+    try:
+        return json.loads(text)
+    except json.JSONDecodeError:
+        return None
 
 
 async def run_single_agent(paper_id: int, agent_key: str, template_id: int = None):
@@ -55,7 +70,7 @@ async def run_single_agent(paper_id: int, agent_key: str, template_id: int = Non
             topic=paper.topic,
             template=paper.template,
             references=refs,
-            outline=json.loads(paper.outline) if paper.outline else None,
+            outline=_parse_outline(paper.outline) if paper.outline else None,
             content=paper.content,
             format_rules=format_rules,
         )

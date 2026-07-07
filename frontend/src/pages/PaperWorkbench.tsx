@@ -154,8 +154,9 @@ export default function PaperWorkbench() {
     ));
     try {
       // Format agent uses a dedicated endpoint that accepts template_id
+      const templateParam = formatTemplateId ? `?template_id=${formatTemplateId}` : '';
       const url = agentKey === 'format'
-        ? `/papers/${id}/agent/format?template_id=${formatTemplateId}`
+        ? `/papers/${id}/agent/format${templateParam}`
         : `/papers/${id}/agent/${agentKey.replace('_', '-')}`;
       const res = await api.post(url);
       // 同步接口直接返回结果，立即更新 UI
