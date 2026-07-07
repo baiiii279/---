@@ -33,6 +33,26 @@ def _seed_admin():
     finally:
         db.close()
 
+def _seed_default_template():
+    """创建默认格式模板"""
+    from app.core.database import SessionLocal
+    from app.models.format_template import FormatTemplate
+    from app.services.template_parser import get_default_rules
+    db = SessionLocal()
+    try:
+        existing = db.query(FormatTemplate).filter(FormatTemplate.is_default == True).first()
+        if existing:
+            return
+        db.add(FormatTemplate(
+            user_id=0, name="嘉庚学院标准",
+            rules=get_default_rules(),
+            is_default=True,
+        ))
+        db.commit()
+        print("[init] 默认格式模板已创建: 嘉庚学院标准")
+    finally:
+        db.close()
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=settings.CORS_ORIGINS,
@@ -53,6 +73,7 @@ app.include_router(admin.router)
 def init_db():
     Base.metadata.create_all(bind=engine)
     _seed_admin()
+    _seed_default_template()
 
 
 @app.get("/api/health")
