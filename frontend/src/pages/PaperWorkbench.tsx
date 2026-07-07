@@ -4,6 +4,7 @@ import MDEditor from '@uiw/react-md-editor';
 import api from '../services/api';
 import StreamPanel, { appendToken, clearStream } from '../components/StreamPanel';
 import useSSE from '../hooks/useSSE';
+import FormatTemplateSelector from '../components/FormatTemplateSelector';
 
 interface PaperData {
   id: number; user_id: number; title: string | null; topic: string;
@@ -16,6 +17,7 @@ const AGENTS: { key: string; label: string }[] = [
   { key: 'write', label: '内容撰写' },
   { key: 'polish', label: '润色优化' },
   { key: 'cite_check', label: '引用检查' },
+  { key: 'format', label: '格式排版' },
 ];
 
 const STATUS_MAP: Record<string, { label: string; color: string; bg: string }> = {
@@ -25,13 +27,15 @@ const STATUS_MAP: Record<string, { label: string; color: string; bg: string }> =
   writing: { label: '已撰写', color: '#D97706', bg: '#FFFBEB' },
   polishing: { label: '已润色', color: '#059669', bg: '#ECFDF5' },
   checking: { label: '已检查', color: '#DC2626', bg: '#FEF2F2' },
+  formatting: { label: '排版中', color: '#0891B2', bg: '#ECFEFF' },
   complete: { label: '已完成', color: '#16A34A', bg: '#F0FDF4' },
 };
 
-const STATUS_ORDER = ['draft', 'parsing', 'outlining', 'writing', 'polishing', 'checking', 'complete'];
+const STATUS_ORDER = ['draft', 'parsing', 'outlining', 'writing', 'polishing', 'checking', 'formatting', 'complete'];
 const NEXT_STATUS: Record<string, string> = {
   draft: 'parsing', parsing: 'outlining', outlining: 'writing',
-  writing: 'polishing', polishing: 'checking', checking: 'complete',
+  writing: 'polishing', polishing: 'checking', checking: 'formatting',
+  formatting: 'complete',
 };
 
 type AgentStatus = 'pending' | 'running' | 'success' | 'failed';
@@ -49,6 +53,7 @@ export default function PaperWorkbench() {
   const [streamAgent, setStreamAgent] = useState<string | null>(null);
   const [expandedAgent, setExpandedAgent] = useState<string | null>(null);
   const [errorMsg, setErrorMsg] = useState('');
+  const [formatTemplateId, setFormatTemplateId] = useState<number | null>(null);
 
   const isComplete = paper?.status === 'complete';
   const sseUrl = id ? `/api/papers/${id}/agent/events` : '';
@@ -107,7 +112,7 @@ export default function PaperWorkbench() {
         return updated;
       });
       setRunning(false);
-      if (agent === 'outline' || agent === 'write' || agent === 'polish') {
+      if (agent === 'outline' || agent === 'write' || agent === 'polish' || agent === 'format') {
         setMdValue(output);
       }
       // 刷新 paper
@@ -148,7 +153,11 @@ export default function PaperWorkbench() {
       a.key === agentKey ? { ...a, status: 'running', error: null } : a
     ));
     try {
-      const res = await api.post(`/papers/${id}/agent/${agentKey.replace('_', '-')}`);
+      // Format agent uses a dedicated endpoint that accepts template_id
+      const url = agentKey === 'format'
+        ? `/papers/${id}/agent/format?template_id=${formatTemplateId}`
+        : `/papers/${id}/agent/${agentKey.replace('_', '-')}`;
+      const res = await api.post(url);
       // 同步接口直接返回结果，立即更新 UI
       const output = res.data.output || '';
       setAgentStates(prev => prev.map(a =>
@@ -157,7 +166,7 @@ export default function PaperWorkbench() {
           : a
       ));
       setExpandedAgent(agentKey);
-      if (agentKey === 'outline' || agentKey === 'write' || agentKey === 'polish') {
+      if (agentKey === 'outline' || agentKey === 'write' || agentKey === 'polish' || agentKey === 'format') {
         setMdValue(output);
       }
       setRunning(false);
@@ -294,6 +303,13 @@ export default function PaperWorkbench() {
           );
         })}
       </div>
+
+      {/* Format template selector — shown before the run button when at format stage */}
+      {currentAgent?.key === 'format' && !running && (
+        <div style={{ marginBottom: 16 }}>
+          <FormatTemplateSelector selectedId={formatTemplateId} onSelect={setFormatTemplateId} />
+        </div>
+      )}
 
       {/* Run button */}
       {!isComplete && currentAgent && (

@@ -25,6 +25,7 @@ const AGENT_LABELS: Record<string, string> = {
   write: '内容撰写',
   polish: '润色优化',
   cite_check: '引用检查',
+  format: '格式排版',
 };
 
 function StatusIcon({ status }: { status: string }) {
