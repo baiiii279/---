@@ -99,6 +99,7 @@ def _md_to_docx(md_text: str, title: str) -> io.BytesIO:
 
     lines = md_text.split('\n')
     _current_format = None
+    _has_content = False
     i = 0
     while i < len(lines):
         line = lines[i]
@@ -113,10 +114,11 @@ def _md_to_docx(md_text: str, title: str) -> io.BytesIO:
         if format_cmd_match:
             cmd = format_cmd_match.group(1)
             if cmd == 'page-break':
-                # 分页符
-                run = doc.add_paragraph().add_run()
-                br = run._element.makeelement(qn('w:br'), {qn('w:type'): 'page'})
-                run._element.append(br)
+                # 分页符（只在已有内容后才插入，避免开头白页）
+                if _has_content:
+                    run = doc.add_paragraph().add_run()
+                    br = run._element.makeelement(qn('w:br'), {qn('w:type'): 'page'})
+                    run._element.append(br)
             elif cmd == 'body-text':
                 # 正文模式（默认小四宋体）
                 _current_format = 'body'
@@ -125,6 +127,9 @@ def _md_to_docx(md_text: str, title: str) -> io.BytesIO:
                 _current_format = 'ref'
             i += 1
             continue
+
+        # 遇到正文内容
+        _has_content = True
 
         # H1 标题（论文题目，居中）
         if line.startswith('# ') and not line.startswith('## '):
@@ -152,9 +157,8 @@ def _md_to_docx(md_text: str, title: str) -> io.BytesIO:
             i += 1
             continue
 
-        # 分隔线
+        # 分隔线 — 跳过，不渲染任何内容
         if line.strip() == '---':
-            doc.add_paragraph('─' * 50)
             i += 1
             continue
 
