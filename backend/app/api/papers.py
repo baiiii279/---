@@ -115,7 +115,8 @@ def _md_to_docx(md_text: str, title: str) -> io.BytesIO:
             if cmd == 'page-break':
                 # 分页符
                 run = doc.add_paragraph().add_run()
-                run._element.makeelement(qn('w:br'), {qn('w:type'): 'page'})
+                br = run._element.makeelement(qn('w:br'), {qn('w:type'): 'page'})
+                run._element.append(br)
             elif cmd == 'body-text':
                 # 正文模式（默认小四宋体）
                 _current_format = 'body'
