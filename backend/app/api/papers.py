@@ -129,6 +129,16 @@ def _md_to_docx(md_text: str, title: str) -> io.BytesIO:
         # 遇到正文内容
         _has_content = True
 
+        # [摘要] 和 [关键词] 特殊处理 — 居中加粗
+        if line.startswith('[摘要]') or line.startswith('[关键词]'):
+            text = line.strip()
+            p = doc.add_paragraph()
+            run = p.add_run(text)
+            p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+            _set_run_font([run], '黑体', Pt(14), bold=True)
+            i += 1
+            continue
+
         # H1 标题（论文题目，居中）
         if line.startswith('# ') and not line.startswith('## '):
             text = line[2:].strip()
