@@ -1,0 +1,1422 @@
+[base.py] litellm.completion streaming interceptor active
+INFO:     Started server process [64744]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8004 (Press CTRL+C to quit)
+[litellm-patch] stream=True detected, registry_keys=[6]
+INFO:     127.0.0.1:58836 - "POST /api/papers/6/agent/polish HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60247 - "GET /api/papers/10/agent/events?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyIiwiZXhwIjoxNzgzNjUxNTExfQ.bUtsGP3di-_RlfOCkzPZ7C5uSfGf8giiBhUMgtYXfPk HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60246 - "GET /api/papers/10 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60255 - "GET /api/papers/10 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52206 - "POST /api/papers/10/agent/polish/run HTTP/1.1" 202 Accepted
+[litellm-patch] stream=True detected, registry_keys=[10]
+INFO:     127.0.0.1:56400 - "GET /api/papers/10 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65040 - "GET /api/papers/10/agent/events?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyIiwiZXhwIjoxNzgzNjUxNTExfQ.bUtsGP3di-_RlfOCkzPZ7C5uSfGf8giiBhUMgtYXfPk HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64924 - "GET /api/papers/10 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65258 - "GET /api/papers/10 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60154 - "POST /api/papers/10/agent/cite-check/run HTTP/1.1" 202 Accepted
+[litellm-patch] stream=True detected, registry_keys=[10]
+INFO:     127.0.0.1:49686 - "GET /api/papers/10 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50086 - "GET /api/papers/10/agent/events?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyIiwiZXhwIjoxNzgzNjUxNTExfQ.bUtsGP3di-_RlfOCkzPZ7C5uSfGf8giiBhUMgtYXfPk HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50082 - "GET /api/papers/10 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49201 - "GET /api/papers/6/agent/events?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzIiwiZXhwIjoxNzgzNjUxNjI3fQ.mR7dp0dGqyJuIUnOf0-UxNfd8c49Gw-9eDYP2IcstG8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49200 - "GET /api/papers/6 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49203 - "GET /api/papers/6 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55296 - "GET /api/papers/10/agent/events?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyIiwiZXhwIjoxNzgzNjUxNTExfQ.bUtsGP3di-_RlfOCkzPZ7C5uSfGf8giiBhUMgtYXfPk HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55294 - "GET /api/papers/10 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55298 - "GET /api/papers/10 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52866 - "GET /api/papers/10 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52868 - "GET /api/papers/10/agent/events?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyIiwiZXhwIjoxNzgzNjUxNTExfQ.bUtsGP3di-_RlfOCkzPZ7C5uSfGf8giiBhUMgtYXfPk HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52872 - "GET /api/papers/10 HTTP/1.1" 200 OK
+[litellm-patch] stream=True detected, registry_keys=[6]
+INFO:     127.0.0.1:49680 - "POST /api/papers/6/agent/cite-check HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58028 - "GET /api/papers/6 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62077 - "GET /api/papers/6/agent/events?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzIiwiZXhwIjoxNzgzNjUxNjI3fQ.mR7dp0dGqyJuIUnOf0-UxNfd8c49Gw-9eDYP2IcstG8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62076 - "GET /api/papers/6 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62080 - "GET /api/papers/6 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61710 - "GET /api/papers/6/agent/events?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzIiwiZXhwIjoxNzgzNjUxNjI3fQ.mR7dp0dGqyJuIUnOf0-UxNfd8c49Gw-9eDYP2IcstG8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61711 - "GET /api/papers/6 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61715 - "GET /api/papers/6 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55810 - "GET /api/papers/10/agent/events?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyIiwiZXhwIjoxNzgzNjUxNTExfQ.bUtsGP3di-_RlfOCkzPZ7C5uSfGf8giiBhUMgtYXfPk HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55828 - "GET /api/papers/10 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55847 - "GET /api/papers/10 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52224 - "GET /api/papers/10/agent/events?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyIiwiZXhwIjoxNzgzNjUxNTExfQ.bUtsGP3di-_RlfOCkzPZ7C5uSfGf8giiBhUMgtYXfPk HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65186 - "GET /api/papers/6/agent/events?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzIiwiZXhwIjoxNzgzNjUxNjI3fQ.mR7dp0dGqyJuIUnOf0-UxNfd8c49Gw-9eDYP2IcstG8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52497 - "GET /api/papers/6/agent/events?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzIiwiZXhwIjoxNzgzNjUxNjI3fQ.mR7dp0dGqyJuIUnOf0-UxNfd8c49Gw-9eDYP2IcstG8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52498 - "GET /api/papers/6 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52500 - "GET /api/papers/6 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65402 - "GET /api/papers/10/agent/events?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyIiwiZXhwIjoxNzgzNjUxNTExfQ.bUtsGP3di-_RlfOCkzPZ7C5uSfGf8giiBhUMgtYXfPk HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65401 - "GET /api/papers/10 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65404 - "GET /api/papers/10 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56484 - "GET /api/papers/5 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56491 - "GET /api/papers/5/agent/events?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzIiwiZXhwIjoxNzgzNjUxNjI3fQ.mR7dp0dGqyJuIUnOf0-UxNfd8c49Gw-9eDYP2IcstG8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56495 - "GET /api/papers/5 HTTP/1.1" 200 OK
+[litellm-patch] stream=True detected, registry_keys=[5]
+INFO:     127.0.0.1:60411 - "POST /api/papers/5/agent/parse HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56560 - "GET /api/papers/5 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57584 - "GET /api/papers/10/agent/events?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyIiwiZXhwIjoxNzgzNjUxNTExfQ.bUtsGP3di-_RlfOCkzPZ7C5uSfGf8giiBhUMgtYXfPk HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57582 - "GET /api/papers/10 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57589 - "GET /api/papers/10 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64418 - "GET /api/auth/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64427 - "GET /api/papers HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55026 - "GET /api/auth/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64425 - "GET /api/user/api-key HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55516 - "GET /api/papers HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49220 - "GET /api/user/api-key HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49679 - "GET /api/user/references HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60477 - "GET /api/user/references HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61841 - "GET /api/papers HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61845 - "GET /api/user/references HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59626 - "GET /api/papers HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59628 - "GET /api/user/references HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58607 - "GET /api/user/api-key HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58604 - "GET /api/auth/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58606 - "GET /api/papers HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56191 - "GET /api/auth/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56190 - "GET /api/user/api-key HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65097 - "GET /api/papers HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59446 - "GET /api/user/references HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58593 - "GET /api/user/references HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63166 - "GET /api/papers HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63168 - "GET /api/user/references HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64667 - "GET /api/papers HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64668 - "GET /api/user/references HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51370 - "GET /api/papers/2/agent/events?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyIiwiZXhwIjoxNzgzNjUxNTExfQ.bUtsGP3di-_RlfOCkzPZ7C5uSfGf8giiBhUMgtYXfPk HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51368 - "GET /api/papers/2 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58756 - "GET /api/papers/2 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65285 - "GET /api/papers HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54752 - "GET /api/user/references HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54616 - "GET /api/user/references HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54614 - "GET /api/papers HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56302 - "GET /api/user/references HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54836 - "GET /api/user/references HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62637 - "GET /api/user/references HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62638 - "GET /api/papers HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64615 - "GET /api/user/references HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64618 - "GET /api/papers HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60986 - "GET /api/papers/10/agent/events?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyIiwiZXhwIjoxNzgzNjUxNTExfQ.bUtsGP3di-_RlfOCkzPZ7C5uSfGf8giiBhUMgtYXfPk HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60985 - "GET /api/papers/10 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63502 - "GET /api/papers/10 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53633 - "GET /api/auth/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53637 - "GET /api/user/api-key HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53636 - "GET /api/papers HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52009 - "GET /api/auth/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51528 - "GET /api/user/api-key HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52047 - "GET /api/papers HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60982 - "GET /api/user/references HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58683 - "GET /api/user/references HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63632 - "GET /api/papers HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63635 - "GET /api/user/references HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62314 - "GET /api/papers HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62316 - "GET /api/user/references HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63204 - "GET /api/user/references HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58532 - "GET /api/user/references HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64028 - "GET /api/auth/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64032 - "GET /api/user/api-key HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64031 - "GET /api/papers HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55780 - "GET /api/auth/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59504 - "GET /api/user/api-key HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59506 - "GET /api/papers HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61328 - "GET /api/user/references HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60544 - "GET /api/user/references HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49673 - "GET /api/papers HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58840 - "GET /api/user/references HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53837 - "GET /api/papers HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64875 - "GET /api/user/references HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60389 - "GET /api/papers/10/agent/events?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyIiwiZXhwIjoxNzgzNjUxNTExfQ.bUtsGP3di-_RlfOCkzPZ7C5uSfGf8giiBhUMgtYXfPk HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60387 - "GET /api/papers/10 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49262 - "GET /api/papers/10 HTTP/1.1" 200 OK
+[litellm-patch] stream=True detected, registry_keys=[5]
+INFO:     127.0.0.1:65107 - "POST /api/papers/5/agent/outline HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53937 - "GET /api/papers/5 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50786 - "GET /api/papers/5 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51166 - "POST /api/papers/5/agent/write HTTP/1.1" 500 Internal Server Error
+ERROR:    Exception in ASGI application
+Traceback (most recent call last):
+  File "D:\Python311\Lib\site-packages\uvicorn\protocols\http\httptools_impl.py", line 421, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\uvicorn\middleware\proxy_headers.py", line 63, in __call__
+    return await self.app(scope, receive, send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\fastapi\applications.py", line 1159, in __call__
+    await super().__call__(scope, receive, send)
+  File "D:\Python311\Lib\site-packages\starlette\applications.py", line 90, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "D:\Python311\Lib\site-packages\starlette\middleware\errors.py", line 186, in __call__
+    raise exc
+  File "D:\Python311\Lib\site-packages\starlette\middleware\errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "D:\Python311\Lib\site-packages\starlette\middleware\cors.py", line 96, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "D:\Python311\Lib\site-packages\starlette\middleware\cors.py", line 154, in simple_response
+    await self.app(scope, receive, send)
+  File "D:\Python311\Lib\site-packages\starlette\middleware\exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "D:\Python311\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "D:\Python311\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "D:\Python311\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "D:\Python311\Lib\site-packages\starlette\routing.py", line 660, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "D:\Python311\Lib\site-packages\starlette\routing.py", line 680, in app
+    await route.handle(scope, receive, send)
+  File "D:\Python311\Lib\site-packages\starlette\routing.py", line 276, in handle
+    await self.app(scope, receive, send)
+  File "D:\Python311\Lib\site-packages\fastapi\routing.py", line 134, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "D:\Python311\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "D:\Python311\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "D:\Python311\Lib\site-packages\fastapi\routing.py", line 120, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\fastapi\routing.py", line 674, in app
+    raw_response = await run_endpoint_function(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\fastapi\routing.py", line 330, in run_endpoint_function
+    return await run_in_threadpool(dependant.call, **values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\starlette\concurrency.py", line 32, in run_in_threadpool
+    return await anyio.to_thread.run_sync(func)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\anyio\to_thread.py", line 63, in run_sync
+    return await get_async_backend().run_sync_in_worker_thread(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\anyio\_backends\_asyncio.py", line 2518, in run_sync_in_worker_thread
+    return await future
+           ^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\anyio\_backends\_asyncio.py", line 1002, in run
+    result = context.run(func, *args)
+             ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\baiiii\Desktop\学校任务\实践周项目\backend\app\api\agent.py", line 95, in run_agent
+    context = _build_context(paper, db)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\baiiii\Desktop\学校任务\实践周项目\backend\app\api\agent.py", line 41, in _build_context
+    outline=json.loads(paper.outline) if paper.outline else None,
+            ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\json\__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\json\decoder.py", line 337, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\json\decoder.py", line 355, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+INFO:     127.0.0.1:61059 - "POST /api/papers/5/agent/write HTTP/1.1" 500 Internal Server Error
+ERROR:    Exception in ASGI application
+Traceback (most recent call last):
+  File "D:\Python311\Lib\site-packages\uvicorn\protocols\http\httptools_impl.py", line 421, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\uvicorn\middleware\proxy_headers.py", line 63, in __call__
+    return await self.app(scope, receive, send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\fastapi\applications.py", line 1159, in __call__
+    await super().__call__(scope, receive, send)
+  File "D:\Python311\Lib\site-packages\starlette\applications.py", line 90, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "D:\Python311\Lib\site-packages\starlette\middleware\errors.py", line 186, in __call__
+    raise exc
+  File "D:\Python311\Lib\site-packages\starlette\middleware\errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "D:\Python311\Lib\site-packages\starlette\middleware\cors.py", line 96, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "D:\Python311\Lib\site-packages\starlette\middleware\cors.py", line 154, in simple_response
+    await self.app(scope, receive, send)
+  File "D:\Python311\Lib\site-packages\starlette\middleware\exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "D:\Python311\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "D:\Python311\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "D:\Python311\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "D:\Python311\Lib\site-packages\starlette\routing.py", line 660, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "D:\Python311\Lib\site-packages\starlette\routing.py", line 680, in app
+    await route.handle(scope, receive, send)
+  File "D:\Python311\Lib\site-packages\starlette\routing.py", line 276, in handle
+    await self.app(scope, receive, send)
+  File "D:\Python311\Lib\site-packages\fastapi\routing.py", line 134, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "D:\Python311\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "D:\Python311\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "D:\Python311\Lib\site-packages\fastapi\routing.py", line 120, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\fastapi\routing.py", line 674, in app
+    raw_response = await run_endpoint_function(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\fastapi\routing.py", line 330, in run_endpoint_function
+    return await run_in_threadpool(dependant.call, **values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\starlette\concurrency.py", line 32, in run_in_threadpool
+    return await anyio.to_thread.run_sync(func)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\anyio\to_thread.py", line 63, in run_sync
+    return await get_async_backend().run_sync_in_worker_thread(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\anyio\_backends\_asyncio.py", line 2518, in run_sync_in_worker_thread
+    return await future
+           ^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\anyio\_backends\_asyncio.py", line 1002, in run
+    result = context.run(func, *args)
+             ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\baiiii\Desktop\学校任务\实践周项目\backend\app\api\agent.py", line 95, in run_agent
+    context = _build_context(paper, db)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\baiiii\Desktop\学校任务\实践周项目\backend\app\api\agent.py", line 41, in _build_context
+    outline=json.loads(paper.outline) if paper.outline else None,
+            ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\json\__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\json\decoder.py", line 337, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\json\decoder.py", line 355, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+ERROR:    Exception in ASGI application
+Traceback (most recent call last):
+  File "D:\Python311\Lib\site-packages\pymysql\connections.py", line 834, in _write_bytes
+    self._sock.sendall(data)
+  File "D:\Python311\Lib\ssl.py", line 1273, in sendall
+    v = self.send(byte_view[count:])
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\ssl.py", line 1242, in send
+    return self._sslobj.write(data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+ssl.SSLEOFError: EOF occurred in violation of protocol (_ssl.c:2427)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\Python311\Lib\site-packages\sqlalchemy\engine\base.py", line 1130, in _rollback_impl
+    self.engine.dialect.do_rollback(self.connection)
+  File "D:\Python311\Lib\site-packages\sqlalchemy\engine\default.py", line 712, in do_rollback
+    dbapi_connection.rollback()
+  File "D:\Python311\Lib\site-packages\pymysql\connections.py", line 511, in rollback
+    self._execute_command(COMMAND.COM_QUERY, "ROLLBACK")
+  File "D:\Python311\Lib\site-packages\pymysql\connections.py", line 886, in _execute_command
+    self._write_bytes(packet)
+  File "D:\Python311\Lib\site-packages\pymysql\connections.py", line 837, in _write_bytes
+    raise err.OperationalError(
+pymysql.err.OperationalError: (2006, "MySQL server has gone away (SSLEOFError(8, 'EOF occurred in violation of protocol (_ssl.c:2427)'))")
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\Python311\Lib\site-packages\uvicorn\protocols\http\httptools_impl.py", line 421, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\uvicorn\middleware\proxy_headers.py", line 63, in __call__
+    return await self.app(scope, receive, send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\fastapi\applications.py", line 1159, in __call__
+    await super().__call__(scope, receive, send)
+  File "D:\Python311\Lib\site-packages\starlette\applications.py", line 90, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "D:\Python311\Lib\site-packages\starlette\middleware\errors.py", line 186, in __call__
+    raise exc
+  File "D:\Python311\Lib\site-packages\starlette\middleware\errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "D:\Python311\Lib\site-packages\starlette\middleware\cors.py", line 88, in __call__
+    await self.app(scope, receive, send)
+  File "D:\Python311\Lib\site-packages\starlette\middleware\exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "D:\Python311\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "D:\Python311\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "D:\Python311\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "D:\Python311\Lib\site-packages\starlette\routing.py", line 660, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "D:\Python311\Lib\site-packages\starlette\routing.py", line 680, in app
+    await route.handle(scope, receive, send)
+  File "D:\Python311\Lib\site-packages\starlette\routing.py", line 276, in handle
+    await self.app(scope, receive, send)
+  File "D:\Python311\Lib\site-packages\fastapi\routing.py", line 134, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "D:\Python311\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "D:\Python311\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "D:\Python311\Lib\site-packages\fastapi\routing.py", line 116, in app
+    async with AsyncExitStack() as request_stack:
+  File "D:\Python311\Lib\contextlib.py", line 745, in __aexit__
+    raise exc_details[1]
+  File "D:\Python311\Lib\contextlib.py", line 728, in __aexit__
+    cb_suppress = await cb(*exc_details)
+                  ^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\contextlib.py", line 217, in __aexit__
+    await anext(self.gen)
+  File "D:\Python311\Lib\site-packages\fastapi\concurrency.py", line 39, in contextmanager_in_threadpool
+    await anyio.to_thread.run_sync(
+  File "D:\Python311\Lib\site-packages\anyio\to_thread.py", line 63, in run_sync
+    return await get_async_backend().run_sync_in_worker_thread(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\anyio\_backends\_asyncio.py", line 2518, in run_sync_in_worker_thread
+    return await future
+           ^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\anyio\_backends\_asyncio.py", line 1002, in run
+    result = context.run(func, *args)
+             ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\contextlib.py", line 144, in __exit__
+    next(self.gen)
+  File "C:\Users\baiiii\Desktop\学校任务\实践周项目\backend\app\core\database.py", line 14, in get_db
+    db.close()
+  File "D:\Python311\Lib\site-packages\sqlalchemy\orm\session.py", line 2529, in close
+    self._close_impl(invalidate=False)
+  File "D:\Python311\Lib\site-packages\sqlalchemy\orm\session.py", line 2598, in _close_impl
+    transaction.close(invalidate)
+  File "<string>", line 2, in close
+  File "D:\Python311\Lib\site-packages\sqlalchemy\orm\state_changes.py", line 137, in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\sqlalchemy\orm\session.py", line 1422, in close
+    transaction.close()
+  File "D:\Python311\Lib\site-packages\sqlalchemy\engine\base.py", line 2599, in close
+    self._do_close()
+  File "D:\Python311\Lib\site-packages\sqlalchemy\engine\base.py", line 2737, in _do_close
+    self._close_impl()
+  File "D:\Python311\Lib\site-packages\sqlalchemy\engine\base.py", line 2723, in _close_impl
+    self._connection_rollback_impl()
+  File "D:\Python311\Lib\site-packages\sqlalchemy\engine\base.py", line 2715, in _connection_rollback_impl
+    self.connection._rollback_impl()
+  File "D:\Python311\Lib\site-packages\sqlalchemy\engine\base.py", line 1132, in _rollback_impl
+    self._handle_dbapi_exception(e, None, None, None, None)
+  File "D:\Python311\Lib\site-packages\sqlalchemy\engine\base.py", line 2365, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "D:\Python311\Lib\site-packages\sqlalchemy\engine\base.py", line 1130, in _rollback_impl
+    self.engine.dialect.do_rollback(self.connection)
+  File "D:\Python311\Lib\site-packages\sqlalchemy\engine\default.py", line 712, in do_rollback
+    dbapi_connection.rollback()
+  File "D:\Python311\Lib\site-packages\pymysql\connections.py", line 511, in rollback
+    self._execute_command(COMMAND.COM_QUERY, "ROLLBACK")
+  File "D:\Python311\Lib\site-packages\pymysql\connections.py", line 886, in _execute_command
+    self._write_bytes(packet)
+  File "D:\Python311\Lib\site-packages\pymysql\connections.py", line 837, in _write_bytes
+    raise err.OperationalError(
+sqlalchemy.exc.OperationalError: (pymysql.err.OperationalError) (2006, "MySQL server has gone away (SSLEOFError(8, 'EOF occurred in violation of protocol (_ssl.c:2427)'))")
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+INFO:     127.0.0.1:52726 - "GET /api/papers/10/agent/events?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyIiwiZXhwIjoxNzgzNjUxNTExfQ.bUtsGP3di-_RlfOCkzPZ7C5uSfGf8giiBhUMgtYXfPk HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52725 - "GET /api/papers/10 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52731 - "GET /api/papers/10 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58812 - "GET /api/user/references HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58815 - "GET /api/user/references HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58811 - "GET /api/papers HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49715 - "GET /api/papers HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63553 - "GET /api/auth/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63564 - "GET /api/user/api-key HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63558 - "GET /api/papers HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54023 - "GET /api/user/api-key HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54022 - "GET /api/auth/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63903 - "GET /api/papers HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58897 - "GET /api/user/references HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58895 - "GET /api/papers HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49732 - "GET /api/user/references HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49731 - "GET /api/papers HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60069 - "GET /api/user/references HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53025 - "GET /api/user/references HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63115 - "GET /api/auth/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63118 - "GET /api/user/api-key HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63117 - "GET /api/papers HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56297 - "GET /api/auth/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63258 - "GET /api/user/api-key HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56997 - "GET /api/papers HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65063 - "GET /api/user/references HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65290 - "GET /api/user/references HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64453 - "GET /api/auth/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64456 - "GET /api/user/api-key HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62489 - "GET /api/auth/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64457 - "GET /api/papers HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63550 - "GET /api/user/api-key HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49673 - "GET /api/papers HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57596 - "GET /api/user/api-key HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57594 - "GET /api/auth/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57595 - "GET /api/papers HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57599 - "GET /api/user/api-key HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57600 - "GET /api/auth/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57602 - "GET /api/papers HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50485 - "GET /api/papers HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50487 - "GET /api/user/references HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59169 - "GET /api/user/references HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59168 - "GET /api/papers HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50984 - "GET /api/user/references HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56683 - "GET /api/user/references HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55108 - "GET /api/auth/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55111 - "GET /api/user/api-key HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55110 - "GET /api/papers HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64227 - "GET /api/auth/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55918 - "GET /api/user/api-key HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64860 - "GET /api/papers HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51730 - "GET /api/auth/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51733 - "GET /api/user/api-key HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51732 - "GET /api/papers HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51735 - "GET /api/auth/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51737 - "GET /api/user/api-key HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63510 - "GET /api/papers HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50605 - "GET /api/auth/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50607 - "GET /api/user/api-key HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50606 - "GET /api/papers HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50610 - "GET /api/auth/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50611 - "GET /api/user/api-key HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50613 - "GET /api/papers HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58395 - "GET /api/papers HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58397 - "GET /api/user/references HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50273 - "GET /api/user/references HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50271 - "GET /api/papers HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61294 - "GET /api/papers HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61295 - "GET /api/user/references HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61297 - "GET /api/papers HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61299 - "GET /api/user/references HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63384 - "GET /api/user/references HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51295 - "GET /api/user/references HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50321 - "GET /api/auth/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50323 - "GET /api/user/api-key HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50322 - "GET /api/papers HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51498 - "GET /api/auth/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52954 - "GET /api/user/api-key HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52956 - "GET /api/papers HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51768 - "GET /api/user/references HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51767 - "GET /api/papers HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53619 - "GET /api/user/references HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53621 - "GET /api/papers HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53935 - "GET /api/papers HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53937 - "GET /api/user/references HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53939 - "GET /api/papers HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53941 - "GET /api/user/references HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53968 - "GET /api/user/references HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53970 - "GET /api/user/references HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49675 - "GET /api/auth/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49679 - "GET /api/user/api-key HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49680 - "GET /api/papers HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59710 - "GET /api/auth/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64989 - "GET /api/user/api-key HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50821 - "GET /api/papers HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49680 - "GET /api/auth/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49682 - "GET /api/user/api-key HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49681 - "GET /api/papers HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59633 - "GET /api/user/api-key HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59631 - "GET /api/auth/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59632 - "GET /api/papers HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59635 - "GET /api/user/api-key HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59637 - "GET /api/auth/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59639 - "GET /api/papers HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54060 - "GET /api/auth/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54061 - "GET /api/papers HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54062 - "GET /api/user/api-key HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54064 - "GET /api/auth/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54067 - "GET /api/user/api-key HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54068 - "GET /api/papers HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62536 - "POST /api/auth/login HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54198 - "GET /api/admin/stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60385 - "GET /api/admin/stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60546 - "GET /api/admin/users?page=1&size=20 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63033 - "PUT /api/admin/users/1/role?role=admin HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:58904 - "PUT /api/admin/users/2/role?role=user HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:49849 - "GET /api/admin/papers?page=1&size=20 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52703 - "GET /api/admin/logs?page=1&size=20 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51011 - "GET /api/admin/users?page=1&size=20 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54328 - "GET /api/admin/papers?page=1&size=20 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64122 - "GET /api/admin/stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57412 - "GET /api/admin/papers?page=1&size=20 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49727 - "GET /api/admin/users?page=1&size=20 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55348 - "GET /api/admin/logs?page=1&size=20 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57143 - "GET /api/admin/papers?page=1&size=20 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65501 - "GET /api/admin/users?page=1&size=20 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60490 - "GET /api/user/references HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60488 - "GET /api/papers HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51832 - "GET /api/user/references HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51834 - "GET /api/papers HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64007 - "GET /api/user/references HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54015 - "GET /api/user/references HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53166 - "GET /api/auth/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53170 - "GET /api/user/api-key HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53169 - "GET /api/papers HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65213 - "GET /api/auth/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64451 - "GET /api/user/api-key HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49312 - "GET /api/papers HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58046 - "GET /api/user/references HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50859 - "GET /api/user/references HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52840 - "GET /api/papers HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52841 - "GET /api/user/references HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55046 - "GET /api/user/references HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55044 - "GET /api/papers HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52822 - "DELETE /api/papers/2 HTTP/1.1" 500 Internal Server Error
+ERROR:    Exception in ASGI application
+Traceback (most recent call last):
+  File "D:\Python311\Lib\site-packages\sqlalchemy\engine\base.py", line 1969, in _exec_single_context
+    self.dialect.do_execute(
+  File "D:\Python311\Lib\site-packages\sqlalchemy\engine\default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+  File "D:\Python311\Lib\site-packages\pymysql\cursors.py", line 159, in execute
+    result = self._query(query)
+             ^^^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\pymysql\cursors.py", line 330, in _query
+    conn.query(q)
+  File "D:\Python311\Lib\site-packages\pymysql\connections.py", line 582, in query
+    self._affected_rows = self._read_query_result(unbuffered=unbuffered)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\pymysql\connections.py", line 847, in _read_query_result
+    result.read()
+  File "D:\Python311\Lib\site-packages\pymysql\connections.py", line 1245, in read
+    first_packet = self.connection._read_packet()
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\pymysql\connections.py", line 803, in _read_packet
+    packet.raise_for_error()
+  File "D:\Python311\Lib\site-packages\pymysql\protocol.py", line 219, in raise_for_error
+    err.raise_mysql_exception(self._data)
+  File "D:\Python311\Lib\site-packages\pymysql\err.py", line 154, in raise_mysql_exception
+    raise errorclass(errno, errval, sqlstate=sqlstate)
+pymysql.err.IntegrityError: (1451, 'Cannot delete or update a parent row: a foreign key constraint fails (`papercraft`.`tasks`, CONSTRAINT `tasks_ibfk_1` FOREIGN KEY (`paper_id`) REFERENCES `papers` (`id`))')
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\Python311\Lib\site-packages\uvicorn\protocols\http\httptools_impl.py", line 421, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\uvicorn\middleware\proxy_headers.py", line 63, in __call__
+    return await self.app(scope, receive, send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\fastapi\applications.py", line 1159, in __call__
+    await super().__call__(scope, receive, send)
+  File "D:\Python311\Lib\site-packages\starlette\applications.py", line 90, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "D:\Python311\Lib\site-packages\starlette\middleware\errors.py", line 186, in __call__
+    raise exc
+  File "D:\Python311\Lib\site-packages\starlette\middleware\errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "D:\Python311\Lib\site-packages\starlette\middleware\cors.py", line 96, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "D:\Python311\Lib\site-packages\starlette\middleware\cors.py", line 154, in simple_response
+    await self.app(scope, receive, send)
+  File "D:\Python311\Lib\site-packages\starlette\middleware\exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "D:\Python311\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "D:\Python311\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "D:\Python311\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "D:\Python311\Lib\site-packages\starlette\routing.py", line 660, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "D:\Python311\Lib\site-packages\starlette\routing.py", line 680, in app
+    await route.handle(scope, receive, send)
+  File "D:\Python311\Lib\site-packages\starlette\routing.py", line 276, in handle
+    await self.app(scope, receive, send)
+  File "D:\Python311\Lib\site-packages\fastapi\routing.py", line 134, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "D:\Python311\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "D:\Python311\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "D:\Python311\Lib\site-packages\fastapi\routing.py", line 120, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\fastapi\routing.py", line 674, in app
+    raw_response = await run_endpoint_function(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\fastapi\routing.py", line 330, in run_endpoint_function
+    return await run_in_threadpool(dependant.call, **values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\starlette\concurrency.py", line 32, in run_in_threadpool
+    return await anyio.to_thread.run_sync(func)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\anyio\to_thread.py", line 63, in run_sync
+    return await get_async_backend().run_sync_in_worker_thread(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\anyio\_backends\_asyncio.py", line 2518, in run_sync_in_worker_thread
+    return await future
+           ^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\anyio\_backends\_asyncio.py", line 1002, in run
+    result = context.run(func, *args)
+             ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\baiiii\Desktop\学校任务\实践周项目\backend\app\api\papers.py", line 68, in delete_paper
+    db.commit()
+  File "D:\Python311\Lib\site-packages\sqlalchemy\orm\session.py", line 2035, in commit
+    trans.commit(_to_root=True)
+  File "<string>", line 2, in commit
+  File "D:\Python311\Lib\site-packages\sqlalchemy\orm\state_changes.py", line 137, in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\sqlalchemy\orm\session.py", line 1316, in commit
+    self._prepare_impl()
+  File "<string>", line 2, in _prepare_impl
+  File "D:\Python311\Lib\site-packages\sqlalchemy\orm\state_changes.py", line 137, in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\sqlalchemy\orm\session.py", line 1290, in _prepare_impl
+    self.session.flush()
+  File "D:\Python311\Lib\site-packages\sqlalchemy\orm\session.py", line 4353, in flush
+    self._flush(objects)
+  File "D:\Python311\Lib\site-packages\sqlalchemy\orm\session.py", line 4488, in _flush
+    with util.safe_reraise():
+  File "D:\Python311\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 122, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "D:\Python311\Lib\site-packages\sqlalchemy\orm\session.py", line 4449, in _flush
+    flush_context.execute()
+  File "D:\Python311\Lib\site-packages\sqlalchemy\orm\unitofwork.py", line 465, in execute
+    rec.execute(self)
+  File "D:\Python311\Lib\site-packages\sqlalchemy\orm\unitofwork.py", line 678, in execute
+    util.preloaded.orm_persistence.delete_obj(
+  File "D:\Python311\Lib\site-packages\sqlalchemy\orm\persistence.py", line 194, in delete_obj
+    _emit_delete_statements(
+  File "D:\Python311\Lib\site-packages\sqlalchemy\orm\persistence.py", line 1472, in _emit_delete_statements
+    c = connection.execute(
+        ^^^^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\sqlalchemy\engine\base.py", line 1421, in execute
+    return meth(
+           ^^^^^
+  File "D:\Python311\Lib\site-packages\sqlalchemy\sql\elements.py", line 526, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\sqlalchemy\engine\base.py", line 1643, in _execute_clauseelement
+    ret = self._execute_context(
+          ^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\sqlalchemy\engine\base.py", line 1848, in _execute_context
+    return self._exec_single_context(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\sqlalchemy\engine\base.py", line 1988, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "D:\Python311\Lib\site-packages\sqlalchemy\engine\base.py", line 2365, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "D:\Python311\Lib\site-packages\sqlalchemy\engine\base.py", line 1969, in _exec_single_context
+    self.dialect.do_execute(
+  File "D:\Python311\Lib\site-packages\sqlalchemy\engine\default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+  File "D:\Python311\Lib\site-packages\pymysql\cursors.py", line 159, in execute
+    result = self._query(query)
+             ^^^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\pymysql\cursors.py", line 330, in _query
+    conn.query(q)
+  File "D:\Python311\Lib\site-packages\pymysql\connections.py", line 582, in query
+    self._affected_rows = self._read_query_result(unbuffered=unbuffered)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\pymysql\connections.py", line 847, in _read_query_result
+    result.read()
+  File "D:\Python311\Lib\site-packages\pymysql\connections.py", line 1245, in read
+    first_packet = self.connection._read_packet()
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\pymysql\connections.py", line 803, in _read_packet
+    packet.raise_for_error()
+  File "D:\Python311\Lib\site-packages\pymysql\protocol.py", line 219, in raise_for_error
+    err.raise_mysql_exception(self._data)
+  File "D:\Python311\Lib\site-packages\pymysql\err.py", line 154, in raise_mysql_exception
+    raise errorclass(errno, errval, sqlstate=sqlstate)
+sqlalchemy.exc.IntegrityError: (pymysql.err.IntegrityError) (1451, 'Cannot delete or update a parent row: a foreign key constraint fails (`papercraft`.`tasks`, CONSTRAINT `tasks_ibfk_1` FOREIGN KEY (`paper_id`) REFERENCES `papers` (`id`))')
+[SQL: DELETE FROM papers WHERE papers.id = %(id)s]
+[parameters: {'id': 2}]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+INFO:     127.0.0.1:61031 - "GET /api/papers/1/agent/events?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyIiwiZXhwIjoxNzgzOTI1NzI0fQ.eFjrsgBbDG380w5qi3CkLoZzKWfeiOQE1HA5blg3cnk HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61030 - "GET /api/papers/1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62807 - "GET /api/papers/1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61551 - "GET /api/user/references HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61549 - "GET /api/papers HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63490 - "GET /api/user/references HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63492 - "GET /api/papers HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63976 - "DELETE /api/papers/1 HTTP/1.1" 500 Internal Server Error
+ERROR:    Exception in ASGI application
+Traceback (most recent call last):
+  File "D:\Python311\Lib\site-packages\sqlalchemy\engine\base.py", line 1969, in _exec_single_context
+    self.dialect.do_execute(
+  File "D:\Python311\Lib\site-packages\sqlalchemy\engine\default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+  File "D:\Python311\Lib\site-packages\pymysql\cursors.py", line 159, in execute
+    result = self._query(query)
+             ^^^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\pymysql\cursors.py", line 330, in _query
+    conn.query(q)
+  File "D:\Python311\Lib\site-packages\pymysql\connections.py", line 582, in query
+    self._affected_rows = self._read_query_result(unbuffered=unbuffered)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\pymysql\connections.py", line 847, in _read_query_result
+    result.read()
+  File "D:\Python311\Lib\site-packages\pymysql\connections.py", line 1245, in read
+    first_packet = self.connection._read_packet()
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\pymysql\connections.py", line 803, in _read_packet
+    packet.raise_for_error()
+  File "D:\Python311\Lib\site-packages\pymysql\protocol.py", line 219, in raise_for_error
+    err.raise_mysql_exception(self._data)
+  File "D:\Python311\Lib\site-packages\pymysql\err.py", line 154, in raise_mysql_exception
+    raise errorclass(errno, errval, sqlstate=sqlstate)
+pymysql.err.IntegrityError: (1451, 'Cannot delete or update a parent row: a foreign key constraint fails (`papercraft`.`tasks`, CONSTRAINT `tasks_ibfk_1` FOREIGN KEY (`paper_id`) REFERENCES `papers` (`id`))')
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\Python311\Lib\site-packages\uvicorn\protocols\http\httptools_impl.py", line 421, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\uvicorn\middleware\proxy_headers.py", line 63, in __call__
+    return await self.app(scope, receive, send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\fastapi\applications.py", line 1159, in __call__
+    await super().__call__(scope, receive, send)
+  File "D:\Python311\Lib\site-packages\starlette\applications.py", line 90, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "D:\Python311\Lib\site-packages\starlette\middleware\errors.py", line 186, in __call__
+    raise exc
+  File "D:\Python311\Lib\site-packages\starlette\middleware\errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "D:\Python311\Lib\site-packages\starlette\middleware\cors.py", line 96, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "D:\Python311\Lib\site-packages\starlette\middleware\cors.py", line 154, in simple_response
+    await self.app(scope, receive, send)
+  File "D:\Python311\Lib\site-packages\starlette\middleware\exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "D:\Python311\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "D:\Python311\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "D:\Python311\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "D:\Python311\Lib\site-packages\starlette\routing.py", line 660, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "D:\Python311\Lib\site-packages\starlette\routing.py", line 680, in app
+    await route.handle(scope, receive, send)
+  File "D:\Python311\Lib\site-packages\starlette\routing.py", line 276, in handle
+    await self.app(scope, receive, send)
+  File "D:\Python311\Lib\site-packages\fastapi\routing.py", line 134, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "D:\Python311\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "D:\Python311\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "D:\Python311\Lib\site-packages\fastapi\routing.py", line 120, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\fastapi\routing.py", line 674, in app
+    raw_response = await run_endpoint_function(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\fastapi\routing.py", line 330, in run_endpoint_function
+    return await run_in_threadpool(dependant.call, **values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\starlette\concurrency.py", line 32, in run_in_threadpool
+    return await anyio.to_thread.run_sync(func)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\anyio\to_thread.py", line 63, in run_sync
+    return await get_async_backend().run_sync_in_worker_thread(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\anyio\_backends\_asyncio.py", line 2518, in run_sync_in_worker_thread
+    return await future
+           ^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\anyio\_backends\_asyncio.py", line 1002, in run
+    result = context.run(func, *args)
+             ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\baiiii\Desktop\学校任务\实践周项目\backend\app\api\papers.py", line 68, in delete_paper
+    db.commit()
+  File "D:\Python311\Lib\site-packages\sqlalchemy\orm\session.py", line 2035, in commit
+    trans.commit(_to_root=True)
+  File "<string>", line 2, in commit
+  File "D:\Python311\Lib\site-packages\sqlalchemy\orm\state_changes.py", line 137, in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\sqlalchemy\orm\session.py", line 1316, in commit
+    self._prepare_impl()
+  File "<string>", line 2, in _prepare_impl
+  File "D:\Python311\Lib\site-packages\sqlalchemy\orm\state_changes.py", line 137, in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\sqlalchemy\orm\session.py", line 1290, in _prepare_impl
+    self.session.flush()
+  File "D:\Python311\Lib\site-packages\sqlalchemy\orm\session.py", line 4353, in flush
+    self._flush(objects)
+  File "D:\Python311\Lib\site-packages\sqlalchemy\orm\session.py", line 4488, in _flush
+    with util.safe_reraise():
+  File "D:\Python311\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 122, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "D:\Python311\Lib\site-packages\sqlalchemy\orm\session.py", line 4449, in _flush
+    flush_context.execute()
+  File "D:\Python311\Lib\site-packages\sqlalchemy\orm\unitofwork.py", line 465, in execute
+    rec.execute(self)
+  File "D:\Python311\Lib\site-packages\sqlalchemy\orm\unitofwork.py", line 678, in execute
+    util.preloaded.orm_persistence.delete_obj(
+  File "D:\Python311\Lib\site-packages\sqlalchemy\orm\persistence.py", line 194, in delete_obj
+    _emit_delete_statements(
+  File "D:\Python311\Lib\site-packages\sqlalchemy\orm\persistence.py", line 1472, in _emit_delete_statements
+    c = connection.execute(
+        ^^^^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\sqlalchemy\engine\base.py", line 1421, in execute
+    return meth(
+           ^^^^^
+  File "D:\Python311\Lib\site-packages\sqlalchemy\sql\elements.py", line 526, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\sqlalchemy\engine\base.py", line 1643, in _execute_clauseelement
+    ret = self._execute_context(
+          ^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\sqlalchemy\engine\base.py", line 1848, in _execute_context
+    return self._exec_single_context(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\sqlalchemy\engine\base.py", line 1988, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "D:\Python311\Lib\site-packages\sqlalchemy\engine\base.py", line 2365, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "D:\Python311\Lib\site-packages\sqlalchemy\engine\base.py", line 1969, in _exec_single_context
+    self.dialect.do_execute(
+  File "D:\Python311\Lib\site-packages\sqlalchemy\engine\default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+  File "D:\Python311\Lib\site-packages\pymysql\cursors.py", line 159, in execute
+    result = self._query(query)
+             ^^^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\pymysql\cursors.py", line 330, in _query
+    conn.query(q)
+  File "D:\Python311\Lib\site-packages\pymysql\connections.py", line 582, in query
+    self._affected_rows = self._read_query_result(unbuffered=unbuffered)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\pymysql\connections.py", line 847, in _read_query_result
+    result.read()
+  File "D:\Python311\Lib\site-packages\pymysql\connections.py", line 1245, in read
+    first_packet = self.connection._read_packet()
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\pymysql\connections.py", line 803, in _read_packet
+    packet.raise_for_error()
+  File "D:\Python311\Lib\site-packages\pymysql\protocol.py", line 219, in raise_for_error
+    err.raise_mysql_exception(self._data)
+  File "D:\Python311\Lib\site-packages\pymysql\err.py", line 154, in raise_mysql_exception
+    raise errorclass(errno, errval, sqlstate=sqlstate)
+sqlalchemy.exc.IntegrityError: (pymysql.err.IntegrityError) (1451, 'Cannot delete or update a parent row: a foreign key constraint fails (`papercraft`.`tasks`, CONSTRAINT `tasks_ibfk_1` FOREIGN KEY (`paper_id`) REFERENCES `papers` (`id`))')
+[SQL: DELETE FROM papers WHERE papers.id = %(id)s]
+[parameters: {'id': 1}]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+INFO:     127.0.0.1:51622 - "GET /api/papers/1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65283 - "GET /api/papers/1/agent/events?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyIiwiZXhwIjoxNzgzOTI1NzI0fQ.eFjrsgBbDG380w5qi3CkLoZzKWfeiOQE1HA5blg3cnk HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55639 - "GET /api/papers/1 HTTP/1.1" 200 OK
+[litellm-patch] stream=True detected, registry_keys=[1]
+INFO:     127.0.0.1:59043 - "POST /api/papers/1/agent/polish HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59504 - "GET /api/papers/1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58092 - "GET /api/papers/1 HTTP/1.1" 200 OK
+[litellm-patch] stream=True detected, registry_keys=[1]
+INFO:     127.0.0.1:51310 - "POST /api/papers/1/agent/cite-check HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65024 - "GET /api/papers/1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59530 - "GET /api/papers/1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63569 - "GET /api/auth/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54558 - "GET /api/user/api-key HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54543 - "GET /api/papers HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54563 - "GET /api/auth/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50266 - "GET /api/user/api-key HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50268 - "GET /api/papers HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53381 - "GET /api/user/references HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49382 - "GET /api/user/references HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63271 - "GET /api/user/references HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63270 - "GET /api/papers HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54144 - "GET /api/user/references HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54150 - "GET /api/papers HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53600 - "DELETE /api/papers/1 HTTP/1.1" 500 Internal Server Error
+ERROR:    Exception in ASGI application
+Traceback (most recent call last):
+  File "D:\Python311\Lib\site-packages\sqlalchemy\engine\base.py", line 1969, in _exec_single_context
+    self.dialect.do_execute(
+  File "D:\Python311\Lib\site-packages\sqlalchemy\engine\default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+  File "D:\Python311\Lib\site-packages\pymysql\cursors.py", line 159, in execute
+    result = self._query(query)
+             ^^^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\pymysql\cursors.py", line 330, in _query
+    conn.query(q)
+  File "D:\Python311\Lib\site-packages\pymysql\connections.py", line 582, in query
+    self._affected_rows = self._read_query_result(unbuffered=unbuffered)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\pymysql\connections.py", line 847, in _read_query_result
+    result.read()
+  File "D:\Python311\Lib\site-packages\pymysql\connections.py", line 1245, in read
+    first_packet = self.connection._read_packet()
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\pymysql\connections.py", line 803, in _read_packet
+    packet.raise_for_error()
+  File "D:\Python311\Lib\site-packages\pymysql\protocol.py", line 219, in raise_for_error
+    err.raise_mysql_exception(self._data)
+  File "D:\Python311\Lib\site-packages\pymysql\err.py", line 154, in raise_mysql_exception
+    raise errorclass(errno, errval, sqlstate=sqlstate)
+pymysql.err.IntegrityError: (1451, 'Cannot delete or update a parent row: a foreign key constraint fails (`papercraft`.`tasks`, CONSTRAINT `tasks_ibfk_1` FOREIGN KEY (`paper_id`) REFERENCES `papers` (`id`))')
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\Python311\Lib\site-packages\uvicorn\protocols\http\httptools_impl.py", line 421, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\uvicorn\middleware\proxy_headers.py", line 63, in __call__
+    return await self.app(scope, receive, send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\fastapi\applications.py", line 1159, in __call__
+    await super().__call__(scope, receive, send)
+  File "D:\Python311\Lib\site-packages\starlette\applications.py", line 90, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "D:\Python311\Lib\site-packages\starlette\middleware\errors.py", line 186, in __call__
+    raise exc
+  File "D:\Python311\Lib\site-packages\starlette\middleware\errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "D:\Python311\Lib\site-packages\starlette\middleware\cors.py", line 96, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "D:\Python311\Lib\site-packages\starlette\middleware\cors.py", line 154, in simple_response
+    await self.app(scope, receive, send)
+  File "D:\Python311\Lib\site-packages\starlette\middleware\exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "D:\Python311\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "D:\Python311\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "D:\Python311\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "D:\Python311\Lib\site-packages\starlette\routing.py", line 660, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "D:\Python311\Lib\site-packages\starlette\routing.py", line 680, in app
+    await route.handle(scope, receive, send)
+  File "D:\Python311\Lib\site-packages\starlette\routing.py", line 276, in handle
+    await self.app(scope, receive, send)
+  File "D:\Python311\Lib\site-packages\fastapi\routing.py", line 134, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "D:\Python311\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "D:\Python311\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "D:\Python311\Lib\site-packages\fastapi\routing.py", line 120, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\fastapi\routing.py", line 674, in app
+    raw_response = await run_endpoint_function(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\fastapi\routing.py", line 330, in run_endpoint_function
+    return await run_in_threadpool(dependant.call, **values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\starlette\concurrency.py", line 32, in run_in_threadpool
+    return await anyio.to_thread.run_sync(func)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\anyio\to_thread.py", line 63, in run_sync
+    return await get_async_backend().run_sync_in_worker_thread(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\anyio\_backends\_asyncio.py", line 2518, in run_sync_in_worker_thread
+    return await future
+           ^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\anyio\_backends\_asyncio.py", line 1002, in run
+    result = context.run(func, *args)
+             ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\baiiii\Desktop\学校任务\实践周项目\backend\app\api\papers.py", line 68, in delete_paper
+    raise HTTPException(status_code=404, detail="论文不存在")
+    ^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\sqlalchemy\orm\session.py", line 2035, in commit
+    trans.commit(_to_root=True)
+  File "<string>", line 2, in commit
+  File "D:\Python311\Lib\site-packages\sqlalchemy\orm\state_changes.py", line 137, in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\sqlalchemy\orm\session.py", line 1316, in commit
+    self._prepare_impl()
+  File "<string>", line 2, in _prepare_impl
+  File "D:\Python311\Lib\site-packages\sqlalchemy\orm\state_changes.py", line 137, in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\sqlalchemy\orm\session.py", line 1290, in _prepare_impl
+    self.session.flush()
+  File "D:\Python311\Lib\site-packages\sqlalchemy\orm\session.py", line 4353, in flush
+    self._flush(objects)
+  File "D:\Python311\Lib\site-packages\sqlalchemy\orm\session.py", line 4488, in _flush
+    with util.safe_reraise():
+  File "D:\Python311\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 122, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "D:\Python311\Lib\site-packages\sqlalchemy\orm\session.py", line 4449, in _flush
+    flush_context.execute()
+  File "D:\Python311\Lib\site-packages\sqlalchemy\orm\unitofwork.py", line 465, in execute
+    rec.execute(self)
+  File "D:\Python311\Lib\site-packages\sqlalchemy\orm\unitofwork.py", line 678, in execute
+    util.preloaded.orm_persistence.delete_obj(
+  File "D:\Python311\Lib\site-packages\sqlalchemy\orm\persistence.py", line 194, in delete_obj
+    _emit_delete_statements(
+  File "D:\Python311\Lib\site-packages\sqlalchemy\orm\persistence.py", line 1472, in _emit_delete_statements
+    c = connection.execute(
+        ^^^^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\sqlalchemy\engine\base.py", line 1421, in execute
+    return meth(
+           ^^^^^
+  File "D:\Python311\Lib\site-packages\sqlalchemy\sql\elements.py", line 526, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\sqlalchemy\engine\base.py", line 1643, in _execute_clauseelement
+    ret = self._execute_context(
+          ^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\sqlalchemy\engine\base.py", line 1848, in _execute_context
+    return self._exec_single_context(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\sqlalchemy\engine\base.py", line 1988, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "D:\Python311\Lib\site-packages\sqlalchemy\engine\base.py", line 2365, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "D:\Python311\Lib\site-packages\sqlalchemy\engine\base.py", line 1969, in _exec_single_context
+    self.dialect.do_execute(
+  File "D:\Python311\Lib\site-packages\sqlalchemy\engine\default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+  File "D:\Python311\Lib\site-packages\pymysql\cursors.py", line 159, in execute
+    result = self._query(query)
+             ^^^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\pymysql\cursors.py", line 330, in _query
+    conn.query(q)
+  File "D:\Python311\Lib\site-packages\pymysql\connections.py", line 582, in query
+    self._affected_rows = self._read_query_result(unbuffered=unbuffered)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\pymysql\connections.py", line 847, in _read_query_result
+    result.read()
+  File "D:\Python311\Lib\site-packages\pymysql\connections.py", line 1245, in read
+    first_packet = self.connection._read_packet()
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\pymysql\connections.py", line 803, in _read_packet
+    packet.raise_for_error()
+  File "D:\Python311\Lib\site-packages\pymysql\protocol.py", line 219, in raise_for_error
+    err.raise_mysql_exception(self._data)
+  File "D:\Python311\Lib\site-packages\pymysql\err.py", line 154, in raise_mysql_exception
+    raise errorclass(errno, errval, sqlstate=sqlstate)
+sqlalchemy.exc.IntegrityError: (pymysql.err.IntegrityError) (1451, 'Cannot delete or update a parent row: a foreign key constraint fails (`papercraft`.`tasks`, CONSTRAINT `tasks_ibfk_1` FOREIGN KEY (`paper_id`) REFERENCES `papers` (`id`))')
+[SQL: DELETE FROM papers WHERE papers.id = %(id)s]
+[parameters: {'id': 1}]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+INFO:     127.0.0.1:53491 - "DELETE /api/papers/2 HTTP/1.1" 500 Internal Server Error
+ERROR:    Exception in ASGI application
+Traceback (most recent call last):
+  File "D:\Python311\Lib\site-packages\sqlalchemy\engine\base.py", line 1969, in _exec_single_context
+    self.dialect.do_execute(
+  File "D:\Python311\Lib\site-packages\sqlalchemy\engine\default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+  File "D:\Python311\Lib\site-packages\pymysql\cursors.py", line 159, in execute
+    result = self._query(query)
+             ^^^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\pymysql\cursors.py", line 330, in _query
+    conn.query(q)
+  File "D:\Python311\Lib\site-packages\pymysql\connections.py", line 582, in query
+    self._affected_rows = self._read_query_result(unbuffered=unbuffered)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\pymysql\connections.py", line 847, in _read_query_result
+    result.read()
+  File "D:\Python311\Lib\site-packages\pymysql\connections.py", line 1245, in read
+    first_packet = self.connection._read_packet()
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\pymysql\connections.py", line 803, in _read_packet
+    packet.raise_for_error()
+  File "D:\Python311\Lib\site-packages\pymysql\protocol.py", line 219, in raise_for_error
+    err.raise_mysql_exception(self._data)
+  File "D:\Python311\Lib\site-packages\pymysql\err.py", line 154, in raise_mysql_exception
+    raise errorclass(errno, errval, sqlstate=sqlstate)
+pymysql.err.IntegrityError: (1451, 'Cannot delete or update a parent row: a foreign key constraint fails (`papercraft`.`tasks`, CONSTRAINT `tasks_ibfk_1` FOREIGN KEY (`paper_id`) REFERENCES `papers` (`id`))')
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\Python311\Lib\site-packages\uvicorn\protocols\http\httptools_impl.py", line 421, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\uvicorn\middleware\proxy_headers.py", line 63, in __call__
+    return await self.app(scope, receive, send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\fastapi\applications.py", line 1159, in __call__
+    await super().__call__(scope, receive, send)
+  File "D:\Python311\Lib\site-packages\starlette\applications.py", line 90, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "D:\Python311\Lib\site-packages\starlette\middleware\errors.py", line 186, in __call__
+    raise exc
+  File "D:\Python311\Lib\site-packages\starlette\middleware\errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "D:\Python311\Lib\site-packages\starlette\middleware\cors.py", line 96, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "D:\Python311\Lib\site-packages\starlette\middleware\cors.py", line 154, in simple_response
+    await self.app(scope, receive, send)
+  File "D:\Python311\Lib\site-packages\starlette\middleware\exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "D:\Python311\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "D:\Python311\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "D:\Python311\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "D:\Python311\Lib\site-packages\starlette\routing.py", line 660, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "D:\Python311\Lib\site-packages\starlette\routing.py", line 680, in app
+    await route.handle(scope, receive, send)
+  File "D:\Python311\Lib\site-packages\starlette\routing.py", line 276, in handle
+    await self.app(scope, receive, send)
+  File "D:\Python311\Lib\site-packages\fastapi\routing.py", line 134, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "D:\Python311\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "D:\Python311\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "D:\Python311\Lib\site-packages\fastapi\routing.py", line 120, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\fastapi\routing.py", line 674, in app
+    raw_response = await run_endpoint_function(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\fastapi\routing.py", line 330, in run_endpoint_function
+    return await run_in_threadpool(dependant.call, **values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\starlette\concurrency.py", line 32, in run_in_threadpool
+    return await anyio.to_thread.run_sync(func)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\anyio\to_thread.py", line 63, in run_sync
+    return await get_async_backend().run_sync_in_worker_thread(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\anyio\_backends\_asyncio.py", line 2518, in run_sync_in_worker_thread
+    return await future
+           ^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\anyio\_backends\_asyncio.py", line 1002, in run
+    result = context.run(func, *args)
+             ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\baiiii\Desktop\学校任务\实践周项目\backend\app\api\papers.py", line 68, in delete_paper
+    raise HTTPException(status_code=404, detail="论文不存在")
+    ^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\sqlalchemy\orm\session.py", line 2035, in commit
+    trans.commit(_to_root=True)
+  File "<string>", line 2, in commit
+  File "D:\Python311\Lib\site-packages\sqlalchemy\orm\state_changes.py", line 137, in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\sqlalchemy\orm\session.py", line 1316, in commit
+    self._prepare_impl()
+  File "<string>", line 2, in _prepare_impl
+  File "D:\Python311\Lib\site-packages\sqlalchemy\orm\state_changes.py", line 137, in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\sqlalchemy\orm\session.py", line 1290, in _prepare_impl
+    self.session.flush()
+  File "D:\Python311\Lib\site-packages\sqlalchemy\orm\session.py", line 4353, in flush
+    self._flush(objects)
+  File "D:\Python311\Lib\site-packages\sqlalchemy\orm\session.py", line 4488, in _flush
+    with util.safe_reraise():
+  File "D:\Python311\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 122, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "D:\Python311\Lib\site-packages\sqlalchemy\orm\session.py", line 4449, in _flush
+    flush_context.execute()
+  File "D:\Python311\Lib\site-packages\sqlalchemy\orm\unitofwork.py", line 465, in execute
+    rec.execute(self)
+  File "D:\Python311\Lib\site-packages\sqlalchemy\orm\unitofwork.py", line 678, in execute
+    util.preloaded.orm_persistence.delete_obj(
+  File "D:\Python311\Lib\site-packages\sqlalchemy\orm\persistence.py", line 194, in delete_obj
+    _emit_delete_statements(
+  File "D:\Python311\Lib\site-packages\sqlalchemy\orm\persistence.py", line 1472, in _emit_delete_statements
+    c = connection.execute(
+        ^^^^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\sqlalchemy\engine\base.py", line 1421, in execute
+    return meth(
+           ^^^^^
+  File "D:\Python311\Lib\site-packages\sqlalchemy\sql\elements.py", line 526, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\sqlalchemy\engine\base.py", line 1643, in _execute_clauseelement
+    ret = self._execute_context(
+          ^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\sqlalchemy\engine\base.py", line 1848, in _execute_context
+    return self._exec_single_context(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\sqlalchemy\engine\base.py", line 1988, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "D:\Python311\Lib\site-packages\sqlalchemy\engine\base.py", line 2365, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "D:\Python311\Lib\site-packages\sqlalchemy\engine\base.py", line 1969, in _exec_single_context
+    self.dialect.do_execute(
+  File "D:\Python311\Lib\site-packages\sqlalchemy\engine\default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+  File "D:\Python311\Lib\site-packages\pymysql\cursors.py", line 159, in execute
+    result = self._query(query)
+             ^^^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\pymysql\cursors.py", line 330, in _query
+    conn.query(q)
+  File "D:\Python311\Lib\site-packages\pymysql\connections.py", line 582, in query
+    self._affected_rows = self._read_query_result(unbuffered=unbuffered)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\pymysql\connections.py", line 847, in _read_query_result
+    result.read()
+  File "D:\Python311\Lib\site-packages\pymysql\connections.py", line 1245, in read
+    first_packet = self.connection._read_packet()
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\pymysql\connections.py", line 803, in _read_packet
+    packet.raise_for_error()
+  File "D:\Python311\Lib\site-packages\pymysql\protocol.py", line 219, in raise_for_error
+    err.raise_mysql_exception(self._data)
+  File "D:\Python311\Lib\site-packages\pymysql\err.py", line 154, in raise_mysql_exception
+    raise errorclass(errno, errval, sqlstate=sqlstate)
+sqlalchemy.exc.IntegrityError: (pymysql.err.IntegrityError) (1451, 'Cannot delete or update a parent row: a foreign key constraint fails (`papercraft`.`tasks`, CONSTRAINT `tasks_ibfk_1` FOREIGN KEY (`paper_id`) REFERENCES `papers` (`id`))')
+[SQL: DELETE FROM papers WHERE papers.id = %(id)s]
+[parameters: {'id': 2}]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+INFO:     127.0.0.1:62577 - "GET /api/user/references HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62576 - "GET /api/papers HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62581 - "GET /api/papers HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62580 - "GET /api/user/references HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50573 - "DELETE /api/papers/2 HTTP/1.1" 500 Internal Server Error
+ERROR:    Exception in ASGI application
+Traceback (most recent call last):
+  File "D:\Python311\Lib\site-packages\sqlalchemy\engine\base.py", line 1969, in _exec_single_context
+    self.dialect.do_execute(
+  File "D:\Python311\Lib\site-packages\sqlalchemy\engine\default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+  File "D:\Python311\Lib\site-packages\pymysql\cursors.py", line 159, in execute
+    result = self._query(query)
+             ^^^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\pymysql\cursors.py", line 330, in _query
+    conn.query(q)
+  File "D:\Python311\Lib\site-packages\pymysql\connections.py", line 582, in query
+    self._affected_rows = self._read_query_result(unbuffered=unbuffered)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\pymysql\connections.py", line 847, in _read_query_result
+    result.read()
+  File "D:\Python311\Lib\site-packages\pymysql\connections.py", line 1245, in read
+    first_packet = self.connection._read_packet()
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\pymysql\connections.py", line 803, in _read_packet
+    packet.raise_for_error()
+  File "D:\Python311\Lib\site-packages\pymysql\protocol.py", line 219, in raise_for_error
+    err.raise_mysql_exception(self._data)
+  File "D:\Python311\Lib\site-packages\pymysql\err.py", line 154, in raise_mysql_exception
+    raise errorclass(errno, errval, sqlstate=sqlstate)
+pymysql.err.IntegrityError: (1451, 'Cannot delete or update a parent row: a foreign key constraint fails (`papercraft`.`tasks`, CONSTRAINT `tasks_ibfk_1` FOREIGN KEY (`paper_id`) REFERENCES `papers` (`id`))')
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\Python311\Lib\site-packages\uvicorn\protocols\http\httptools_impl.py", line 421, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\uvicorn\middleware\proxy_headers.py", line 63, in __call__
+    return await self.app(scope, receive, send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\fastapi\applications.py", line 1159, in __call__
+    await super().__call__(scope, receive, send)
+  File "D:\Python311\Lib\site-packages\starlette\applications.py", line 90, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "D:\Python311\Lib\site-packages\starlette\middleware\errors.py", line 186, in __call__
+    raise exc
+  File "D:\Python311\Lib\site-packages\starlette\middleware\errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "D:\Python311\Lib\site-packages\starlette\middleware\cors.py", line 96, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "D:\Python311\Lib\site-packages\starlette\middleware\cors.py", line 154, in simple_response
+    await self.app(scope, receive, send)
+  File "D:\Python311\Lib\site-packages\starlette\middleware\exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "D:\Python311\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "D:\Python311\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "D:\Python311\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "D:\Python311\Lib\site-packages\starlette\routing.py", line 660, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "D:\Python311\Lib\site-packages\starlette\routing.py", line 680, in app
+    await route.handle(scope, receive, send)
+  File "D:\Python311\Lib\site-packages\starlette\routing.py", line 276, in handle
+    await self.app(scope, receive, send)
+  File "D:\Python311\Lib\site-packages\fastapi\routing.py", line 134, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "D:\Python311\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "D:\Python311\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "D:\Python311\Lib\site-packages\fastapi\routing.py", line 120, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\fastapi\routing.py", line 674, in app
+    raw_response = await run_endpoint_function(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\fastapi\routing.py", line 330, in run_endpoint_function
+    return await run_in_threadpool(dependant.call, **values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\starlette\concurrency.py", line 32, in run_in_threadpool
+    return await anyio.to_thread.run_sync(func)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\anyio\to_thread.py", line 63, in run_sync
+    return await get_async_backend().run_sync_in_worker_thread(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\anyio\_backends\_asyncio.py", line 2518, in run_sync_in_worker_thread
+    return await future
+           ^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\anyio\_backends\_asyncio.py", line 1002, in run
+    result = context.run(func, *args)
+             ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\baiiii\Desktop\学校任务\实践周项目\backend\app\api\papers.py", line 68, in delete_paper
+    raise HTTPException(status_code=404, detail="论文不存在")
+    ^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\sqlalchemy\orm\session.py", line 2035, in commit
+    trans.commit(_to_root=True)
+  File "<string>", line 2, in commit
+  File "D:\Python311\Lib\site-packages\sqlalchemy\orm\state_changes.py", line 137, in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\sqlalchemy\orm\session.py", line 1316, in commit
+    self._prepare_impl()
+  File "<string>", line 2, in _prepare_impl
+  File "D:\Python311\Lib\site-packages\sqlalchemy\orm\state_changes.py", line 137, in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\sqlalchemy\orm\session.py", line 1290, in _prepare_impl
+    self.session.flush()
+  File "D:\Python311\Lib\site-packages\sqlalchemy\orm\session.py", line 4353, in flush
+    self._flush(objects)
+  File "D:\Python311\Lib\site-packages\sqlalchemy\orm\session.py", line 4488, in _flush
+    with util.safe_reraise():
+  File "D:\Python311\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 122, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "D:\Python311\Lib\site-packages\sqlalchemy\orm\session.py", line 4449, in _flush
+    flush_context.execute()
+  File "D:\Python311\Lib\site-packages\sqlalchemy\orm\unitofwork.py", line 465, in execute
+    rec.execute(self)
+  File "D:\Python311\Lib\site-packages\sqlalchemy\orm\unitofwork.py", line 678, in execute
+    util.preloaded.orm_persistence.delete_obj(
+  File "D:\Python311\Lib\site-packages\sqlalchemy\orm\persistence.py", line 194, in delete_obj
+    _emit_delete_statements(
+  File "D:\Python311\Lib\site-packages\sqlalchemy\orm\persistence.py", line 1472, in _emit_delete_statements
+    c = connection.execute(
+        ^^^^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\sqlalchemy\engine\base.py", line 1421, in execute
+    return meth(
+           ^^^^^
+  File "D:\Python311\Lib\site-packages\sqlalchemy\sql\elements.py", line 526, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\sqlalchemy\engine\base.py", line 1643, in _execute_clauseelement
+    ret = self._execute_context(
+          ^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\sqlalchemy\engine\base.py", line 1848, in _execute_context
+    return self._exec_single_context(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\sqlalchemy\engine\base.py", line 1988, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "D:\Python311\Lib\site-packages\sqlalchemy\engine\base.py", line 2365, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "D:\Python311\Lib\site-packages\sqlalchemy\engine\base.py", line 1969, in _exec_single_context
+    self.dialect.do_execute(
+  File "D:\Python311\Lib\site-packages\sqlalchemy\engine\default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+  File "D:\Python311\Lib\site-packages\pymysql\cursors.py", line 159, in execute
+    result = self._query(query)
+             ^^^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\pymysql\cursors.py", line 330, in _query
+    conn.query(q)
+  File "D:\Python311\Lib\site-packages\pymysql\connections.py", line 582, in query
+    self._affected_rows = self._read_query_result(unbuffered=unbuffered)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\pymysql\connections.py", line 847, in _read_query_result
+    result.read()
+  File "D:\Python311\Lib\site-packages\pymysql\connections.py", line 1245, in read
+    first_packet = self.connection._read_packet()
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python311\Lib\site-packages\pymysql\connections.py", line 803, in _read_packet
+    packet.raise_for_error()
+  File "D:\Python311\Lib\site-packages\pymysql\protocol.py", line 219, in raise_for_error
+    err.raise_mysql_exception(self._data)
+  File "D:\Python311\Lib\site-packages\pymysql\err.py", line 154, in raise_mysql_exception
+    raise errorclass(errno, errval, sqlstate=sqlstate)
+sqlalchemy.exc.IntegrityError: (pymysql.err.IntegrityError) (1451, 'Cannot delete or update a parent row: a foreign key constraint fails (`papercraft`.`tasks`, CONSTRAINT `tasks_ibfk_1` FOREIGN KEY (`paper_id`) REFERENCES `papers` (`id`))')
+[SQL: DELETE FROM papers WHERE papers.id = %(id)s]
+[parameters: {'id': 2}]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+INFO:     127.0.0.1:60072 - "GET /api/health HTTP/1.1" 200 OK

@@ -1,0 +1,18 @@
+- generic [ref=e3]:
+  - navigation [ref=e4]:
+    - link "PaperCraft" [ref=e5] [cursor=pointer]:
+      - /url: /
+    - link "我的论文" [ref=e6] [cursor=pointer]:
+      - /url: /papers
+    - link "个人中心" [ref=e7] [cursor=pointer]:
+      - /url: /profile
+  - main [ref=e8]:
+    - generic [ref=e9]:
+      - heading "PaperCraft" [level=1] [ref=e10]
+      - paragraph [ref=e11]: 多智能体论文写作助手
+      - paragraph [ref=e12]: PaperCraft 是一款基于多智能体协作的论文写作辅助工具。 它利用多个 AI 智能体协同工作，帮助你完成从选题、文献综述到论文撰写的全过程， 让学术写作更高效、更专注。
+      - generic [ref=e13]:
+        - link "开始写作" [ref=e14] [cursor=pointer]:
+          - /url: /papers
+        - link "创建论文" [ref=e15] [cursor=pointer]:
+          - /url: /papers/new

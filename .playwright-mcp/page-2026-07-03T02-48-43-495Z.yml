@@ -1,0 +1,14 @@
+- generic [ref=f6e3]:
+  - navigation [ref=f6e4]:
+    - link "PaperCraft" [ref=f6e5] [cursor=pointer]:
+      - /url: /
+    - link "我的论文" [ref=f6e6] [cursor=pointer]:
+      - /url: /papers
+    - link "个人中心" [ref=f6e7] [cursor=pointer]:
+      - /url: /profile
+  - main [ref=f6e8]:
+    - generic [ref=f6e9]:
+      - generic [ref=f6e10]:
+        - heading "我的论文" [level=1] [ref=f6e11]
+        - button "创建论文" [ref=f6e12] [cursor=pointer]
+      - generic [ref=f6e13]: 暂无论文，点击上方"创建论文"开始写作

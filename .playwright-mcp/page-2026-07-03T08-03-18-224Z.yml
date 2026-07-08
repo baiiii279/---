@@ -1,0 +1,107 @@
+- generic [ref=f3e3]:
+  - navigation [ref=f3e4]:
+    - link "PaperCraft" [ref=f3e5] [cursor=pointer]:
+      - /url: /
+    - link "我的论文" [ref=f3e6] [cursor=pointer]:
+      - /url: /papers
+    - link "文献库" [ref=f3e7] [cursor=pointer]:
+      - /url: /references
+    - link "个人中心" [ref=f3e8] [cursor=pointer]:
+      - /url: /profile
+  - main [ref=f3e9]:
+    - generic [ref=f3e10]:
+      - generic [ref=f3e12]:
+        - heading "health platform design" [level=1] [ref=f3e13]
+        - generic [ref=f3e15]: 草稿
+      - generic [ref=f3e16]:
+        - generic [ref=f3e17]:
+          - generic [ref=f3e18]: ⏳
+          - generic [ref=f3e19]: 文献解析
+        - generic [ref=f3e20]:
+          - generic [ref=f3e21]: ○
+          - generic [ref=f3e22]: 大纲生成
+        - generic [ref=f3e23]:
+          - generic [ref=f3e24]: ○
+          - generic [ref=f3e25]: 内容撰写
+        - generic [ref=f3e26]:
+          - generic [ref=f3e27]: ○
+          - generic [ref=f3e28]: 润色优化
+        - generic [ref=f3e29]:
+          - generic [ref=f3e30]: ○
+          - generic [ref=f3e31]: 引用检查
+      - button "⏳ 文献解析 执行中..." [disabled] [ref=f3e136]
+      - generic [ref=f3e137]:
+        - generic [ref=f3e138]:
+          - generic [ref=f3e141]: 文献解析 正在输出...
+          - generic [ref=f3e142]: 1分14秒
+        - generic [ref=f3e143]: "好的，文献分析师已就位。根据您提供的文献列表，我已完成对每篇文献的核心信息提取。由于所提供的内容均为“课程设计报告”的模板或部分片段，而非完整的、已发表的学术论文，我的分析将基于现有内容进行合理推断。 --- ### 文献一：教学实践Ⅱ:软件项目开发课程设计 - **研究问题**: - 本文献本身是一份课程设计报告的格式与内容模板。其隐含的研究问题是：如何利用特定的开发环境（VS Code, Python, Node.js, MySQL）和技术栈（Django框架），完成一个软件项目的开发与课程设计报告撰写。 - **采用方法**: - 该方法为“课程设计报告”的标准撰写方法，包括： 1. **技术选型**：选择Visual Studio Code、Python、Django、MySQL等技术。 2. **开发实践**：基于所选技术进行项目开发（前端、后端、数据库）。 3. **文档撰写**：按照指定的格式（字体、字号、行距、图表编号）撰写课程设计报告，包含开发环境、技术介绍、系统设计等章节。 - **主要发现/结论**: - 本文献未提供具体的项目发现或结论。主要展示了课程设计报告的基本结构（开发环境、技术介绍、图表格式要求等）和撰写规范。其核心结论是提供了一份可遵循的标准报告写作范本。 - **可能适用于论文的哪些章节**: - **第一章：绪论**：可用于说明论文的研究背景、开发环境和技术栈的选择理由。 -"
+      - generic [ref=f3e34]:
+        - generic [ref=f3e35]:
+          - list [ref=f3e36]:
+            - listitem [ref=f3e37]:
+              - button "Add bold text (ctrl + b)" [ref=f3e38] [cursor=pointer]:
+                - img [ref=f3e39]
+            - listitem [ref=f3e41]:
+              - button "Add italic text (ctrl + i)" [ref=f3e42] [cursor=pointer]:
+                - img [ref=f3e43]
+            - listitem [ref=f3e45]:
+              - button "Add strikethrough text (ctrl + shift + x)" [ref=f3e46] [cursor=pointer]:
+                - img [ref=f3e47]
+            - listitem [ref=f3e49]:
+              - button "Insert HR (ctrl + h)" [ref=f3e50] [cursor=pointer]:
+                - img [ref=f3e51]
+            - listitem [ref=f3e53]:
+              - button "Insert title" [ref=f3e54] [cursor=pointer]:
+                - img [ref=f3e55]
+            - listitem [ref=f3e57]
+            - listitem [ref=f3e58]:
+              - button "Add a link (ctrl + l)" [ref=f3e59] [cursor=pointer]:
+                - img [ref=f3e60]
+            - listitem [ref=f3e62]:
+              - button "Insert a quote (ctrl + q)" [ref=f3e63] [cursor=pointer]:
+                - img [ref=f3e64]
+            - listitem [ref=f3e66]:
+              - button "Insert code (ctrl + j)" [ref=f3e67] [cursor=pointer]:
+                - img [ref=f3e68]
+            - listitem [ref=f3e70]:
+              - button "Insert Code Block (ctrl + shift + j)" [ref=f3e71] [cursor=pointer]:
+                - img [ref=f3e72]
+            - listitem [ref=f3e74]:
+              - button "Insert comment (ctrl + /)" [ref=f3e75] [cursor=pointer]:
+                - img [ref=f3e76]
+            - listitem [ref=f3e81]:
+              - button "Add image (ctrl + k)" [ref=f3e82] [cursor=pointer]:
+                - img [ref=f3e83]
+            - listitem [ref=f3e85]:
+              - button "Add table" [ref=f3e86] [cursor=pointer]:
+                - img [ref=f3e87]
+            - listitem [ref=f3e89]
+            - listitem [ref=f3e90]:
+              - button "Add unordered list (ctrl + shift + u)" [ref=f3e91] [cursor=pointer]:
+                - img [ref=f3e92]
+            - listitem [ref=f3e94]:
+              - button "Add ordered list (ctrl + shift + o)" [ref=f3e95] [cursor=pointer]:
+                - img [ref=f3e96]
+            - listitem [ref=f3e98]:
+              - button "Add checked list (ctrl + shift + c)" [ref=f3e99] [cursor=pointer]:
+                - img [ref=f3e100]
+            - listitem [ref=f3e102]
+            - listitem [ref=f3e103]:
+              - button "Open help" [ref=f3e104] [cursor=pointer]:
+                - img [ref=f3e105]
+          - list [ref=f3e107]:
+            - listitem [ref=f3e108]:
+              - button "Edit code (ctrl + 7)" [ref=f3e109] [cursor=pointer]:
+                - img [ref=f3e110]
+            - listitem [ref=f3e113]:
+              - button "Live code (ctrl + 8)" [ref=f3e114] [cursor=pointer]:
+                - img [ref=f3e115]
+            - listitem [ref=f3e118]:
+              - button "Preview code (ctrl + 9)" [ref=f3e119] [cursor=pointer]:
+                - img [ref=f3e120]
+            - listitem [ref=f3e123]
+            - listitem [ref=f3e124]:
+              - button "Toggle fullscreen (ctrl + 0)" [ref=f3e125] [cursor=pointer]:
+                - img [ref=f3e126]
+        - textbox [ref=f3e131]
+        - img [ref=f3e134]

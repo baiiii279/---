@@ -1,0 +1,3 @@
+[      78ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:5177/node_modules/.vite/deps/react-dom_client.js?v=e01edf7f:14335
+[  636515ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:5177/api/papers/5/agent/write:0
+[  637960ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:5177/api/papers/5/agent/write:0

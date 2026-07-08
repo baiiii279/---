@@ -1,0 +1,14 @@
+[     142ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:5177/node_modules/.vite/deps/react-dom_client.js?v=e01edf7f:14335
+[     337ms] [ERROR] Failed to load resource: the server responded with a status of 422 (Unprocessable Entity) @ http://localhost:5177/api/papers/new/agent/events?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzIiwiZXhwIjoxNzgzNjUxNjI3fQ.mR7dp0dGqyJuIUnOf0-UxNfd8c49Gw-9eDYP2IcstG8:0
+[     341ms] [ERROR] Failed to load resource: the server responded with a status of 422 (Unprocessable Entity) @ http://localhost:5177/api/papers/new:0
+[     346ms] AxiosError: Request failed with status code 422
+    at settle (http://localhost:5177/node_modules/.vite/deps/axios.js?v=e01edf7f:1838:14)
+    at XMLHttpRequest.onloadend (http://localhost:5177/node_modules/.vite/deps/axios.js?v=e01edf7f:2231:4)
+[     384ms] [ERROR] Failed to load resource: the server responded with a status of 422 (Unprocessable Entity) @ http://localhost:5177/api/papers/new:0
+[     385ms] AxiosError: Request failed with status code 422
+    at settle (http://localhost:5177/node_modules/.vite/deps/axios.js?v=e01edf7f:1838:14)
+    at XMLHttpRequest.onloadend (http://localhost:5177/node_modules/.vite/deps/axios.js?v=e01edf7f:2231:4)
+[    3352ms] [ERROR] Failed to load resource: the server responded with a status of 422 (Unprocessable Entity) @ http://localhost:5177/api/papers/new/agent/events?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzIiwiZXhwIjoxNzgzNjUxNjI3fQ.mR7dp0dGqyJuIUnOf0-UxNfd8c49Gw-9eDYP2IcstG8:0
+[    6367ms] [ERROR] Failed to load resource: the server responded with a status of 422 (Unprocessable Entity) @ http://localhost:5177/api/papers/new/agent/events?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzIiwiZXhwIjoxNzgzNjUxNjI3fQ.mR7dp0dGqyJuIUnOf0-UxNfd8c49Gw-9eDYP2IcstG8:0
+[    9379ms] [ERROR] Failed to load resource: the server responded with a status of 422 (Unprocessable Entity) @ http://localhost:5177/api/papers/new/agent/events?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzIiwiZXhwIjoxNzgzNjUxNjI3fQ.mR7dp0dGqyJuIUnOf0-UxNfd8c49Gw-9eDYP2IcstG8:0
+[   12393ms] [ERROR] Failed to load resource: the server responded with a status of 422 (Unprocessable Entity) @ http://localhost:5177/api/papers/new/agent/events?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzIiwiZXhwIjoxNzgzNjUxNjI3fQ.mR7dp0dGqyJuIUnOf0-UxNfd8c49Gw-9eDYP2IcstG8:0

@@ -1,0 +1,58 @@
+- generic [ref=f12e3]:
+  - navigation [ref=f12e4]:
+    - link "PaperCraft" [ref=f12e5] [cursor=pointer]:
+      - /url: /
+    - link "我的论文" [ref=f12e6] [cursor=pointer]:
+      - /url: /papers
+    - link "文献库" [ref=f12e7] [cursor=pointer]:
+      - /url: /references
+    - link "个人中心" [ref=f12e8] [cursor=pointer]:
+      - /url: /profile
+  - main [ref=f12e9]:
+    - generic [ref=f12e10]:
+      - generic [ref=f12e11]:
+        - heading "PaperCraft" [level=1] [ref=f12e12]
+        - paragraph [ref=f12e13]: 多智能体论文写作助手
+        - paragraph [ref=f12e14]: 5 个 AI 智能体协同工作——从文献解析、大纲生成、内容撰写到润色优化和引用检查， 只需上传参考文献，即可自动生成一篇规范完整的学术论文。
+        - generic [ref=f12e15]:
+          - link "开始写作" [ref=f12e16] [cursor=pointer]:
+            - /url: /papers
+          - link "管理文献" [ref=f12e17] [cursor=pointer]:
+            - /url: /references
+      - generic [ref=f12e18]:
+        - generic [ref=f12e19]:
+          - generic [ref=f12e20]: 📚
+          - heading "文献解析" [level=3] [ref=f12e21]
+          - paragraph [ref=f12e22]: 上传 PDF/Word/TXT，AI 自动提取并分析文献内容
+        - generic [ref=f12e23]:
+          - generic [ref=f12e24]: 📋
+          - heading "大纲生成" [level=3] [ref=f12e25]
+          - paragraph [ref=f12e26]: 基于文献智能生成结构化论文大纲
+        - generic [ref=f12e27]:
+          - generic [ref=f12e28]: ✍️
+          - heading "内容撰写" [level=3] [ref=f12e29]
+          - paragraph [ref=f12e30]: AI 按大纲逐章撰写完整论文正文
+        - generic [ref=f12e31]:
+          - generic [ref=f12e32]: ✨
+          - heading "润色优化" [level=3] [ref=f12e33]
+          - paragraph [ref=f12e34]: 学术编辑智能润色，提升语言质量
+        - generic [ref=f12e35]:
+          - generic [ref=f12e36]: 🔍
+          - heading "引用检查" [level=3] [ref=f12e37]
+          - paragraph [ref=f12e38]: 自动审计引用完整性和格式规范
+        - generic [ref=f12e39]:
+          - generic [ref=f12e40]: 📄
+          - heading "一键导出" [level=3] [ref=f12e41]
+          - paragraph [ref=f12e42]: 生成 Word 文档，格式规范即拿即用
+      - generic [ref=f12e43]:
+        - heading "三步完成论文" [level=2] [ref=f12e44]
+        - generic [ref=f12e45]:
+          - generic [ref=f12e46]:
+            - generic [ref=f12e47]: "1"
+            - text: 上传参考文献
+          - generic [ref=f12e48]:
+            - generic [ref=f12e49]: "2"
+            - text: 创建论文并启动 AI
+          - generic [ref=f12e50]:
+            - generic [ref=f12e51]: "3"
+            - text: 导出 Word 文档

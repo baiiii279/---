@@ -1,0 +1,6 @@
+[     240ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:5177/node_modules/.vite/deps/react-dom_client.js?v=e01edf7f:14335
+[   42739ms] [LOG] [vite] server connection lost. Polling for restart... @ http://localhost:5177/@vite/client:992
+[   42742ms] [ERROR] Failed to load resource: net::ERR_INCOMPLETE_CHUNKED_ENCODING @ http://localhost:5177/api/papers/6/agent/events?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzIiwiZXhwIjoxNzgzNjUxNjI3fQ.mR7dp0dGqyJuIUnOf0-UxNfd8c49Gw-9eDYP2IcstG8:0
+[   43666ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:5177/node_modules/.vite/deps/react-dom_client.js?v=e01edf7f:14335
+[   52504ms] [LOG] [vite] server connection lost. Polling for restart... @ http://localhost:5177/@vite/client:992
+[   53543ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:5177/node_modules/.vite/deps/react-dom_client.js?v=e01edf7f:14335

@@ -1,0 +1,17 @@
+- generic [ref=f3e3]:
+  - navigation [ref=f3e4]:
+    - link "PaperCraft" [ref=f3e5] [cursor=pointer]:
+      - /url: /
+    - link "我的论文" [ref=f3e6] [cursor=pointer]:
+      - /url: /papers
+    - link "个人中心" [ref=f3e7] [cursor=pointer]:
+      - /url: /profile
+  - main [ref=f3e8]:
+    - generic [ref=f3e9]:
+      - generic [ref=f3e10]:
+        - heading "文献库" [level=1] [ref=f3e11]
+        - button "新增文献" [ref=f3e12] [cursor=pointer]
+      - generic [ref=f3e14] [cursor=pointer]:
+        - generic [ref=f3e15]: 点击上传 PDF / Word / TXT 文件
+        - generic [ref=f3e16]: 支持 .pdf .docx .doc .txt
+      - generic [ref=f3e17]: 暂无文献
