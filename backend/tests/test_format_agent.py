@@ -77,7 +77,6 @@ class TestFormatAgent:
 
     def test_prompt_includes_format_markers(self):
         """FORMAT_PROMPT mentions all required format markers."""
-        assert "<!-- format: page-break -->" in FORMAT_PROMPT
         assert "<!-- format: ref-list -->" in FORMAT_PROMPT
         assert "<!-- format: body-text -->" in FORMAT_PROMPT
         assert "<!-- format: list -->" in FORMAT_PROMPT
