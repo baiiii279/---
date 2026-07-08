@@ -114,11 +114,9 @@ def _md_to_docx(md_text: str, title: str) -> io.BytesIO:
         if format_cmd_match:
             cmd = format_cmd_match.group(1)
             if cmd == 'page-break':
-                # 分页符（只在已有内容后才插入，避免开头白页）
+                # 分页符（只在已有内容后插入，避免开头和连续白页）
                 if _has_content:
-                    run = doc.add_paragraph().add_run()
-                    br = run._element.makeelement(qn('w:br'), {qn('w:type'): 'page'})
-                    run._element.append(br)
+                    doc.add_page_break()
             elif cmd == 'body-text':
                 # 正文模式（默认小四宋体）
                 _current_format = 'body'
@@ -140,11 +138,11 @@ def _md_to_docx(md_text: str, title: str) -> io.BytesIO:
             i += 1
             continue
 
-        # H2 标题（章节标题，居中）
+        # H2 标题（章节标题，左对齐）
         if line.startswith('## ') and not line.startswith('### '):
             text = line[3:].strip()
             p = doc.add_heading(text, level=2)
-            p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+            p.alignment = WD_ALIGN_PARAGRAPH.LEFT
             _set_run_font(p.runs, '黑体', Pt(14))
             i += 1
             continue
