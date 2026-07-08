@@ -94,11 +94,7 @@ class WriteAgent(BaseAgent):
             expected_output="完整的 Markdown 格式学术论文正文，以摘要/关键词开头，包含引言和各章内容",
         )
         result = self._execute_task(task)
-        # 后处理：如果 LLM 没生成摘要，自动补上
-        if "摘要" not in result[:500] and "[摘要]" not in result[:500]:
-            result = (
-                f"## [摘要]\n\n本文围绕{context.topic}展开研究..."
-                f"\n\n## [关键词] 关键词1  关键词2  关键词3\n\n"
-                f"{result}"
-            )
+        if "摘要" not in result[:500]:
+            task.description = "**【重要提醒】你上一次的输出没有包含摘要/关键词部分。请务必在论文开头先写摘要和关键词，再写引言。**\n\n" + task.description
+            result = self._execute_task(task)
         return result
