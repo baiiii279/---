@@ -139,7 +139,7 @@ def run_format(
         sse_manager.emit(paper_id, "agent_complete", {
             "agent": "format", "output": result, "status": "success", "critical": True,
         })
-        return {"result": result, "status": "success"}
+        return {"output": result, "status": "success"}
     except Exception as e:
         sse_manager.emit(paper_id, "agent_error", {
             "agent": "format", "error": str(e), "critical": True,
