@@ -138,7 +138,8 @@ export default function PaperWorkbench() {
     api.get(`/papers/${id}`).then(res => {
       const p = res.data;
       setPaper(p);
-      setMdValue(p.content || '');
+      // 优先显示 paper.content，确保编辑器永不空白
+      setMdValue(p.content || p.outline || '');
       setAgentStates(getAgentStates(p.status));
     }).catch(() => setErrorMsg('加载论文失败'))
       .finally(() => setLoading(false));
@@ -384,7 +385,7 @@ export default function PaperWorkbench() {
           border: '1px solid #E2E8F0', borderRadius: 8, background: '#fff',
           padding: '32px 40px', minHeight: 400,
         }}>
-          <MDEditor.Markdown source={mdValue || '暂无内容'} />
+          <MDEditor.Markdown source={mdValue || paper?.content || '暂无内容'} />
         </div>
       ) : (
         <div data-color-mode="light" style={{
