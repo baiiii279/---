@@ -129,17 +129,41 @@ def _md_to_docx(md_text: str, title: str) -> io.BytesIO:
         # 遇到正文内容
         _has_content = True
 
-        # [摘要] 和 [关键词] 特殊处理 — 居中加粗
-        if line.startswith('[摘要]') or line.startswith('[关键词]'):
+        # 摘要和关键词 — 居中加粗黑体
+        if line == '摘要' or line.startswith('摘要') or line.startswith('关键词') or line.startswith('关键词：') or line.startswith('关键词:'):
             text = line.strip()
             p = doc.add_paragraph()
             run = p.add_run(text)
             p.alignment = WD_ALIGN_PARAGRAPH.CENTER
             _set_run_font([run], '黑体', Pt(14), bold=True)
+            idx = i
+            i += 1
+            # 跳过摘要/关键词后面的空行
+            while i < len(lines) and not lines[i].strip():
+                i += 1
+            continue
+
+        # 章标题 — "第X章 xxx" 格式，居中
+        if re.match(r'^第[一二三四五六七八九十\d]+章', line.strip()):
+            text = line.strip()
+            p = doc.add_paragraph()
+            run = p.add_run(text)
+            p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+            _set_run_font([run], '黑体', Pt(15), bold=True)
             i += 1
             continue
 
-        # H1 标题（论文题目，居中）
+        # 节标题 — "1.1 xxx" 或 "2.3.1 xxx" 格式，左对齐加粗
+        if re.match(r'^\d+(\.\d+)*\s', line.strip()):
+            text = line.strip()
+            p = doc.add_paragraph()
+            run = p.add_run(text)
+            p.alignment = WD_ALIGN_PARAGRAPH.LEFT
+            _set_run_font([run], '黑体', Pt(14), bold=True)
+            i += 1
+            continue
+
+        # Markdown H1（论文题目，居中）
         if line.startswith('# ') and not line.startswith('## '):
             text = line[2:].strip()
             p = doc.add_heading(text, level=1)
@@ -148,7 +172,7 @@ def _md_to_docx(md_text: str, title: str) -> io.BytesIO:
             i += 1
             continue
 
-        # H2 标题（章节标题，左对齐）
+        # Markdown H2
         if line.startswith('## ') and not line.startswith('### '):
             text = line[3:].strip()
             p = doc.add_heading(text, level=2)
@@ -157,7 +181,7 @@ def _md_to_docx(md_text: str, title: str) -> io.BytesIO:
             i += 1
             continue
 
-        # H3 标题
+        # Markdown H3
         if line.startswith('### '):
             text = line[4:].strip()
             p = doc.add_heading(text, level=3)
