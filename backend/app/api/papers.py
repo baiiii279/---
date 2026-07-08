@@ -129,8 +129,8 @@ def _md_to_docx(md_text: str, title: str) -> io.BytesIO:
         # 遇到正文内容
         _has_content = True
 
-        # 摘要和关键词 — 居中加粗黑体
-        if line == '摘要' or line.startswith('摘要') or line.startswith('关键词') or line.startswith('关键词：') or line.startswith('关键词:'):
+        # 摘要和关键词 — 居中加粗黑体（支持有/无方括号两种格式）
+        if line.strip() in ('摘要', '关键词') or line.startswith('[摘要]') or line.startswith('[关键词]') or line.startswith('摘要') or line.startswith('关键词') or line.startswith('关键词：'):
             text = line.strip()
             p = doc.add_paragraph()
             run = p.add_run(text)
