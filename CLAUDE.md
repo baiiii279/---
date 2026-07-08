@@ -149,3 +149,5 @@ cd frontend && npx vitest run
 - 密码使用 SHA-256 + salt 哈希，非 bcrypt。
 - Agent 同步端点可能因 DeepSeek API 响应慢而超时（~15秒），推荐使用异步端点 + SSE。
 - 论文删除需级联清理 tasks 和 agent_logs（外键约束）。
+- **Agent 提示词原则**：WriteAgent 用自然中文格式（「第一章 引言」「1.1 研究背景」），不要强制 Markdown `#`/`##`。不要加 CoT（思维链），LLM 会把思考过程输出到正文。提示词越简洁越好。
+- **Word 导出**：识别中文章节（`第X章` 居中、`1.1` 左对齐）、`摘要`/`关键词：` 居中，兼容 Markdown 标题格式。
