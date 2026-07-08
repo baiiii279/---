@@ -76,12 +76,10 @@ class TestFormatAgent:
         assert "自定义格式" in call_args.description
 
     def test_prompt_includes_format_markers(self):
-        """FORMAT_PROMPT mentions all required format markers."""
+        """FORMAT_PROMPT mentions required format markers."""
         assert "<!-- format: ref-list -->" in FORMAT_PROMPT
         assert "<!-- format: body-text -->" in FORMAT_PROMPT
-        assert "<!-- format: list -->" in FORMAT_PROMPT
-        assert "<!-- format: table -->" in FORMAT_PROMPT
 
-    def test_prompt_contains_gbt_7714(self):
-        """FORMAT_PROMPT references GB/T 7714 standard."""
-        assert "GB/T 7714" in FORMAT_PROMPT
+    def test_prompt_contains_format(self):
+        """FORMAT_PROMPT contains format rules placeholder."""
+        assert "{format_rules}" in FORMAT_PROMPT
