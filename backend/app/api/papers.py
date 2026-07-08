@@ -21,7 +21,7 @@ router = APIRouter(prefix="/api/papers", tags=["papers"])
 
 @router.post("", response_model=PaperResponse)
 def create_paper(req: CreatePaperRequest, current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
-    paper = Paper(user_id=current_user.id, topic=req.topic, template=req.template)
+    paper = Paper(user_id=current_user.id, topic=req.topic, template=req.template, target_words=req.target_words)
     db.add(paper)
     db.flush()
 

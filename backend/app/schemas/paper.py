@@ -6,6 +6,7 @@ class CreatePaperRequest(BaseModel):
     topic: str
     template: Literal["course", "journal"] = "course"
     reference_ids: list[int] = []
+    target_words: int | None = None
 
 class PaperResponse(BaseModel):
     id: int
@@ -16,6 +17,7 @@ class PaperResponse(BaseModel):
     status: str
     outline: str | None
     content: str | None
+    target_words: int | None
     created_at: datetime
     updated_at: datetime
 

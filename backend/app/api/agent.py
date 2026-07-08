@@ -69,6 +69,7 @@ def _build_context(paper: Paper, db: Session, template_id: int = None) -> Shared
         outline=_parse_outline(paper.outline) if paper.outline else None,
         content=paper.content,
         format_rules=format_rules,
+        target_words=paper.target_words,
     )
 
 

@@ -108,6 +108,7 @@ class SharedContext:
     cite_check_report: Optional[str] = None
     feedback_history: list[dict] = field(default_factory=list)
     format_rules: str = ""
+    target_words: Optional[int] = None
 
 
 class BaseAgent:

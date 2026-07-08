@@ -73,6 +73,7 @@ async def run_single_agent(paper_id: int, agent_key: str, template_id: int = Non
             outline=_parse_outline(paper.outline) if paper.outline else None,
             content=paper.content,
             format_rules=format_rules,
+            target_words=paper.target_words,
         )
 
         task = orchestrator.create_task(db, paper.id, agent_key)

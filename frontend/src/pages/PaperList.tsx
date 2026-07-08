@@ -47,6 +47,7 @@ export default function PaperList() {
   const [topic, setTopic] = useState('');
   const [template, setTemplate] = useState<'course' | 'journal'>('course');
   const [selectedRefs, setSelectedRefs] = useState<number[]>([]);
+  const [targetWords, setTargetWords] = useState('');
   const [msg, setMsg] = useState('');
   const [error, setError] = useState('');
 
@@ -93,11 +94,11 @@ export default function PaperList() {
       return;
     }
     try {
-      const res = await api.post('/papers', {
-        topic: topic.trim(),
-        template,
-        reference_ids: selectedRefs,
-      });
+      const body: Record<string, unknown> = {
+        topic: topic.trim(), template, reference_ids: selectedRefs,
+      };
+      if (targetWords.trim()) body.target_words = parseInt(targetWords.trim());
+      const res = await api.post('/papers', body);
       setMsg('论文创建成功');
       setTopic('');
       setTemplate('course');
@@ -156,6 +157,13 @@ export default function PaperList() {
             <option value="course">课程论文</option>
             <option value="journal">期刊论文</option>
           </select>
+
+          <label style={{ display: 'block', fontSize: 14, color: '#475569', marginBottom: 6 }}>目标字数（选填）</label>
+          <input
+            type="number" placeholder="5000" min="1000" max="50000"
+            value={targetWords} onChange={(e) => setTargetWords(e.target.value)}
+            style={{ width: '100%', padding: 10, marginBottom: 16, border: '1px solid #E2E8F0', borderRadius: 6, boxSizing: 'border-box', fontSize: 14 }}
+          />
 
           <label style={{ display: 'block', fontSize: 14, color: '#475569', marginBottom: 6 }}>关联文献</label>
           {references.length === 0 ? (
